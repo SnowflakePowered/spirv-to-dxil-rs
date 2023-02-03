@@ -2,7 +2,6 @@ cmake_minimum_required(VERSION 3.6)
 project(native-spirv-to-dxil)
 include(ExternalProject)
 
-
 # need python
 find_package(Python COMPONENTS Interpreter REQUIRED)
 if(DEFINED ENV{VIRTUAL_ENV} OR DEFINED ENV{CONDA_PREFIX})
@@ -11,33 +10,34 @@ else()
     set(_pip_args "--user")
 endif()
 
+find_program(PIP_EXE pip)
+if(PIP_EXE STREQUAL "PIP_EXE-NOTFOUND")
+    message(FATAL_ERROR "pip required")
+endif(PIP_EXE STREQUAL "PIP_EXE-NOTFOUND")
+
 execute_process(COMMAND ${Python_EXECUTABLE} -m pip install mako)
 
-find_program(LEX_EXE
-        flex
-        )
-if(LEX_EXE STREQUAL "LEX_EXE-NOTFOUND")
-    message(FATAL_ERROR "flex (lex) required to build NIR and GLSL compiler")
-endif(LEX_EXE STREQUAL "LEX_EXE-NOTFOUND")
-
-find_program(YACC_EXE
-        bison
-        )
-if(YACC_EXE STREQUAL "YACC_EXE-NOTFOUND")
-    message(FATAL_ERROR "bison (yacc) required to build NIR and GLSL compiler")
-endif(YACC_EXE STREQUAL "YACC_EXE-NOTFOUND")
+string(TOLOWER ${CMAKE_BUILD_TYPE} MESON_BUILD_TYPE)
 
 set(MESA_EXTRA_FLAGS
-        -Dbuildtype=release
-        -Dgallium-drivers=
+        -Dbuildtype=${MESON_BUILD_TYPE}
+        # force zink because we want libvulkan_util
+        -Dgallium-drivers=zink
+        -Dvulkan-drivers=
+        -Dopengl=false
         -Dglx=disabled
+        -Dmicrosoft-clc=disabled
+        -Dgallium-d3d12-video=disabled
+        -Dmin-windows-version=10
         -Dgbm=disabled
         -Degl=disabled
         -Dgles1=disabled
         -Dgles2=disabled
+        -Dllvm=disabled
         -Dshared-llvm=disabled
         -Dspirv-to-dxil=true
         -Dplatforms=auto
+        -Dzlib=disabled
         )
 
 
@@ -45,8 +45,8 @@ ExternalProject_Add(mesa
         URL file://${CMAKE_CURRENT_LIST_DIR}/mesa
         PREFIX ${CMAKE_BINARY_DIR}/mesa
         CONFIGURE_COMMAND cd ${CMAKE_BINARY_DIR}/mesa/src/mesa && meson setup ${CMAKE_BINARY_DIR}/mesa/src/mesa-build ${MESA_EXTRA_FLAGS}
-        BUILD_COMMAND cd ${CMAKE_BINARY_DIR}/mesa/src/mesa-build && ninja src/microsoft/spirv_to_dxil/libspirv_to_dxil.a
+        BUILD_COMMAND cd ${CMAKE_BINARY_DIR}/mesa/src/mesa-build && ninja src/vulkan/util/libvulkan_util.a && ninja src/microsoft/spirv_to_dxil/libspirv_to_dxil.a
         INSTALL_COMMAND cmake -DOUT_DIR=${CMAKE_BINARY_DIR}/mesa -DMESA_BUILD=${CMAKE_BINARY_DIR}/mesa/src/mesa-build -P ${CMAKE_CURRENT_LIST_DIR}/install_spirv_to_dxil.cmake
-        BUILD_BYPRODUCTS ${CMAKE_BINARY_DIR}/mesa/lib/spirv_to_dxil.lib ${CMAKE_BINARY_DIR}/mesa/lib/libspirv_to_dxil.a
+        BUILD_BYPRODUCTS ${CMAKE_BINARY_DIR}/mesa/lib/spirv_to_dxil.lib ${CMAKE_BINARY_DIR}/mesa/lib/libspirv_to_dxil.a ${CMAKE_BINARY_DIR}/mesa/lib/vulkan_util.lib ${CMAKE_BINARY_DIR}/mesa/lib/libvulkan_util.a
         )
 

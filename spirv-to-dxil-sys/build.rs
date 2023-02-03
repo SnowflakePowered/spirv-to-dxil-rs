@@ -15,11 +15,18 @@ fn main() {
 
     let object_dst = cmake_dst.join("build/mesa/lib");
 
+    // let vulkan_util_dst = cmake_dst.join("build/mesa/src/mesa/src/vulkan/util");
     let header_dst = cmake_dst.join("build/mesa/src/mesa/src/microsoft/spirv_to_dxil");
     let header_compiler_dst = cmake_dst.join("build/mesa/src/mesa/src/microsoft/compiler");
 
+    if cfg!(target_os = "windows") {
+        println!("cargo:rustc-link-lib=Version");
+        println!("cargo:rustc-link-lib=synchronization");
+    }
+
     println!("cargo:rustc-link-search=native={}", object_dst.display());
     println!("cargo:rustc-link-lib=static=spirv_to_dxil");
+    println!("cargo:rustc-link-lib=static=vulkan_util");
     eprintln!("{:?}", cmake_dst);
 
     let bindings = bindgen::Builder::default()

@@ -2,6 +2,6 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/spirv-to-dxil-sys/build/mesa" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/spirv-to-dxil-sys/native/mesa" vcs="Git" />
   </component>
 </project>

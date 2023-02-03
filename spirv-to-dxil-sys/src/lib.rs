@@ -16,7 +16,8 @@ mod tests {
 
     #[test]
     fn it_works() {
-        let result = add(2, 2);
-        assert_eq!(result, 4);
+        unsafe {
+            eprintln!("{:x?}", spirv_to_dxil_get_version());
+        }
     }
 }
