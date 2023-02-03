@@ -21,21 +21,25 @@ string(TOLOWER ${CMAKE_BUILD_TYPE} MESON_BUILD_TYPE)
 
 set(MESA_EXTRA_FLAGS
         -Dbuildtype=${MESON_BUILD_TYPE}
+        # enable spirv-to-dxil (obviously)
+        -Dspirv-to-dxil=true
         # force zink because we want libvulkan_util
         -Dgallium-drivers=zink
+        # set min-windows-version to 7 to remove need to link against synchronization.lib (we don't need futexes for the compiler)
+        -Dmin-windows-version=7
+
+        # disable everything we don't need.
         -Dvulkan-drivers=
         -Dopengl=false
         -Dglx=disabled
         -Dmicrosoft-clc=disabled
         -Dgallium-d3d12-video=disabled
-        -Dmin-windows-version=10
         -Dgbm=disabled
         -Degl=disabled
         -Dgles1=disabled
         -Dgles2=disabled
         -Dllvm=disabled
         -Dshared-llvm=disabled
-        -Dspirv-to-dxil=true
         -Dplatforms=auto
         -Dzlib=disabled
         )
