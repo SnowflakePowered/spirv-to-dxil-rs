@@ -1,0 +1,3 @@
+[submodule "spirv-to-dxil-sys/vendor/mesa"]
+	path = spirv-to-dxil-sys/build/mesa
+	url = https://gitlab.freedesktop.org/mesa/mesa

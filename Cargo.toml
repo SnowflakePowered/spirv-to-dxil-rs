@@ -1,0 +1,6 @@
+[workspace]
+
+members = [
+    "spirv-to-dxil",
+    "spirv-to-dxil-sys",
+]

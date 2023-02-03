@@ -1,0 +1,17 @@
+[package]
+name = "spirv-to-dxil-sys"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib"]
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[build-dependencies]
+bindgen = "0.63.0"
+cmake = "0.1"
+
+[package.metadata.docs.rs]
+targets = []
+features = ["docsrs"]
