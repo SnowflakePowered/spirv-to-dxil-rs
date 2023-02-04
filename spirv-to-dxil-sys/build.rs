@@ -1,6 +1,8 @@
 use cmake::Config;
 use std::{env, fs::File, path::PathBuf};
 
+const MESA_HASH: &str = "5678fbe010fb8ba9ac6188c5ec7368fb55a98319";
+
 fn main() {
     let out_dir = PathBuf::from(env::var("OUT_DIR").unwrap());
     if env::var("DOCS_RS").is_ok() {
@@ -10,6 +12,7 @@ fn main() {
     }
 
     let cmake_dst = Config::new("native")
+        .define("MESA_HASH", MESA_HASH)
         .build_target("mesa")
         .build();
 
@@ -26,18 +29,16 @@ fn main() {
     println!("cargo:rustc-link-lib=static=spirv_to_dxil");
     println!("cargo:rustc-link-lib=static=vulkan_util");
 
-    if !cfg!(feature = "included-bindings") {
-        let bindings = bindgen::Builder::default()
-            .header("native/wrapper.h")
-            .clang_arg(format!("-F{}", header_dst.display()))
-            .clang_arg(format!("-F{}", header_compiler_dst.display()))
-            .clang_arg(format!("-I{}", header_dst.display()))
-            .clang_arg(format!("-I{}", header_compiler_dst.display()))
-            .parse_callbacks(Box::new(bindgen::CargoCallbacks))
-            .generate()
-            .expect("Unable to generate bindings");
-        bindings
-            .write_to_file(out_dir.join("bindings.rs"))
-            .expect("Couldn't write bindings!");
-    }
+    let bindings = bindgen::Builder::default()
+        .header("native/wrapper.h")
+        .clang_arg(format!("-F{}", header_dst.display()))
+        .clang_arg(format!("-F{}", header_compiler_dst.display()))
+        .clang_arg(format!("-I{}", header_dst.display()))
+        .clang_arg(format!("-I{}", header_compiler_dst.display()))
+        .parse_callbacks(Box::new(bindgen::CargoCallbacks))
+        .generate()
+        .expect("Unable to generate bindings");
+    bindings
+        .write_to_file(out_dir.join("bindings.rs"))
+        .expect("Couldn't write bindings!");
 }
