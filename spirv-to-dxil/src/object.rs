@@ -20,6 +20,10 @@ impl DxilObject {
     pub(crate) fn new(raw: spirv_to_dxil_sys::dxil_spirv_object) -> Self {
         Self { inner: raw }
     }
+
+    pub fn requires_runtime_data(&self) -> bool {
+        self.inner.metadata.requires_runtime_data
+    }
 }
 
 impl Deref for DxilObject {
