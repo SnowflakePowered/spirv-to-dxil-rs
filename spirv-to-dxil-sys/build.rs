@@ -10,6 +10,7 @@ fn main() {
     }
 
     let cmake_dst = Config::new("native")
+        .profile("Release")
         .build_target("mesa")
         .build();
 
