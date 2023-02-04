@@ -48,7 +48,7 @@ ExternalProject_Add(mesa
         URL file://${CMAKE_CURRENT_LIST_DIR}/mesa
         PREFIX ${CMAKE_BINARY_DIR}/mesa
         CONFIGURE_COMMAND cd ${CMAKE_BINARY_DIR}/mesa/src/mesa && meson setup ${CMAKE_BINARY_DIR}/mesa/src/mesa-build ${MESA_EXTRA_FLAGS}
-        BUILD_COMMAND cd ${CMAKE_BINARY_DIR}/mesa/src/mesa-build && ninja src/vulkan/util/libvulkan_util.a && ninja src/microsoft/spirv_to_dxil/libspirv_to_dxil.a
+        BUILD_COMMAND cd ${CMAKE_BINARY_DIR}/mesa/src/mesa-build && meson compile src/vulkan/util/vulkan_util:static_library && meson compile src/microsoft/spirv_to_dxil/spirv_to_dxil:static_library
         INSTALL_COMMAND cmake -DOUT_DIR=${CMAKE_BINARY_DIR}/mesa -DMESA_BUILD=${CMAKE_BINARY_DIR}/mesa/src/mesa-build -P ${CMAKE_CURRENT_LIST_DIR}/install_spirv_to_dxil.cmake
         BUILD_BYPRODUCTS ${CMAKE_BINARY_DIR}/mesa/lib/spirv_to_dxil.lib ${CMAKE_BINARY_DIR}/mesa/lib/libspirv_to_dxil.a ${CMAKE_BINARY_DIR}/mesa/lib/vulkan_util.lib ${CMAKE_BINARY_DIR}/mesa/lib/libvulkan_util.a
         )
