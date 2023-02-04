@@ -1,8 +1,6 @@
 use cmake::Config;
 use std::{env, fs::File, path::{Path, PathBuf}};
 
-const MESA_HASH: &str = "13b25a6114fc226b1aa06125fa56bc5fffd900d4";
-
 fn main() {
     let out_dir = PathBuf::from(env::var("OUT_DIR").unwrap());
     if env::var("DOCS_RS").is_ok() {
@@ -12,7 +10,6 @@ fn main() {
     }
 
     let cmake_dst = Config::new("native")
-        .define("MESA_HASH", MESA_HASH)
         .build_target("mesa")
         .build();
 

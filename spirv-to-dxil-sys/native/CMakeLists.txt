@@ -46,11 +46,7 @@ set(MESA_EXTRA_FLAGS
 
 
 ExternalProject_Add(mesa
-        GIT_REPOSITORY https://gitlab.freedesktop.org/mesa/mesa
-        GIT_TAG ${MESA_HASH}
-        GIT_SHALLOW true
-        GIT_PROGRESS true
-        GIT_CONFIG core.symlinks=false
+        URL file://${CMAKE_CURRENT_LIST_DIR}/mesa
         PREFIX ${CMAKE_BINARY_DIR}/mesa
         CONFIGURE_COMMAND cd ${CMAKE_BINARY_DIR}/mesa/src/mesa && meson setup ${CMAKE_BINARY_DIR}/mesa/src/mesa-build ${MESA_EXTRA_FLAGS}
         BUILD_COMMAND cd ${CMAKE_BINARY_DIR}/mesa/src/mesa-build && ninja src/vulkan/util/libvulkan_util.a && ninja src/microsoft/spirv_to_dxil/libspirv_to_dxil.a

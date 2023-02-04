@@ -14,7 +14,10 @@ spirv-to-dxil-rs builds a copy of spirv-to-dxil statically from Mesa. Many of th
 
 Lex and Yacc are not required. Additionally, [CMake 3.6](https://cmake.org/) or later is required to run the build script.
 
+A script to clone a minimal subset of Mesa required to build spirv-to-dxil has been provided.
+
 ```bash
+$ ./clone-mesa.sh
 $ cargo build
 ```
 
