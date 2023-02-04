@@ -9,7 +9,9 @@ fn main() {
         return;
     }
 
-    let cmake_dst = Config::new("native").build_target("mesa").build();
+    let cmake_dst = Config::new("native")
+        .build_target("mesa")
+        .build();
 
     let object_dst = cmake_dst.join("build/mesa/lib");
 
@@ -19,19 +21,26 @@ fn main() {
     if cfg!(target_os = "windows") {
         println!("cargo:rustc-link-lib=Version");
     }
+    if cfg!(target_os = "linux") {
+        println!("cargo:rustc-link-lib=stdc++");
+    }
 
     println!("cargo:rustc-link-search=native={}", object_dst.display());
     println!("cargo:rustc-link-lib=static=spirv_to_dxil");
     println!("cargo:rustc-link-lib=static=vulkan_util");
 
-    let bindings = bindgen::Builder::default()
-        .header("native/wrapper.h")
-        .clang_arg(format!("-F{}", header_dst.display()))
-        .clang_arg(format!("-F{}", header_compiler_dst.display()))
-        .parse_callbacks(Box::new(bindgen::CargoCallbacks))
-        .generate()
-        .expect("Unable to generate bindings");
-    bindings
-        .write_to_file(out_dir.join("bindings.rs"))
-        .expect("Couldn't write bindings!");
+    if !cfg!(feature = "included-bindings") {
+        let bindings = bindgen::Builder::default()
+            .header("native/wrapper.h")
+            .clang_arg(format!("-F{}", header_dst.display()))
+            .clang_arg(format!("-F{}", header_compiler_dst.display()))
+            .clang_arg(format!("-I{}", header_dst.display()))
+            .clang_arg(format!("-I{}", header_compiler_dst.display()))
+            .parse_callbacks(Box::new(bindgen::CargoCallbacks))
+            .generate()
+            .expect("Unable to generate bindings");
+        bindings
+            .write_to_file(out_dir.join("bindings.rs"))
+            .expect("Couldn't write bindings!");
+    }
 }

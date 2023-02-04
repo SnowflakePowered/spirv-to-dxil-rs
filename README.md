@@ -9,6 +9,7 @@ spirv-to-dxil-rs builds a copy of spirv-to-dxil statically from Mesa. Many of th
 * [Meson](https://mesonbuild.com/)
 * A compatible C and C++ compiler
   * [MSVC 2019 16.11 or later](https://docs.mesa3d.org/install.html) is required to build on Windows.
+  * [clang](https://clang.llvm.org/) is required for Linux.
 * [Python 3.6](https://www.python.org/) or later.
 
 Lex and Yacc are not required. Additionally, [CMake 3.6](https://cmake.org/) or later is required to run the build script.

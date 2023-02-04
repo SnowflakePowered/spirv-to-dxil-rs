@@ -13,6 +13,9 @@ keywords = ["SPIR-V", "DXIL"]
 bindgen = "0.63.0"
 cmake = "0.1"
 
+[features]
+included-bindings = []
+
 [package.metadata.docs.rs]
 targets = []
-features = ["docsrs"]
+features = ["included-bindings"]
