@@ -1,17 +1,15 @@
-use std::{fs::File, env, path::PathBuf};
 use cmake::Config;
+use std::{env, fs::File, path::PathBuf};
 
 fn main() {
     let out_dir = PathBuf::from(env::var("OUT_DIR").unwrap());
     if env::var("DOCS_RS").is_ok() {
-            println!("cargo:warning=Skipping spirv-to-dxil native build for docs.rs.");
-            File::create(out_dir.join("bindings.rs")).unwrap();
-            return;
+        println!("cargo:warning=Skipping spirv-to-dxil native build for docs.rs.");
+        File::create(out_dir.join("bindings.rs")).unwrap();
+        return;
     }
 
-    let cmake_dst = Config::new("native")
-        .build_target("mesa")
-        .build();
+    let cmake_dst = Config::new("native").build_target("mesa").build();
 
     let object_dst = cmake_dst.join("build/mesa/lib");
 
@@ -36,5 +34,4 @@ fn main() {
     bindings
         .write_to_file(out_dir.join("bindings.rs"))
         .expect("Couldn't write bindings!");
-
 }
