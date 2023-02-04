@@ -14,6 +14,6 @@ spirv-to-dxil-rs builds a copy of spirv-to-dxil statically from Mesa. Many of th
 Lex and Yacc are not required. Additionally, [CMake 3.6](https://cmake.org/) or later is required to run the build script.
 
 ```bash
-$ git submodule update --init
+$ git submodule update --init --progress --depth=1
 $ cargo build
 ```
