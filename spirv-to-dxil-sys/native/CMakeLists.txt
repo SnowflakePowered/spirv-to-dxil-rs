@@ -27,7 +27,6 @@ set(MESA_EXTRA_FLAGS
         -Dgallium-drivers=zink
         # set min-windows-version to 7 to remove need to link against synchronization.lib (we don't need futexes for the compiler)
         -Dmin-windows-version=7
-
         # disable everything we don't need.
         -Dvulkan-drivers=
         -Dopengl=false
@@ -40,7 +39,7 @@ set(MESA_EXTRA_FLAGS
         -Dgles2=disabled
         -Dllvm=disabled
         -Dshared-llvm=disabled
-        -Dplatforms=auto
+        -Dplatforms=
         -Dzlib=disabled
         )
 
