@@ -1,5 +1,5 @@
 use cmake::Config;
-use std::{env, fs::File, path::PathBuf};
+use std::{env, fs::File, path::{Path, PathBuf}};
 
 const MESA_HASH: &str = "13b25a6114fc226b1aa06125fa56bc5fffd900d4";
 
@@ -21,13 +21,40 @@ fn main() {
     let header_dst = cmake_dst.join("build/mesa/src/mesa/src/microsoft/spirv_to_dxil");
     let header_compiler_dst = cmake_dst.join("build/mesa/src/mesa/src/microsoft/compiler");
 
-    if cfg!(target_os = "windows") {
-        println!("cargo:rustc-link-lib=Version");
-    }
-
     println!("cargo:rustc-link-search=native={}", object_dst.display());
     println!("cargo:rustc-link-lib=static=spirv_to_dxil");
-    println!("cargo:rustc-link-lib=static=vulkan_util");
+
+    if cfg!(target_os = "windows") {
+        println!("cargo:rustc-link-lib=Version");
+        // only Windows needs to link vulkan_util.lib
+        println!("cargo:rustc-link-lib=static=vulkan_util");
+    }
+
+    if cfg!(target_os = "linux") {
+        let debian_arch = match env::var("CARGO_CFG_TARGET_ARCH").unwrap() {
+            arch if arch == "x86" => "i386".to_owned(),
+            arch => arch,
+        };
+
+        let debian_triple_path = format!("/usr/lib/{}-linux-gnu/", debian_arch);
+        let search_dir = if Path::new(&debian_triple_path).exists() {
+            // Debian, Ubuntu and their derivatives.
+            debian_triple_path
+        } else if env::var("CARGO_CFG_TARGET_ARCH").unwrap() == "x86_64"
+            && Path::new("/usr/lib64/").exists()
+        {
+            // Other distributions running on x86_64 usually use this path.
+            "/usr/lib64/".to_string()
+        } else {
+            // Other distributions, not x86_64.
+            "/usr/lib/".to_string()
+        };
+
+        println!("cargo:rustc-link-search=native={}", search_dir);
+        println!("cargo:rustc-link-lib=dylib=stdc++");
+    }
+
+
 
     let bindings = bindgen::Builder::default()
         .header("native/wrapper.h")
