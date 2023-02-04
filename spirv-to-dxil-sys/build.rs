@@ -1,7 +1,7 @@
 use cmake::Config;
 use std::{env, fs::File, path::PathBuf};
 
-const MESA_HASH: &str = "5678fbe010fb8ba9ac6188c5ec7368fb55a98319";
+const MESA_HASH: &str = "13b25a6114fc226b1aa06125fa56bc5fffd900d4";
 
 fn main() {
     let out_dir = PathBuf::from(env::var("OUT_DIR").unwrap());
