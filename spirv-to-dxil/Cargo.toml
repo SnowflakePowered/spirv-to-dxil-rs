@@ -2,8 +2,10 @@
 name = "spirv-to-dxil"
 version = "0.1.0"
 edition = "2021"
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+description = "Rust bindings to spirv-to-dxil"
+license = "MIT"
+repository = "https://github.com/SnowflakePowered/spirv-to-dxil-rs"
+keywords = ["SPIR-V", "DXIL"]
 
 [lib]
 
