@@ -41,6 +41,7 @@ set(MESA_EXTRA_FLAGS
         -Dshared-llvm=disabled
         -Dplatforms=
         -Dzlib=disabled
+        -Dshader-cache=disabled
         )
 
 

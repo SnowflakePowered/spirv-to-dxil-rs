@@ -21,9 +21,6 @@ fn main() {
     if cfg!(target_os = "windows") {
         println!("cargo:rustc-link-lib=Version");
     }
-    if cfg!(target_os = "linux") {
-        println!("cargo:rustc-link-lib=stdc++");
-    }
 
     println!("cargo:rustc-link-search=native={}", object_dst.display());
     println!("cargo:rustc-link-lib=static=spirv_to_dxil");
