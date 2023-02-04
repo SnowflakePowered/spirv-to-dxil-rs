@@ -6,7 +6,7 @@ description = "Rust bindings to spirv-to-dxil"
 license = "MIT"
 repository = "https://github.com/SnowflakePowered/spirv-to-dxil-rs"
 keywords = ["SPIR-V", "DXIL"]
-
+readme = "../README.md"
 [lib]
 
 [dependencies]
