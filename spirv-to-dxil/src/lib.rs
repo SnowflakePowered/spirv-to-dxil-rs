@@ -28,6 +28,10 @@ fn spirv_to_dxil_inner(
     logger: &spirv_to_dxil_sys::dxil_spirv_logger,
     out: &mut MaybeUninit<dxil_spirv_object>,
 ) -> bool {
+    if runtime_conf.push_constant_cbv.register_space > 31
+        || runtime_conf.runtime_data_cbv.register_space > 31 {
+        panic!("register space can not be greater than 31")
+    }
     let num_specializations = specializations.map(|o| o.len()).unwrap_or(0) as u32;
     let mut specializations: Option<Vec<spirv_to_dxil_sys::dxil_spirv_specialization>> =
         specializations.map(|o| o.into_iter().map(|o| (*o).into()).collect());
@@ -158,7 +162,17 @@ mod tests {
                         None, "main",
                         ShaderStage::Fragment,
                         ShaderModel::ShaderModel6_0, ValidatorVersion::None,
-                        RuntimeConfig::default())
+        RuntimeConfig {
+            runtime_data_cbv: ConstantBufferConfig {
+                register_space: 0,
+                base_shader_register: 0,
+            },
+            push_constant_cbv: ConstantBufferConfig {
+                register_space: 128,
+                base_shader_register: 1,
+            },
+            ..RuntimeConfig::default()
+        })
             .expect("failed to compile");
     }
 
