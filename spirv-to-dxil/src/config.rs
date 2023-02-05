@@ -1,18 +1,19 @@
 /// Configuration options for CBVs
-#[derive(Default)]
+#[derive(Default, Debug, Clone)]
 pub struct ConstantBufferConfig {
     pub register_space: u32,
     pub base_shader_register: u32,
 }
 
 /// Configuration options for SPIR-V YZ flip mode.
-#[derive(Default)]
+#[derive(Default, Debug, Clone)]
 pub struct FlipConfig {
     pub mode: crate::FlipMode,
     pub y_mask: u16,
     pub z_mask: u16,
 }
 
+#[derive(Debug, Clone)]
 /// Runtime configuration options for the SPIR-V compilation.
 pub struct RuntimeConfig {
     pub runtime_data_cbv: ConstantBufferConfig,

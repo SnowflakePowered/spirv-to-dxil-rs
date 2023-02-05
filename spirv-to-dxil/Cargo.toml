@@ -1,6 +1,6 @@
 [package]
 name = "spirv-to-dxil"
-version = "0.2.3"
+version = "0.2.4"
 edition = "2021"
 description = "Rust bindings to spirv-to-dxil"
 license = "MIT"
