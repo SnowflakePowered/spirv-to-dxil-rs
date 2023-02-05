@@ -161,4 +161,18 @@ mod tests {
                         RuntimeConfig::default())
             .expect("failed to compile");
     }
+
+    #[test]
+    fn test_validate() {
+        let fragment: &[u8] = include_bytes!("../test/vertex.spv");
+        let fragment = Vec::from(fragment);
+        let fragment = bytemuck::cast_slice(&fragment);
+
+        super::spirv_to_dxil(&fragment,
+                             None, "main",
+                             ShaderStage::Vertex,
+                             ShaderModel::ShaderModel6_0, ValidatorVersion::None,
+                             RuntimeConfig::default())
+            .expect("failed to compile");
+    }
 }

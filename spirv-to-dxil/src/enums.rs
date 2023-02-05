@@ -1,5 +1,6 @@
 use bitflags::bitflags;
 
+#[derive(Copy, Clone, Debug)]
 pub enum ShaderStage {
     None,
     Vertex,
@@ -40,6 +41,7 @@ impl From<ShaderStage> for spirv_to_dxil_sys::dxil_spirv_shader_stage {
     }
 }
 
+#[derive(Copy, Clone, Debug)]
 #[non_exhaustive]
 pub enum ShaderModel {
     ShaderModel6_0,
@@ -67,6 +69,7 @@ impl From<ShaderModel> for spirv_to_dxil_sys::dxil_shader_model {
     }
 }
 
+#[derive(Copy, Clone, Debug)]
 #[non_exhaustive]
 pub enum ValidatorVersion {
     None,
