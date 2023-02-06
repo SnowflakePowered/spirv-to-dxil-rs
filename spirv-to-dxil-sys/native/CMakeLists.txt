@@ -15,10 +15,23 @@ if(PIP_EXE STREQUAL "PIP_EXE-NOTFOUND")
     message(FATAL_ERROR "pip required")
 endif(PIP_EXE STREQUAL "PIP_EXE-NOTFOUND")
 
-execute_process(COMMAND ${Python_EXECUTABLE} -m pip install mako)
+cmake_path(GET Python_EXECUTABLE PARENT_PATH PYTHON_DIR)
+cmake_path(APPEND PYTHON_DIR "Scripts" OUTPUT_VARIABLE PYTHON_SCRIPTS_DIR)
+LIST(APPEND CMAKE_PROGRAM_PATH PYTHON_SCRIPTS_DIR ...)
+
+execute_process(COMMAND ${Python_EXECUTABLE} -m pip install meson ninja mako)
+
+find_program(MESON_EXE meson)
+if(MESON_EXE STREQUAL "MESON_EXE-NOTFOUND")
+    message(FATAL_ERROR "meson failed to install")
+endif(MESON_EXE STREQUAL "MESON_EXE-NOTFOUND")
+
+find_program(NINJA_EXE ninja)
+if(NINJA_EXE STREQUAL "NINJA_EXE-NOTFOUND")
+    message(FATAL_ERROR "ninja failed to install")
+endif(NINJA_EXE STREQUAL "NINJA_EXE-NOTFOUND")
 
 string(TOLOWER ${CMAKE_BUILD_TYPE} MESON_BUILD_TYPE)
-
 set(MESA_EXTRA_FLAGS
         -Dbuildtype=${MESON_BUILD_TYPE}
         # enable spirv-to-dxil (obviously)
