@@ -1,6 +1,6 @@
 [package]
 name = "spirv-to-dxil-sys"
-version = "0.2.3"
+version = "0.2.6"
 edition = "2021"
 description = "Raw bindings to spirv-to-dxil"
 license = "MIT"
@@ -18,5 +18,4 @@ cmake = "0.1"
 included-bindings = []
 
 [package.metadata.docs.rs]
-targets = []
 features = ["included-bindings"]
