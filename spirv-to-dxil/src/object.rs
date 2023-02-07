@@ -21,6 +21,7 @@ impl DxilObject {
         Self { inner: raw }
     }
 
+    /// Returns if the compiled shader requires runtime data to be bound.
     pub fn requires_runtime_data(&self) -> bool {
         self.inner.metadata.requires_runtime_data
     }

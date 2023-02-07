@@ -3,4 +3,5 @@
 members = [
     "spirv-to-dxil",
     "spirv-to-dxil-sys",
+    "bindings_generator"
 ]

@@ -1,20 +1,37 @@
-mod config;
-mod enums;
+//! Rust bindings for [spirv-to-dxil](https://gitlab.freedesktop.org/mesa/mesa/-/tree/main/src/microsoft/spirv_to_dxil).
+//!
+//! For the lower-level C interface, see the [spirv-to-dxil-sys](https://docs.rs/spirv-to-dxil-sys/) crate.
+//!
+//! ## Push Constant Buffers
+//! SPIR-V shaders that use Push Constants must choose register assignments that correspond with the Root Descriptor that the compiled shader will
+//! use for a constant buffer to store push constants with [PushConstantBufferConfig](crate::PushConstantBufferConfig).
+//!
+//! ## Runtime Data
+//! For some vertex and compute shaders, a constant buffer provided at runtime is required to be bound.
+//!
+//! You can check if the compiled shader requires runtime data with
+//! [`DxilObject::requires_runtime_data`](crate::DxilObject::requires_runtime_data).
+//!
+//! If your shader requires runtime data, then register assignments must be chosen in
+//! [RuntimeDataBufferConfig](crate::RuntimeDataBufferConfig).
+//!
+//! See the [`runtime`](crate::runtime) module for how to construct the expected runtime data to be bound in a constant buffer.
+mod ctypes;
+mod logger;
 mod object;
 mod specialization;
-mod logger;
+mod error;
+pub mod runtime;
 
-pub use config::*;
-pub use enums::*;
+pub use ctypes::*;
 pub use object::*;
 pub use specialization::*;
+pub use crate::error::SpirvToDxilError;
+pub use spirv_to_dxil_sys::DXIL_SPIRV_MAX_VIEWPORT;
 
 use std::mem::MaybeUninit;
-
-use spirv_to_dxil_sys::dxil_spirv_object;
-pub use spirv_to_dxil_sys::DXIL_SPIRV_MAX_VIEWPORT;
 use crate::logger::Logger;
-
+use spirv_to_dxil_sys::dxil_spirv_object;
 
 fn spirv_to_dxil_inner(
     spirv_words: &[u32],
@@ -23,45 +40,43 @@ fn spirv_to_dxil_inner(
     stage: ShaderStage,
     shader_model_max: ShaderModel,
     validator_version_max: ValidatorVersion,
-    runtime_conf: RuntimeConfig,
+    runtime_conf: &RuntimeConfig,
     dump_nir: bool,
     logger: &spirv_to_dxil_sys::dxil_spirv_logger,
     out: &mut MaybeUninit<dxil_spirv_object>,
-) -> bool {
+) -> Result<bool, SpirvToDxilError> {
     if runtime_conf.push_constant_cbv.register_space > 31
-        || runtime_conf.runtime_data_cbv.register_space > 31 {
-        panic!("register space can not be greater than 31")
+        || runtime_conf.runtime_data_cbv.register_space > 31
+    {
+        return Err(SpirvToDxilError::RegisterSpaceOverflow(std::cmp::max(runtime_conf.push_constant_cbv.register_space, runtime_conf.runtime_data_cbv.register_space)))
     }
     let num_specializations = specializations.map(|o| o.len()).unwrap_or(0) as u32;
     let mut specializations: Option<Vec<spirv_to_dxil_sys::dxil_spirv_specialization>> =
         specializations.map(|o| o.into_iter().map(|o| (*o).into()).collect());
 
-    let runtime_conf: spirv_to_dxil_sys::dxil_spirv_runtime_conf =
-        runtime_conf.into();
-
     let debug = spirv_to_dxil_sys::dxil_spirv_debug_options { dump_nir };
 
     unsafe {
-        spirv_to_dxil_sys::spirv_to_dxil(
+        Ok(spirv_to_dxil_sys::spirv_to_dxil(
             spirv_words.as_ptr(),
             spirv_words.len(),
             specializations
                 .as_mut()
                 .map_or(std::ptr::null_mut(), |x| x.as_mut_ptr()),
             num_specializations,
-            stage.into(),
+            stage,
             entry_point.as_ptr().cast(),
-            shader_model_max.into(),
-            validator_version_max.into(),
+            shader_model_max,
+            validator_version_max,
             &debug,
-            &runtime_conf,
+            runtime_conf,
             logger,
             out.as_mut_ptr(),
-        )
+        ))
     }
 }
 
-/// Dump NIR to stdout.
+/// Dump the parsed NIR output of the SPIR-V to stdout.
 pub fn dump_nir(
     spirv_words: &[u32],
     specializations: Option<&[Specialization]>,
@@ -69,12 +84,11 @@ pub fn dump_nir(
     stage: ShaderStage,
     shader_model_max: ShaderModel,
     validator_version_max: ValidatorVersion,
-    runtime_conf: RuntimeConfig,
-) -> bool {
+    runtime_conf: &RuntimeConfig,
+) -> Result<bool, SpirvToDxilError> {
     let entry_point = entry_point.as_ref();
     let mut entry_point = String::from(entry_point).into_bytes();
     entry_point.push(0);
-
 
     let mut out = MaybeUninit::uninit();
     spirv_to_dxil_inner(
@@ -99,8 +113,8 @@ pub fn spirv_to_dxil(
     stage: ShaderStage,
     shader_model_max: ShaderModel,
     validator_version_max: ValidatorVersion,
-    runtime_conf: RuntimeConfig,
-) -> Result<DxilObject, String> {
+    runtime_conf: &RuntimeConfig,
+) -> Result<DxilObject, SpirvToDxilError> {
     let entry_point = entry_point.as_ref();
     let mut entry_point = String::from(entry_point).into_bytes();
     entry_point.push(0);
@@ -120,18 +134,16 @@ pub fn spirv_to_dxil(
         false,
         &logger,
         &mut out,
-    );
+    )?;
 
-    let logger = unsafe {
-        Logger::finalize(logger)
-    };
+    let logger = unsafe { Logger::finalize(logger) };
 
     if result {
         let out = unsafe { out.assume_init() };
 
         Ok(DxilObject::new(out))
     } else {
-        Err(logger)
+        Err(SpirvToDxilError::CompilerError(logger))
     }
 }
 
@@ -145,11 +157,15 @@ mod tests {
         let fragment = Vec::from(fragment);
         let fragment = bytemuck::cast_slice(&fragment);
 
-        super::dump_nir(&fragment,
-                        None, "main",
-                        ShaderStage::Fragment,
-                        ShaderModel::ShaderModel6_0, ValidatorVersion::None,
-                        RuntimeConfig::default());
+        super::dump_nir(
+            &fragment,
+            None,
+            "main",
+            ShaderStage::Fragment,
+            ShaderModel::ShaderModel6_0,
+            ValidatorVersion::None,
+            &RuntimeConfig::default(),
+        ).expect("failed to compile");
     }
 
     #[test]
@@ -158,22 +174,26 @@ mod tests {
         let fragment = Vec::from(fragment);
         let fragment = bytemuck::cast_slice(&fragment);
 
-        super::spirv_to_dxil(&fragment,
-                        None, "main",
-                        ShaderStage::Fragment,
-                        ShaderModel::ShaderModel6_0, ValidatorVersion::None,
-        RuntimeConfig {
-            runtime_data_cbv: ConstantBufferConfig {
-                register_space: 0,
-                base_shader_register: 0,
+        super::spirv_to_dxil(
+            &fragment,
+            None,
+            "main",
+            ShaderStage::Fragment,
+            ShaderModel::ShaderModel6_0,
+            ValidatorVersion::None,
+            &RuntimeConfig {
+                runtime_data_cbv: RuntimeDataBufferConfig {
+                    register_space: 0,
+                    base_shader_register: 0,
+                },
+                push_constant_cbv: PushConstantBufferConfig {
+                    register_space: 31,
+                    base_shader_register: 1,
+                },
+                ..RuntimeConfig::default()
             },
-            push_constant_cbv: ConstantBufferConfig {
-                register_space: 128,
-                base_shader_register: 1,
-            },
-            ..RuntimeConfig::default()
-        })
-            .expect("failed to compile");
+        )
+        .expect("failed to compile");
     }
 
     #[test]
@@ -182,11 +202,15 @@ mod tests {
         let fragment = Vec::from(fragment);
         let fragment = bytemuck::cast_slice(&fragment);
 
-        super::spirv_to_dxil(&fragment,
-                             None, "main",
-                             ShaderStage::Vertex,
-                             ShaderModel::ShaderModel6_0, ValidatorVersion::None,
-                             RuntimeConfig::default())
-            .expect("failed to compile");
+        super::spirv_to_dxil(
+            &fragment,
+            None,
+            "main",
+            ShaderStage::Vertex,
+            ShaderModel::ShaderModel6_0,
+            ValidatorVersion::None,
+            &RuntimeConfig::default(),
+        )
+        .expect("failed to compile");
     }
 }

@@ -1,3 +1,4 @@
+/// The value of a SPIR-V specialization constant.
 #[derive(Debug, Copy, Clone)]
 pub enum ConstValue {
     Bool(bool),
@@ -31,6 +32,7 @@ impl From<ConstValue> for spirv_to_dxil_sys::dxil_spirv_const_value {
     }
 }
 
+/// SPIR-V specialization constant definition.
 #[derive(Debug, Copy, Clone)]
 pub struct Specialization {
     pub id: u32,

@@ -1,6 +1,6 @@
 [package]
 name = "spirv-to-dxil-sys"
-version = "0.2.6"
+version = "0.3.0"
 edition = "2021"
 description = "Raw bindings to spirv-to-dxil"
 license = "MIT"
@@ -10,12 +10,8 @@ readme = "../README.md"
 
 [lib]
 
+[dependencies]
+bytemuck = "1.13.0"
+
 [build-dependencies]
-bindgen = "0.63.0"
 cmake = "0.1"
-
-[features]
-included-bindings = []
-
-[package.metadata.docs.rs]
-features = ["included-bindings"]

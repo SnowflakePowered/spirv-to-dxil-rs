@@ -20,25 +20,33 @@ pub const WCHAR_MAX: u32 = 65535;
 pub const WINT_MIN: u32 = 0;
 pub const WINT_MAX: u32 = 65535;
 pub const DXIL_SPIRV_MAX_VIEWPORT: u32 = 16;
-pub const dxil_shader_model_SHADER_MODEL_6_0: dxil_shader_model = 393216;
-pub const dxil_shader_model_SHADER_MODEL_6_1: dxil_shader_model = 393217;
-pub const dxil_shader_model_SHADER_MODEL_6_2: dxil_shader_model = 393218;
-pub const dxil_shader_model_SHADER_MODEL_6_3: dxil_shader_model = 393219;
-pub const dxil_shader_model_SHADER_MODEL_6_4: dxil_shader_model = 393220;
-pub const dxil_shader_model_SHADER_MODEL_6_5: dxil_shader_model = 393221;
-pub const dxil_shader_model_SHADER_MODEL_6_6: dxil_shader_model = 393222;
-pub const dxil_shader_model_SHADER_MODEL_6_7: dxil_shader_model = 393223;
-pub type dxil_shader_model = ::std::os::raw::c_int;
-pub const dxil_validator_version_NO_DXIL_VALIDATION: dxil_validator_version = 0;
-pub const dxil_validator_version_DXIL_VALIDATOR_1_0: dxil_validator_version = 65536;
-pub const dxil_validator_version_DXIL_VALIDATOR_1_1: dxil_validator_version = 65537;
-pub const dxil_validator_version_DXIL_VALIDATOR_1_2: dxil_validator_version = 65538;
-pub const dxil_validator_version_DXIL_VALIDATOR_1_3: dxil_validator_version = 65539;
-pub const dxil_validator_version_DXIL_VALIDATOR_1_4: dxil_validator_version = 65540;
-pub const dxil_validator_version_DXIL_VALIDATOR_1_5: dxil_validator_version = 65541;
-pub const dxil_validator_version_DXIL_VALIDATOR_1_6: dxil_validator_version = 65542;
-pub const dxil_validator_version_DXIL_VALIDATOR_1_7: dxil_validator_version = 65543;
-pub type dxil_validator_version = ::std::os::raw::c_int;
+#[repr(i32)]
+#[non_exhaustive]
+#[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
+pub enum dxil_shader_model {
+    ShaderModel6_0 = 393216,
+    ShaderModel6_1 = 393217,
+    ShaderModel6_2 = 393218,
+    ShaderModel6_3 = 393219,
+    ShaderModel6_4 = 393220,
+    ShaderModel6_5 = 393221,
+    ShaderModel6_6 = 393222,
+    ShaderModel6_7 = 393223,
+}
+#[repr(i32)]
+#[non_exhaustive]
+#[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
+pub enum dxil_validator_version {
+    None = 0,
+    Validator1_0 = 65536,
+    Validator1_1 = 65537,
+    Validator1_2 = 65538,
+    Validator1_3 = 65539,
+    Validator1_4 = 65540,
+    Validator1_5 = 65541,
+    Validator1_6 = 65542,
+    Validator1_7 = 65543,
+}
 pub type wchar_t = ::std::os::raw::c_ushort;
 pub type max_align_t = f64;
 pub type va_list = *mut ::std::os::raw::c_char;
@@ -76,15 +84,18 @@ pub type uint_fast32_t = ::std::os::raw::c_uint;
 pub type uint_fast64_t = ::std::os::raw::c_ulonglong;
 pub type intmax_t = ::std::os::raw::c_longlong;
 pub type uintmax_t = ::std::os::raw::c_ulonglong;
-pub const dxil_spirv_shader_stage_DXIL_SPIRV_SHADER_NONE: dxil_spirv_shader_stage = -1;
-pub const dxil_spirv_shader_stage_DXIL_SPIRV_SHADER_VERTEX: dxil_spirv_shader_stage = 0;
-pub const dxil_spirv_shader_stage_DXIL_SPIRV_SHADER_TESS_CTRL: dxil_spirv_shader_stage = 1;
-pub const dxil_spirv_shader_stage_DXIL_SPIRV_SHADER_TESS_EVAL: dxil_spirv_shader_stage = 2;
-pub const dxil_spirv_shader_stage_DXIL_SPIRV_SHADER_GEOMETRY: dxil_spirv_shader_stage = 3;
-pub const dxil_spirv_shader_stage_DXIL_SPIRV_SHADER_FRAGMENT: dxil_spirv_shader_stage = 4;
-pub const dxil_spirv_shader_stage_DXIL_SPIRV_SHADER_COMPUTE: dxil_spirv_shader_stage = 5;
-pub const dxil_spirv_shader_stage_DXIL_SPIRV_SHADER_KERNEL: dxil_spirv_shader_stage = 14;
-pub type dxil_spirv_shader_stage = ::std::os::raw::c_int;
+#[repr(i32)]
+#[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
+pub enum dxil_spirv_shader_stage {
+    None = -1,
+    Vertex = 0,
+    TesselationControl = 1,
+    TesselationEvaluation = 2,
+    Geometry = 3,
+    Fragment = 4,
+    Compute = 5,
+    Kernel = 14,
+}
 #[repr(C)]
 #[derive(Copy, Clone)]
 pub union dxil_spirv_const_value {
@@ -495,7 +506,7 @@ pub struct dxil_spirv_vertex_runtime_data {
     pub first_vertex: u32,
     pub base_instance: u32,
     pub is_indexed_draw: bool,
-    pub __bindgen_anon_1: dxil_spirv_vertex_runtime_data__bindgen_ty_1,
+    pub _dxil_spirv_anon1: dxil_spirv_vertex_runtime_data__bindgen_ty_1,
     pub draw_id: u32,
     pub viewport_width: f32,
     pub viewport_height: f32,
@@ -505,7 +516,7 @@ pub struct dxil_spirv_vertex_runtime_data {
 #[derive(Copy, Clone)]
 pub union dxil_spirv_vertex_runtime_data__bindgen_ty_1 {
     pub yz_flip_mask: u32,
-    pub __bindgen_anon_1: dxil_spirv_vertex_runtime_data__bindgen_ty_1__bindgen_ty_1,
+    pub _dxil_spirv_anon1: dxil_spirv_vertex_runtime_data__bindgen_ty_1__bindgen_ty_1,
 }
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
@@ -674,22 +685,64 @@ fn bindgen_test_layout_dxil_spirv_vertex_runtime_data() {
         )
     );
 }
-pub const dxil_spirv_yz_flip_mode_DXIL_SPIRV_YZ_FLIP_NONE: dxil_spirv_yz_flip_mode = 0;
-pub const dxil_spirv_yz_flip_mode_DXIL_SPIRV_Y_FLIP_UNCONDITIONAL: dxil_spirv_yz_flip_mode = 1;
-pub const dxil_spirv_yz_flip_mode_DXIL_SPIRV_Z_FLIP_UNCONDITIONAL: dxil_spirv_yz_flip_mode = 2;
-pub const dxil_spirv_yz_flip_mode_DXIL_SPIRV_YZ_FLIP_UNCONDITIONAL: dxil_spirv_yz_flip_mode = 3;
-pub const dxil_spirv_yz_flip_mode_DXIL_SPIRV_Y_FLIP_CONDITIONAL: dxil_spirv_yz_flip_mode = 4;
-pub const dxil_spirv_yz_flip_mode_DXIL_SPIRV_Z_FLIP_CONDITIONAL: dxil_spirv_yz_flip_mode = 8;
-pub const dxil_spirv_yz_flip_mode_DXIL_SPIRV_YZ_FLIP_CONDITIONAL: dxil_spirv_yz_flip_mode = 12;
-pub type dxil_spirv_yz_flip_mode = ::std::os::raw::c_int;
+impl dxil_spirv_yz_flip_mode {
+    pub const YZ_FLIP_NONE: dxil_spirv_yz_flip_mode = dxil_spirv_yz_flip_mode(0);
+}
+impl dxil_spirv_yz_flip_mode {
+    pub const Y_FLIP_UNCONDITIONAL: dxil_spirv_yz_flip_mode = dxil_spirv_yz_flip_mode(1);
+}
+impl dxil_spirv_yz_flip_mode {
+    pub const Z_FLIP_UNCONDITIONAL: dxil_spirv_yz_flip_mode = dxil_spirv_yz_flip_mode(2);
+}
+impl dxil_spirv_yz_flip_mode {
+    pub const YZ_FLIP_UNCONDITIONAL: dxil_spirv_yz_flip_mode = dxil_spirv_yz_flip_mode(3);
+}
+impl dxil_spirv_yz_flip_mode {
+    pub const Y_FLIP_CONDITIONAL: dxil_spirv_yz_flip_mode = dxil_spirv_yz_flip_mode(4);
+}
+impl dxil_spirv_yz_flip_mode {
+    pub const Z_FLIP_CONDITIONAL: dxil_spirv_yz_flip_mode = dxil_spirv_yz_flip_mode(8);
+}
+impl dxil_spirv_yz_flip_mode {
+    pub const YZ_FLIP_CONDITIONAL: dxil_spirv_yz_flip_mode = dxil_spirv_yz_flip_mode(12);
+}
+impl ::std::ops::BitOr<dxil_spirv_yz_flip_mode> for dxil_spirv_yz_flip_mode {
+    type Output = Self;
+    #[inline]
+    fn bitor(self, other: Self) -> Self {
+        dxil_spirv_yz_flip_mode(self.0 | other.0)
+    }
+}
+impl ::std::ops::BitOrAssign for dxil_spirv_yz_flip_mode {
+    #[inline]
+    fn bitor_assign(&mut self, rhs: dxil_spirv_yz_flip_mode) {
+        self.0 |= rhs.0;
+    }
+}
+impl ::std::ops::BitAnd<dxil_spirv_yz_flip_mode> for dxil_spirv_yz_flip_mode {
+    type Output = Self;
+    #[inline]
+    fn bitand(self, other: Self) -> Self {
+        dxil_spirv_yz_flip_mode(self.0 & other.0)
+    }
+}
+impl ::std::ops::BitAndAssign for dxil_spirv_yz_flip_mode {
+    #[inline]
+    fn bitand_assign(&mut self, rhs: dxil_spirv_yz_flip_mode) {
+        self.0 &= rhs.0;
+    }
+}
+#[repr(transparent)]
+#[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
+pub struct dxil_spirv_yz_flip_mode(pub ::std::os::raw::c_int);
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
 pub struct dxil_spirv_runtime_conf {
-    pub runtime_data_cbv: dxil_spirv_runtime_conf__bindgen_ty_1,
-    pub push_constant_cbv: dxil_spirv_runtime_conf__bindgen_ty_2,
+    pub runtime_data_cbv: dxil_spirv_runtime_conf_runtime_cbv,
+    pub push_constant_cbv: dxil_spirv_runtime_conf_push_cbv,
     pub zero_based_vertex_instance_id: bool,
     pub zero_based_compute_workgroup_id: bool,
-    pub yz_flip: dxil_spirv_runtime_conf__bindgen_ty_3,
+    pub yz_flip: dxil_spirv_runtime_conf_flip_conf,
     pub read_only_images_as_srvs: bool,
     pub force_sample_rate_shading: bool,
     pub lower_view_index: bool,
@@ -697,29 +750,26 @@ pub struct dxil_spirv_runtime_conf {
 }
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
-pub struct dxil_spirv_runtime_conf__bindgen_ty_1 {
+pub struct dxil_spirv_runtime_conf_runtime_cbv {
     pub register_space: u32,
     pub base_shader_register: u32,
 }
 #[test]
-fn bindgen_test_layout_dxil_spirv_runtime_conf__bindgen_ty_1() {
-    const UNINIT: ::std::mem::MaybeUninit<dxil_spirv_runtime_conf__bindgen_ty_1> =
+fn bindgen_test_layout_dxil_spirv_runtime_conf_runtime_cbv() {
+    const UNINIT: ::std::mem::MaybeUninit<dxil_spirv_runtime_conf_runtime_cbv> =
         ::std::mem::MaybeUninit::uninit();
     let ptr = UNINIT.as_ptr();
     assert_eq!(
-        ::std::mem::size_of::<dxil_spirv_runtime_conf__bindgen_ty_1>(),
+        ::std::mem::size_of::<dxil_spirv_runtime_conf_runtime_cbv>(),
         8usize,
-        concat!(
-            "Size of: ",
-            stringify!(dxil_spirv_runtime_conf__bindgen_ty_1)
-        )
+        concat!("Size of: ", stringify!(dxil_spirv_runtime_conf_runtime_cbv))
     );
     assert_eq!(
-        ::std::mem::align_of::<dxil_spirv_runtime_conf__bindgen_ty_1>(),
+        ::std::mem::align_of::<dxil_spirv_runtime_conf_runtime_cbv>(),
         4usize,
         concat!(
             "Alignment of ",
-            stringify!(dxil_spirv_runtime_conf__bindgen_ty_1)
+            stringify!(dxil_spirv_runtime_conf_runtime_cbv)
         )
     );
     assert_eq!(
@@ -727,7 +777,7 @@ fn bindgen_test_layout_dxil_spirv_runtime_conf__bindgen_ty_1() {
         0usize,
         concat!(
             "Offset of field: ",
-            stringify!(dxil_spirv_runtime_conf__bindgen_ty_1),
+            stringify!(dxil_spirv_runtime_conf_runtime_cbv),
             "::",
             stringify!(register_space)
         )
@@ -737,7 +787,7 @@ fn bindgen_test_layout_dxil_spirv_runtime_conf__bindgen_ty_1() {
         4usize,
         concat!(
             "Offset of field: ",
-            stringify!(dxil_spirv_runtime_conf__bindgen_ty_1),
+            stringify!(dxil_spirv_runtime_conf_runtime_cbv),
             "::",
             stringify!(base_shader_register)
         )
@@ -745,29 +795,26 @@ fn bindgen_test_layout_dxil_spirv_runtime_conf__bindgen_ty_1() {
 }
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
-pub struct dxil_spirv_runtime_conf__bindgen_ty_2 {
+pub struct dxil_spirv_runtime_conf_push_cbv {
     pub register_space: u32,
     pub base_shader_register: u32,
 }
 #[test]
-fn bindgen_test_layout_dxil_spirv_runtime_conf__bindgen_ty_2() {
-    const UNINIT: ::std::mem::MaybeUninit<dxil_spirv_runtime_conf__bindgen_ty_2> =
+fn bindgen_test_layout_dxil_spirv_runtime_conf_push_cbv() {
+    const UNINIT: ::std::mem::MaybeUninit<dxil_spirv_runtime_conf_push_cbv> =
         ::std::mem::MaybeUninit::uninit();
     let ptr = UNINIT.as_ptr();
     assert_eq!(
-        ::std::mem::size_of::<dxil_spirv_runtime_conf__bindgen_ty_2>(),
+        ::std::mem::size_of::<dxil_spirv_runtime_conf_push_cbv>(),
         8usize,
-        concat!(
-            "Size of: ",
-            stringify!(dxil_spirv_runtime_conf__bindgen_ty_2)
-        )
+        concat!("Size of: ", stringify!(dxil_spirv_runtime_conf_push_cbv))
     );
     assert_eq!(
-        ::std::mem::align_of::<dxil_spirv_runtime_conf__bindgen_ty_2>(),
+        ::std::mem::align_of::<dxil_spirv_runtime_conf_push_cbv>(),
         4usize,
         concat!(
             "Alignment of ",
-            stringify!(dxil_spirv_runtime_conf__bindgen_ty_2)
+            stringify!(dxil_spirv_runtime_conf_push_cbv)
         )
     );
     assert_eq!(
@@ -775,7 +822,7 @@ fn bindgen_test_layout_dxil_spirv_runtime_conf__bindgen_ty_2() {
         0usize,
         concat!(
             "Offset of field: ",
-            stringify!(dxil_spirv_runtime_conf__bindgen_ty_2),
+            stringify!(dxil_spirv_runtime_conf_push_cbv),
             "::",
             stringify!(register_space)
         )
@@ -785,7 +832,7 @@ fn bindgen_test_layout_dxil_spirv_runtime_conf__bindgen_ty_2() {
         4usize,
         concat!(
             "Offset of field: ",
-            stringify!(dxil_spirv_runtime_conf__bindgen_ty_2),
+            stringify!(dxil_spirv_runtime_conf_push_cbv),
             "::",
             stringify!(base_shader_register)
         )
@@ -793,30 +840,27 @@ fn bindgen_test_layout_dxil_spirv_runtime_conf__bindgen_ty_2() {
 }
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
-pub struct dxil_spirv_runtime_conf__bindgen_ty_3 {
+pub struct dxil_spirv_runtime_conf_flip_conf {
     pub mode: dxil_spirv_yz_flip_mode,
     pub y_mask: u16,
     pub z_mask: u16,
 }
 #[test]
-fn bindgen_test_layout_dxil_spirv_runtime_conf__bindgen_ty_3() {
-    const UNINIT: ::std::mem::MaybeUninit<dxil_spirv_runtime_conf__bindgen_ty_3> =
+fn bindgen_test_layout_dxil_spirv_runtime_conf_flip_conf() {
+    const UNINIT: ::std::mem::MaybeUninit<dxil_spirv_runtime_conf_flip_conf> =
         ::std::mem::MaybeUninit::uninit();
     let ptr = UNINIT.as_ptr();
     assert_eq!(
-        ::std::mem::size_of::<dxil_spirv_runtime_conf__bindgen_ty_3>(),
+        ::std::mem::size_of::<dxil_spirv_runtime_conf_flip_conf>(),
         8usize,
-        concat!(
-            "Size of: ",
-            stringify!(dxil_spirv_runtime_conf__bindgen_ty_3)
-        )
+        concat!("Size of: ", stringify!(dxil_spirv_runtime_conf_flip_conf))
     );
     assert_eq!(
-        ::std::mem::align_of::<dxil_spirv_runtime_conf__bindgen_ty_3>(),
+        ::std::mem::align_of::<dxil_spirv_runtime_conf_flip_conf>(),
         4usize,
         concat!(
             "Alignment of ",
-            stringify!(dxil_spirv_runtime_conf__bindgen_ty_3)
+            stringify!(dxil_spirv_runtime_conf_flip_conf)
         )
     );
     assert_eq!(
@@ -824,7 +868,7 @@ fn bindgen_test_layout_dxil_spirv_runtime_conf__bindgen_ty_3() {
         0usize,
         concat!(
             "Offset of field: ",
-            stringify!(dxil_spirv_runtime_conf__bindgen_ty_3),
+            stringify!(dxil_spirv_runtime_conf_flip_conf),
             "::",
             stringify!(mode)
         )
@@ -834,7 +878,7 @@ fn bindgen_test_layout_dxil_spirv_runtime_conf__bindgen_ty_3() {
         4usize,
         concat!(
             "Offset of field: ",
-            stringify!(dxil_spirv_runtime_conf__bindgen_ty_3),
+            stringify!(dxil_spirv_runtime_conf_flip_conf),
             "::",
             stringify!(y_mask)
         )
@@ -844,7 +888,7 @@ fn bindgen_test_layout_dxil_spirv_runtime_conf__bindgen_ty_3() {
         6usize,
         concat!(
             "Offset of field: ",
-            stringify!(dxil_spirv_runtime_conf__bindgen_ty_3),
+            stringify!(dxil_spirv_runtime_conf_flip_conf),
             "::",
             stringify!(z_mask)
         )
