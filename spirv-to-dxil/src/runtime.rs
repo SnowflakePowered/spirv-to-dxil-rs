@@ -71,6 +71,7 @@ pub struct VertexRuntimeDataBuilder {
     pub viewport_width: f32,
     pub viewport_height: f32,
     pub view_index: u32,
+    pub depth_bias: f32
 }
 
 /// Runtime data buffer for vertex shaders.
@@ -92,6 +93,7 @@ impl RuntimeDataBuilder<VertexRuntimeData> for VertexRuntimeDataBuilder {
             viewport_width: self.viewport_width,
             viewport_height: self.viewport_height,
             view_index: self.view_index,
+            depth_bias: self.depth_bias,
         };
 
         VertexRuntimeData(data)

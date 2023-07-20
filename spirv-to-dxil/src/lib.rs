@@ -38,7 +38,6 @@ fn spirv_to_dxil_inner(
     specializations: Option<&[Specialization]>,
     entry_point: &[u8],
     stage: ShaderStage,
-    shader_model_max: ShaderModel,
     validator_version_max: ValidatorVersion,
     runtime_conf: &RuntimeConfig,
     dump_nir: bool,
@@ -66,7 +65,6 @@ fn spirv_to_dxil_inner(
             num_specializations,
             stage,
             entry_point.as_ptr().cast(),
-            shader_model_max,
             validator_version_max,
             &debug,
             runtime_conf,
@@ -82,7 +80,6 @@ pub fn dump_nir(
     specializations: Option<&[Specialization]>,
     entry_point: impl AsRef<str>,
     stage: ShaderStage,
-    shader_model_max: ShaderModel,
     validator_version_max: ValidatorVersion,
     runtime_conf: &RuntimeConfig,
 ) -> Result<bool, SpirvToDxilError> {
@@ -96,7 +93,6 @@ pub fn dump_nir(
         specializations,
         &entry_point,
         stage,
-        shader_model_max,
         validator_version_max,
         runtime_conf,
         true,
@@ -111,7 +107,6 @@ pub fn spirv_to_dxil(
     specializations: Option<&[Specialization]>,
     entry_point: impl AsRef<str>,
     stage: ShaderStage,
-    shader_model_max: ShaderModel,
     validator_version_max: ValidatorVersion,
     runtime_conf: &RuntimeConfig,
 ) -> Result<DxilObject, SpirvToDxilError> {
@@ -128,7 +123,6 @@ pub fn spirv_to_dxil(
         specializations,
         &entry_point,
         stage,
-        shader_model_max,
         validator_version_max,
         runtime_conf,
         false,
@@ -162,7 +156,6 @@ mod tests {
             None,
             "main",
             ShaderStage::Fragment,
-            ShaderModel::ShaderModel6_0,
             ValidatorVersion::None,
             &RuntimeConfig::default(),
         ).expect("failed to compile");
@@ -179,7 +172,6 @@ mod tests {
             None,
             "main",
             ShaderStage::Fragment,
-            ShaderModel::ShaderModel6_0,
             ValidatorVersion::None,
             &RuntimeConfig {
                 runtime_data_cbv: RuntimeDataBufferConfig {
@@ -190,6 +182,7 @@ mod tests {
                     register_space: 31,
                     base_shader_register: 1,
                 },
+                shader_model_max: ShaderModel::ShaderModel6_1,
                 ..RuntimeConfig::default()
             },
         )
@@ -207,7 +200,6 @@ mod tests {
             None,
             "main",
             ShaderStage::Vertex,
-            ShaderModel::ShaderModel6_0,
             ValidatorVersion::None,
             &RuntimeConfig::default(),
         )

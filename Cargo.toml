@@ -5,3 +5,5 @@ members = [
     "spirv-to-dxil-sys",
     "bindings_generator"
 ]
+
+resolver = "2"
