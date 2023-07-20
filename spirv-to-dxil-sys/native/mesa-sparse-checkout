@@ -28,6 +28,7 @@
 /src/gallium/winsys/sw/null
 /src/gallium/winsys/sw/wrapper
 /src/gallium/drivers/zink
+/src/gallium/drivers/llvmpipe
 
 !/src/util/tests
 !/src/compiler/nir/tests

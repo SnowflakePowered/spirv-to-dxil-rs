@@ -52,10 +52,12 @@ impl Default for dxil_spirv_runtime_conf {
             zero_based_vertex_instance_id: true,
             zero_based_compute_workgroup_id: false,
             yz_flip: Default::default(),
-            read_only_images_as_srvs: false,
+            declared_read_only_images_as_srvs: false,
+            inferred_read_only_images_as_srvs: false,
             force_sample_rate_shading: false,
             lower_view_index: false,
             lower_view_index_to_rt_layer: false,
+            shader_model_max: dxil_shader_model::ShaderModel6_0,
         }
     }
 }
