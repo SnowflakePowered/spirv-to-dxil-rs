@@ -1,3 +1,0 @@
-[submodule "spirv-to-dxil-sys/native/mesa"]
-	path = spirv-to-dxil-sys/native/mesa
-	url = https://gitlab.freedesktop.org/mesa/mesa
