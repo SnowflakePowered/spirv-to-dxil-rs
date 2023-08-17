@@ -33,6 +33,9 @@ jobs:
         with:
           toolchain: stable
           override: true
+      - if: matrix.os == 'ubuntu-latest'
+        name: Install libdrm
+        run: sudo apt-get install -y libdrm-dev
       - name: Setup Vulkan SDK
         uses: humbletim/setup-vulkan-sdk@v1.2.0
         with:
