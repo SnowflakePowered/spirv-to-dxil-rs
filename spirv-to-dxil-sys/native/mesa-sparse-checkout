@@ -17,6 +17,7 @@
 /src/c11
 /VERSION
 /meson_options.txt
+/subprojects
 
 /src/virtio/virtio-gpu
 /src/virtio/meson.build
@@ -25,9 +26,6 @@
 /src/gallium/auxiliary
 /src/gallium/frontends
 /src/gallium/meson.build
-/src/gallium/winsys/sw/null
-/src/gallium/winsys/sw/wrapper
-/src/gallium/drivers/zink
 /src/gallium/drivers/llvmpipe
 
 !/src/util/tests

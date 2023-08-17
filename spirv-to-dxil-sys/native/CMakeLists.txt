@@ -35,12 +35,12 @@ set(MESA_EXTRA_FLAGS
         -Dbuildtype=${MESON_BUILD_TYPE}
         # enable spirv-to-dxil (obviously)
         -Dspirv-to-dxil=true
-        # force zink because we want libvulkan_util
-        -Dgallium-drivers=zink
+        # hopefully this doesn't need
+        -Dvulkan-drivers=microsoft-experimental
         # set min-windows-version to 7 to remove need to link against synchronization.lib (we don't need futexes for the compiler)
         -Dmin-windows-version=7
         # disable everything we don't need.
-        -Dvulkan-drivers=
+        -Dgallium-drivers=
         -Dopengl=false
         -Dglx=disabled
         -Dmicrosoft-clc=disabled
@@ -55,7 +55,6 @@ set(MESA_EXTRA_FLAGS
         -Dzlib=disabled
         -Dshader-cache=disabled
         )
-
 
 ExternalProject_Add(mesa
         URL file://${CMAKE_CURRENT_LIST_DIR}/mesa
