@@ -1,0 +1,50 @@
+name: build spirv-to-dxil-rs
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+  schedule:
+    - cron: "0 0 * * 6"
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+      fail-fast: false
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Sparse checkout mesa
+        run: |
+          git submodule update --init --filter=blob:none --depth 1 --single-branch --progress spirv-to-dxil-sys/native/mesa
+          git submodule absorbgitdirs
+                   
+          git -C spirv-to-dxil-sys/native/mesa config core.sparseCheckout true
+          git -C spirv-to-dxil-sys/native/mesa config core.symlinks false
+          cp spirv-to-dxil-sys/native/mesa-sparse-checkout .git/modules/spirv-to-dxil-sys/native/mesa/info/sparse-checkout
+          git submodule foreach git sparse-checkout reapply
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1.0.6
+        with:
+          toolchain: stable
+          override: true
+      - name: Setup Vulkan SDK
+        uses: humbletim/setup-vulkan-sdk@v1.2.0
+        with:
+          vulkan-query-version: latest
+          vulkan-components: Vulkan-Headers, Vulkan-Loader
+          vulkan-use-cache: true
+      - uses: actions/setup-python@v1
+        name: Setup Python
+        with:
+          python-version: '3.x'
+      - run: pip install meson ninja mako
+        name: Install Meson
+      - name: Build library
+        run: cargo build
