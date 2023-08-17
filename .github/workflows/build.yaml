@@ -48,5 +48,7 @@ jobs:
           python-version: '3.x'
       - run: pip install meson ninja mako
         name: Install Meson
-      - name: Build library
+      - name: Build spirv-to-dxil-rs
         run: cargo build
+      - name: Test spirv-to-dxil-rs
+        run: cargo test
