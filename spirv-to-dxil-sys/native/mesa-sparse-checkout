@@ -32,3 +32,4 @@
 !/src/compiler/nir/tests
 !/src/compiler/glsl/tests
 !/src/compiler/glsl/glcpp/tests
+!*.rst

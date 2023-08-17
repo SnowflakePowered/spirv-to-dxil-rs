@@ -35,7 +35,7 @@ set(MESA_EXTRA_FLAGS
         -Dbuildtype=${MESON_BUILD_TYPE}
         # enable spirv-to-dxil (obviously)
         -Dspirv-to-dxil=true
-        # hopefully this doesn't need
+        # force a vulkan driver because we want libvulkan_util
         -Dvulkan-drivers=microsoft-experimental
         # set min-windows-version to 7 to remove need to link against synchronization.lib (we don't need futexes for the compiler)
         -Dmin-windows-version=7
