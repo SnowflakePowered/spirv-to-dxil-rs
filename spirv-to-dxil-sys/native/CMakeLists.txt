@@ -35,8 +35,7 @@ set(MESA_EXTRA_FLAGS
         -Dbuildtype=${MESON_BUILD_TYPE}
         # enable spirv-to-dxil (obviously)
         -Dspirv-to-dxil=true
-        # force a vulkan driver because we want libvulkan_util
-        -Dvulkan-drivers=microsoft-experimental
+        -Dvulkan-drivers=
         # set min-windows-version to 7 to remove need to link against synchronization.lib (we don't need futexes for the compiler)
         -Dmin-windows-version=7
         # disable everything we don't need.
@@ -60,8 +59,8 @@ ExternalProject_Add(mesa
         URL file://${CMAKE_CURRENT_LIST_DIR}/mesa
         PREFIX ${CMAKE_BINARY_DIR}/mesa
         CONFIGURE_COMMAND cd ${CMAKE_BINARY_DIR}/mesa/src/mesa && meson setup ${CMAKE_BINARY_DIR}/mesa/src/mesa-build ${MESA_EXTRA_FLAGS}
-        BUILD_COMMAND cd ${CMAKE_BINARY_DIR}/mesa/src/mesa-build && ninja src/vulkan/util/libvulkan_util.a && ninja src/microsoft/spirv_to_dxil/libspirv_to_dxil.a
+        BUILD_COMMAND cd ${CMAKE_BINARY_DIR}/mesa/src/mesa-build && ninja src/microsoft/spirv_to_dxil/libspirv_to_dxil.a
         INSTALL_COMMAND cmake -DOUT_DIR=${CMAKE_BINARY_DIR}/mesa -DMESA_BUILD=${CMAKE_BINARY_DIR}/mesa/src/mesa-build -P ${CMAKE_CURRENT_LIST_DIR}/install_spirv_to_dxil.cmake
-        BUILD_BYPRODUCTS ${CMAKE_BINARY_DIR}/mesa/lib/spirv_to_dxil.lib ${CMAKE_BINARY_DIR}/mesa/lib/libspirv_to_dxil.a ${CMAKE_BINARY_DIR}/mesa/lib/vulkan_util.lib ${CMAKE_BINARY_DIR}/mesa/lib/libvulkan_util.a
+        BUILD_BYPRODUCTS ${CMAKE_BINARY_DIR}/mesa/lib/spirv_to_dxil.lib ${CMAKE_BINARY_DIR}/mesa/lib/libspirv_to_dxil.a
         )
 

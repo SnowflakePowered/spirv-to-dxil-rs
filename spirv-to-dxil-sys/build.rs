@@ -23,7 +23,7 @@ fn main() {
     if cfg!(target_os = "windows") {
         println!("cargo:rustc-link-lib=Version");
         // only Windows needs to link vulkan_util.lib
-        println!("cargo:rustc-link-lib=static=vulkan_util");
+        // println!("cargo:rustc-link-lib=static=vulkan_util");
     }
 
     if cfg!(target_os = "linux") {
