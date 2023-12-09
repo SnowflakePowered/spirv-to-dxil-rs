@@ -14,8 +14,11 @@ fn main() {
         .cpp(true)
         .std("c11")
         .define("HAVE_STRUCT_TIMESPEC", None)
+        // We still should support Windows 7...
+        .define("WINDOWS_NO_FUTEX", None)
         .define("_USE_MATH_DEFINES", None)
         .define("PACKAGE_VERSION", "\"100\"")
+        .define("UTIL_ARCH_LITTLE_ENDIAN", None)
         .includes(&[
             "native/mesa/include",
             "native/mesa_mako",
@@ -50,7 +53,10 @@ fn main() {
 
             "native/mesa/src/util/os_misc.c",
             "native/mesa/src/util/memstream.c",
+
             "native/mesa/src/util/futex.c",
+            "native/mesa/src/util/simple_mtx.c",
+
             "native/mesa/src/util/log.c",
             "native/mesa/src/util/rgtc.c",
             "native/mesa/src/util/dag.c",
@@ -113,28 +119,13 @@ fn main() {
         }
     }
 
-
-
-
-
     build
         .compile("spirv_to_dxil");
 
-    // let cmake_dst = Config::new("native")
-    //     .profile("Release")
-    //     .build_target("mesa")
-    //     .build();
-    //
-    // let object_dst = cmake_dst.join("build/mesa/lib");
-    //
-    // println!("cargo:rustc-link-search=native={}", object_dst.display());
     println!("cargo:rustc-link-lib=static=spirv_to_dxil");
-    //
+
     if cfg!(target_os = "windows") {
         println!("cargo:rustc-link-lib=Version");
-        println!("cargo:rustc-link-lib=Synchronization");
-        // only Windows needs to link vulkan_util.lib
-        // println!("cargo:rustc-link-lib=static=vulkan_util");
     }
     //
     // if cfg!(target_os = "linux") {

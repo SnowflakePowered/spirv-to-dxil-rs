@@ -295,7 +295,6 @@ version = "0.4.3"
 dependencies = [
  "bytemuck",
  "cc",
- "cmake",
 ]
 
 [[package]]
