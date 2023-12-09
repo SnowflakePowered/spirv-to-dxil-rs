@@ -12,11 +12,7 @@ fn main() {
 
     build
         .std("c11")
-        .define("HAVE_STRUCT_TIMESPEC", None)
-        // We still should support Windows 7...
-        .define("WINDOWS_NO_FUTEX", None)
         .define("PACKAGE_VERSION", "\"100\"")
-        .define("UTIL_ARCH_LITTLE_ENDIAN", None)
         .define("__STDC_CONSTANT_MACROS", None)
         .define("__STDC_FORMAT_MACROS", None)
         .define("__STDC_LIMIT_MACROS", None)
@@ -122,6 +118,21 @@ fn main() {
         "native/mesa/src/compiler/nir",
         "native/mesa/src/util/format"
     ];
+
+    if cfg!(target_os = "windows") {
+        build
+            .define("HAVE_STRUCT_TIMESPEC", None)
+            // We still should support Windows 7...
+            .define("WINDOWS_NO_FUTEX", None)
+            .file("native/mesa/src/c11/impl/threads_win32.c");
+
+    } else {
+        build
+            .include("native/mesa/src/c11")
+            .define("HAVE_PTHREADS", None)
+            .define("_POSIX_C_SOURCE", "200809L")
+        ;
+    }
 
     if cfg!(target_endian = "big") {
         build.define(
