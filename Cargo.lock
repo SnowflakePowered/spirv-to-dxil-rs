@@ -244,7 +244,7 @@ dependencies = [
 
 [[package]]
 name = "spirv-to-dxil-sys"
-version = "0.4.2"
+version = "0.4.3"
 dependencies = [
  "bytemuck",
  "cmake",
