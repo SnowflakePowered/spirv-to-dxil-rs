@@ -129,6 +129,7 @@ fn main() {
     } else {
         build
             .include("native/mesa/src/c11")
+            .file("native/mesa/src/c11/impl/threads_posix.c")
             .define("HAVE_PTHREADS", None)
             .define("_POSIX_C_SOURCE", "200809L")
         ;
