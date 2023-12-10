@@ -12,6 +12,8 @@ fn main() {
 
     build
         .std("c11")
+        .define("HAVE_STRUCT_TIMESPEC", None)
+
         .define("PACKAGE_VERSION", "\"100\"")
         .define("__STDC_CONSTANT_MACROS", None)
         .define("__STDC_FORMAT_MACROS", None)
@@ -121,17 +123,16 @@ fn main() {
 
     if cfg!(target_os = "windows") {
         build
-            .define("HAVE_STRUCT_TIMESPEC", None)
             // We still should support Windows 7...
             .define("WINDOWS_NO_FUTEX", None)
             .file("native/mesa/src/c11/impl/threads_win32.c");
 
     } else {
         build
-            .include("native/mesa/src/c11")
             .file("native/mesa/src/c11/impl/threads_posix.c")
-            .define("HAVE_PTHREADS", None)
-            .define("_POSIX_C_SOURCE", "200809L")
+            .define("HAVE_PTHREAD", None)
+            .define("_POSIX_SOURCE", None)
+            .define("_GNU_SOURCE", None)
         ;
     }
 
@@ -159,32 +160,4 @@ fn main() {
         .compile("spirv_to_dxil");
 
     println!("cargo:rustc-link-lib=static=spirv_to_dxil");
-
-    if cfg!(target_os = "windows") {
-        println!("cargo:rustc-link-lib=Version");
-    }
-    //
-    // if cfg!(target_os = "linux") {
-    //     let debian_arch = match env::var("CARGO_CFG_TARGET_ARCH").unwrap() {
-    //         arch if arch == "x86" => "i386".to_owned(),
-    //         arch => arch,
-    //     };
-    //
-    //     let debian_triple_path = format!("/usr/lib/{}-linux-gnu/", debian_arch);
-    //     let search_dir = if Path::new(&debian_triple_path).exists() {
-    //         // Debian, Ubuntu and their derivatives.
-    //         debian_triple_path
-    //     } else if env::var("CARGO_CFG_TARGET_ARCH").unwrap() == "x86_64"
-    //         && Path::new("/usr/lib64/").exists()
-    //     {
-    //         // Other distributions running on x86_64 usually use this path.
-    //         "/usr/lib64/".to_string()
-    //     } else {
-    //         // Other distributions, not x86_64.
-    //         "/usr/lib/".to_string()
-    //     };
-    //
-    //     println!("cargo:rustc-link-search=native={}", search_dir);
-    //     println!("cargo:rustc-link-lib=dylib=stdc++");
-    // }
 }
