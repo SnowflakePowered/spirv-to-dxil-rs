@@ -6,6 +6,8 @@ fn main() {
         return;
     }
 
+    let target = build_target::target().unwrap();
+
     let mut build = cc::Build::new();
 
     build
@@ -106,7 +108,7 @@ fn main() {
         "native/mesa/src/util/format",
     ];
 
-    if cfg!(target_os = "windows") {
+    if target.os == build_target::Os::Windows {
         build
             // We still should support Windows 7...
             .define("WINDOWS_NO_FUTEX", None)
