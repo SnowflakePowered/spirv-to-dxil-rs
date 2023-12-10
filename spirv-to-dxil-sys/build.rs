@@ -8,6 +8,18 @@ fn main() {
 
     let target = build_target::target().unwrap();
 
+    let mut qsort_build = cc::Build::new();
+
+    qsort_build
+        .std("c++17")
+        .define("HAVE_STRUCT_TIMESPEC", None)
+        .define("PACKAGE_VERSION", "\"100\"")
+        .define("__STDC_CONSTANT_MACROS", None)
+        .define("__STDC_FORMAT_MACROS", None)
+        .define("__STDC_LIMIT_MACROS", None)
+        .file("native/mesa/src/util/u_qsort.cpp")
+        .compile("u_qsort");
+
     let mut build = cc::Build::new();
 
     build
@@ -52,7 +64,6 @@ fn main() {
             "native/mesa/src/util/hash_table.c",
             "native/mesa/src/util/u_worklist.c",
             "native/mesa/src/util/u_vector.c",
-            "native/mesa/src/util/u_qsort.cpp",
             "native/mesa/src/util/u_debug.c",
             "native/mesa/src/util/u_dynarray.c",
             "native/mesa/src/util/u_printf.c",
@@ -143,5 +154,6 @@ fn main() {
 
     build.compile("spirv_to_dxil");
 
+    println!("cargo:rustc-link-lib=static=u_qsort");
     println!("cargo:rustc-link-lib=static=spirv_to_dxil");
 }
