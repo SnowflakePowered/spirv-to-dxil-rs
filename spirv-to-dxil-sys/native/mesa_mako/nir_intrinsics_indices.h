@@ -338,30 +338,6 @@ nir_intrinsic_has_cluster_size(const nir_intrinsic_instr *instr)
 }
 
 
-static inline bool
-nir_intrinsic_include_helpers(const nir_intrinsic_instr *instr)
-{
-   const nir_intrinsic_info *info = &nir_intrinsic_infos[instr->intrinsic];
-   assert(info->index_map[NIR_INTRINSIC_INCLUDE_HELPERS] > 0);
-   return (bool)instr->const_index[info->index_map[NIR_INTRINSIC_INCLUDE_HELPERS] - 1];
-}
-
-static inline void
-nir_intrinsic_set_include_helpers(nir_intrinsic_instr *instr, bool val)
-{
-   const nir_intrinsic_info *info = &nir_intrinsic_infos[instr->intrinsic];
-   assert(info->index_map[NIR_INTRINSIC_INCLUDE_HELPERS] > 0);
-   instr->const_index[info->index_map[NIR_INTRINSIC_INCLUDE_HELPERS] - 1] = val;
-}
-
-static inline bool
-nir_intrinsic_has_include_helpers(const nir_intrinsic_instr *instr)
-{
-   const nir_intrinsic_info *info = &nir_intrinsic_infos[instr->intrinsic];
-   return info->index_map[NIR_INTRINSIC_INCLUDE_HELPERS] > 0;
-}
-
-
 static inline unsigned
 nir_intrinsic_param_idx(const nir_intrinsic_instr *instr)
 {
