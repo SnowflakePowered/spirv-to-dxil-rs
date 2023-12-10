@@ -3,6 +3,7 @@
 #![allow(non_snake_case)]
 
 mod bindings;
+mod native;
 
 pub use bindings::*;
 use bytemuck::NoUninit;

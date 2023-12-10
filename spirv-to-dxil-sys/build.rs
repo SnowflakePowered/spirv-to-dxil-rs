@@ -70,7 +70,6 @@ fn main() {
             "native/mesa/src/util/u_call_once.c",
             "native/mesa/src/util/sha1/sha1.c",
             "native/mesa/src/util/mesa-sha1.c",
-            "native/mesa/src/util/os_misc.c",
             "native/mesa/src/util/memstream.c",
             "native/mesa/src/util/futex.c",
             "native/mesa/src/util/simple_mtx.c",
