@@ -28,6 +28,8 @@
 #include "util/softfloat.h"
 #include "util/bigmath.h"
 #include "util/format/format_utils.h"
+#include "util/format_r11g11b10f.h"
+#include "util/u_math.h"
 #include "nir_constant_expressions.h"
 
 /**
@@ -241,6 +243,102 @@ static float
 unpack_half_1x16(uint16_t u)
 {
    return _mesa_half_to_float(u);
+}
+
+/* Broadcom v3d specific instructions */
+/**
+ * Packs 2 2x16 floating split into a r11g11b10f:
+ *
+ * dst[10:0]  = float16_to_float11 (src0[15:0])
+ * dst[21:11] = float16_to_float11 (src0[31:16])
+ * dst[31:22] = float16_to_float10 (src1[15:0])
+ */
+static uint32_t pack_32_to_r11g11b10_v3d(const uint32_t src0,
+                                         const uint32_t src1)
+{
+   float rgb[3] = {
+      unpack_half_1x16((src0 & 0xffff)),
+      unpack_half_1x16((src0 >> 16)),
+      unpack_half_1x16((src1 & 0xffff)),
+   };
+
+   return float3_to_r11g11b10f(rgb);
+}
+
+/**
+  * The three methods below are basically wrappers over pack_s/unorm_1x8/1x16,
+  * as they receives a uint16_t val instead of a float
+  */
+static inline uint8_t _mesa_half_to_snorm8(uint16_t val)
+{
+   return pack_snorm_1x8(_mesa_half_to_float(val));
+}
+
+static uint16_t _mesa_float_to_snorm16(uint32_t val)
+{
+   union fi aux;
+   aux.ui = val;
+   return pack_snorm_1x16(aux.f);
+}
+
+static uint16_t _mesa_float_to_unorm16(uint32_t val)
+{
+   union fi aux;
+   aux.ui = val;
+   return pack_unorm_1x16(aux.f);
+}
+
+static inline uint32_t float_pack16_v3d(uint32_t f32)
+{
+   return _mesa_float_to_half(uif(f32));
+}
+
+static inline uint32_t float_unpack16_v3d(uint32_t f16)
+{
+   return fui(_mesa_half_to_float(f16));
+}
+
+static inline uint32_t vfpack_v3d(uint32_t a, uint32_t b)
+{
+   return float_pack16_v3d(b) << 16 | float_pack16_v3d(a);
+}
+
+static inline uint32_t vfsat_v3d(uint32_t a)
+{
+   const uint32_t low = fui(SATURATE(_mesa_half_to_float(a & 0xffff)));
+   const uint32_t high = fui(SATURATE(_mesa_half_to_float(a >> 16)));
+
+   return vfpack_v3d(low, high);
+}
+
+static inline uint32_t fmul_v3d(uint32_t a, uint32_t b)
+{
+   return fui(uif(a) * uif(b));
+}
+
+static uint32_t vfmul_v3d(uint32_t a, uint32_t b)
+{
+   const uint32_t low = fmul_v3d(float_unpack16_v3d(a & 0xffff),
+                                 float_unpack16_v3d(b & 0xffff));
+   const uint32_t high = fmul_v3d(float_unpack16_v3d(a >> 16),
+                                  float_unpack16_v3d(b >> 16));
+
+   return vfpack_v3d(low, high);
+}
+
+/* Convert 2x16-bit floating point to 2x10-bit unorm */
+static uint32_t pack_2x16_to_unorm_2x10(uint32_t src0)
+{
+   return vfmul_v3d(vfsat_v3d(src0), 0x03ff03ff);
+}
+
+/*
+ * Convert 2x16-bit floating point to one 2-bit and one
+ * 10-bit unorm
+ */
+static uint32_t pack_2x16_to_unorm_10_2(uint32_t src0)
+{
+   return vfmul_v3d(vfsat_v3d(src0), 0x000303ff);
 }
 
 /* Some typed vector structures to make things like src0.y work */
@@ -26822,6 +26920,28 @@ evaluate_f2imp(nir_const_value *_dst_val,
 
 }
 static void
+evaluate_f2snorm_16_v3d(nir_const_value *_dst_val,
+                 UNUSED unsigned num_components,
+                 UNUSED unsigned bit_size,
+                 UNUSED nir_const_value **_src,
+                 UNUSED unsigned execution_mode)
+{
+      
+   
+
+         
+      for (unsigned _i = 0; _i < num_components; _i++) {
+               const uint32_t src0 =
+                  _src[0][_i].u32;
+
+            uint32_t dst = _mesa_float_to_snorm16(src0);
+
+            _dst_val[_i].u32 = dst;
+
+      }
+
+}
+static void
 evaluate_f2u1(nir_const_value *_dst_val,
                  UNUSED unsigned num_components,
                   unsigned bit_size,
@@ -27162,6 +27282,28 @@ evaluate_f2ump(nir_const_value *_dst_val,
             uint16_t dst = src0;
 
             _dst_val[_i].u16 = dst;
+
+      }
+
+}
+static void
+evaluate_f2unorm_16_v3d(nir_const_value *_dst_val,
+                 UNUSED unsigned num_components,
+                 UNUSED unsigned bit_size,
+                 UNUSED nir_const_value **_src,
+                 UNUSED unsigned execution_mode)
+{
+      
+   
+
+         
+      for (unsigned _i = 0; _i < num_components; _i++) {
+               const uint32_t src0 =
+                  _src[0][_i].u32;
+
+            uint32_t dst = _mesa_float_to_unorm16(src0);
+
+            _dst_val[_i].u32 = dst;
 
       }
 
@@ -42502,6 +42644,151 @@ evaluate_mov(nir_const_value *_dst_val,
       }
 }
 static void
+evaluate_pack_2x16_to_snorm_2x8_v3d(nir_const_value *_dst_val,
+                 UNUSED unsigned num_components,
+                 UNUSED unsigned bit_size,
+                 UNUSED nir_const_value **_src,
+                 UNUSED unsigned execution_mode)
+{
+      
+   
+
+         
+      for (unsigned _i = 0; _i < num_components; _i++) {
+               const uint32_t src0 =
+                  _src[0][_i].u32;
+
+            uint32_t dst = _mesa_half_to_snorm(src0 & 0xffff, 8) | (_mesa_half_to_snorm(src0 >> 16, 8) << 16);
+
+            _dst_val[_i].u32 = dst;
+
+      }
+
+}
+static void
+evaluate_pack_2x16_to_unorm_10_2_v3d(nir_const_value *_dst_val,
+                 UNUSED unsigned num_components,
+                 UNUSED unsigned bit_size,
+                 UNUSED nir_const_value **_src,
+                 UNUSED unsigned execution_mode)
+{
+      
+   
+
+         
+      for (unsigned _i = 0; _i < num_components; _i++) {
+               const uint32_t src0 =
+                  _src[0][_i].u32;
+
+            uint32_t dst = pack_2x16_to_unorm_10_2(src0);
+
+            _dst_val[_i].u32 = dst;
+
+      }
+
+}
+static void
+evaluate_pack_2x16_to_unorm_2x10_v3d(nir_const_value *_dst_val,
+                 UNUSED unsigned num_components,
+                 UNUSED unsigned bit_size,
+                 UNUSED nir_const_value **_src,
+                 UNUSED unsigned execution_mode)
+{
+      
+   
+
+         
+      for (unsigned _i = 0; _i < num_components; _i++) {
+               const uint32_t src0 =
+                  _src[0][_i].u32;
+
+            uint32_t dst = pack_2x16_to_unorm_2x10(src0);
+
+            _dst_val[_i].u32 = dst;
+
+      }
+
+}
+static void
+evaluate_pack_2x16_to_unorm_2x8_v3d(nir_const_value *_dst_val,
+                 UNUSED unsigned num_components,
+                 UNUSED unsigned bit_size,
+                 UNUSED nir_const_value **_src,
+                 UNUSED unsigned execution_mode)
+{
+      
+   
+
+         
+      for (unsigned _i = 0; _i < num_components; _i++) {
+               const uint32_t src0 =
+                  _src[0][_i].u32;
+
+            uint32_t dst = _mesa_half_to_unorm(src0 & 0xffff, 8) | (_mesa_half_to_unorm(src0 >> 16, 8) << 16);
+
+            _dst_val[_i].u32 = dst;
+
+      }
+
+}
+static void
+evaluate_pack_2x32_to_2x16_v3d(nir_const_value *_dst_val,
+                 UNUSED unsigned num_components,
+                 UNUSED unsigned bit_size,
+                 UNUSED nir_const_value **_src,
+                 UNUSED unsigned execution_mode)
+{
+      
+   
+
+
+      const struct uint32_vec src0 = {
+            _src[0][0].u32,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+      };
+
+      const struct uint32_vec src1 = {
+            _src[1][0].u32,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+      };
+
+      struct uint32_vec dst;
+
+         dst.x = dst.y = dst.z = dst.w = (src0.x & 0xffff) | (src1.x << 16);
+
+            _dst_val[0].u32 = dst.x;
+
+
+}
+static void
 evaluate_pack_32_2x16(nir_const_value *_dst_val,
                  UNUSED unsigned num_components,
                  UNUSED unsigned bit_size,
@@ -42623,6 +42910,54 @@ evaluate_pack_32_4x8_split(nir_const_value *_dst_val,
                   _src[3][_i].u8;
 
             uint32_t dst = src0 | ((uint32_t)src1 << 8) | ((uint32_t)src2 << 16) | ((uint32_t)src3 << 24);
+
+            _dst_val[_i].u32 = dst;
+
+      }
+
+}
+static void
+evaluate_pack_32_to_r11g11b10_v3d(nir_const_value *_dst_val,
+                 UNUSED unsigned num_components,
+                 UNUSED unsigned bit_size,
+                 UNUSED nir_const_value **_src,
+                 UNUSED unsigned execution_mode)
+{
+      
+   
+
+                  
+      for (unsigned _i = 0; _i < num_components; _i++) {
+               const uint32_t src0 =
+                  _src[0][_i].u32;
+               const uint32_t src1 =
+                  _src[1][_i].u32;
+
+            uint32_t dst = pack_32_to_r11g11b10_v3d(src0, src1);
+
+            _dst_val[_i].u32 = dst;
+
+      }
+
+}
+static void
+evaluate_pack_4x16_to_4x8_v3d(nir_const_value *_dst_val,
+                 UNUSED unsigned num_components,
+                 UNUSED unsigned bit_size,
+                 UNUSED nir_const_value **_src,
+                 UNUSED unsigned execution_mode)
+{
+      
+   
+
+                  
+      for (unsigned _i = 0; _i < num_components; _i++) {
+               const uint32_t src0 =
+                  _src[0][_i].u32;
+               const uint32_t src1 =
+                  _src[1][_i].u32;
+
+            uint32_t dst = (src0 & 0x000000ff) | (src0 & 0x00ff0000) >> 8 | (src1 & 0x000000ff) << 16 | (src1 & 0x00ff0000) << 8;
 
             _dst_val[_i].u32 = dst;
 
@@ -43166,6 +43501,30 @@ dst.x |= _mesa_unsigned_to_unsigned(src0.y, 16) << 16;
 
             _dst_val[0].u32 = dst.x;
 
+
+}
+static void
+evaluate_pack_uint_32_to_r10g10b10a2_v3d(nir_const_value *_dst_val,
+                 UNUSED unsigned num_components,
+                 UNUSED unsigned bit_size,
+                 UNUSED nir_const_value **_src,
+                 UNUSED unsigned execution_mode)
+{
+      
+   
+
+                  
+      for (unsigned _i = 0; _i < num_components; _i++) {
+               const uint32_t src0 =
+                  _src[0][_i].u32;
+               const uint32_t src1 =
+                  _src[1][_i].u32;
+
+            uint32_t dst = (src0 & 0x3ff) | ((src0 >> 16) & 0x3ff) << 10 | (src1 & 0x3ff) << 20 | ((src1 >> 16) & 0x3ff) << 30;
+
+            _dst_val[_i].u32 = dst;
+
+      }
 
 }
 static void
@@ -54798,6 +55157,9 @@ nir_eval_const_opcode(nir_op op, nir_const_value *dest,
    case nir_op_f2imp:
       evaluate_f2imp(dest, num_components, bit_width, src, float_controls_execution_mode);
       return;
+   case nir_op_f2snorm_16_v3d:
+      evaluate_f2snorm_16_v3d(dest, num_components, bit_width, src, float_controls_execution_mode);
+      return;
    case nir_op_f2u1:
       evaluate_f2u1(dest, num_components, bit_width, src, float_controls_execution_mode);
       return;
@@ -54815,6 +55177,9 @@ nir_eval_const_opcode(nir_op op, nir_const_value *dest,
       return;
    case nir_op_f2ump:
       evaluate_f2ump(dest, num_components, bit_width, src, float_controls_execution_mode);
+      return;
+   case nir_op_f2unorm_16_v3d:
+      evaluate_f2unorm_16_v3d(dest, num_components, bit_width, src, float_controls_execution_mode);
       return;
    case nir_op_fabs:
       evaluate_fabs(dest, num_components, bit_width, src, float_controls_execution_mode);
@@ -55317,6 +55682,21 @@ nir_eval_const_opcode(nir_op op, nir_const_value *dest,
    case nir_op_mov:
       evaluate_mov(dest, num_components, bit_width, src, float_controls_execution_mode);
       return;
+   case nir_op_pack_2x16_to_snorm_2x8_v3d:
+      evaluate_pack_2x16_to_snorm_2x8_v3d(dest, num_components, bit_width, src, float_controls_execution_mode);
+      return;
+   case nir_op_pack_2x16_to_unorm_10_2_v3d:
+      evaluate_pack_2x16_to_unorm_10_2_v3d(dest, num_components, bit_width, src, float_controls_execution_mode);
+      return;
+   case nir_op_pack_2x16_to_unorm_2x10_v3d:
+      evaluate_pack_2x16_to_unorm_2x10_v3d(dest, num_components, bit_width, src, float_controls_execution_mode);
+      return;
+   case nir_op_pack_2x16_to_unorm_2x8_v3d:
+      evaluate_pack_2x16_to_unorm_2x8_v3d(dest, num_components, bit_width, src, float_controls_execution_mode);
+      return;
+   case nir_op_pack_2x32_to_2x16_v3d:
+      evaluate_pack_2x32_to_2x16_v3d(dest, num_components, bit_width, src, float_controls_execution_mode);
+      return;
    case nir_op_pack_32_2x16:
       evaluate_pack_32_2x16(dest, num_components, bit_width, src, float_controls_execution_mode);
       return;
@@ -55328,6 +55708,12 @@ nir_eval_const_opcode(nir_op op, nir_const_value *dest,
       return;
    case nir_op_pack_32_4x8_split:
       evaluate_pack_32_4x8_split(dest, num_components, bit_width, src, float_controls_execution_mode);
+      return;
+   case nir_op_pack_32_to_r11g11b10_v3d:
+      evaluate_pack_32_to_r11g11b10_v3d(dest, num_components, bit_width, src, float_controls_execution_mode);
+      return;
+   case nir_op_pack_4x16_to_4x8_v3d:
+      evaluate_pack_4x16_to_4x8_v3d(dest, num_components, bit_width, src, float_controls_execution_mode);
       return;
    case nir_op_pack_64_2x32:
       evaluate_pack_64_2x32(dest, num_components, bit_width, src, float_controls_execution_mode);
@@ -55361,6 +55747,9 @@ nir_eval_const_opcode(nir_op op, nir_const_value *dest,
       return;
    case nir_op_pack_uint_2x16:
       evaluate_pack_uint_2x16(dest, num_components, bit_width, src, float_controls_execution_mode);
+      return;
+   case nir_op_pack_uint_32_to_r10g10b10a2_v3d:
+      evaluate_pack_uint_32_to_r10g10b10a2_v3d(dest, num_components, bit_width, src, float_controls_execution_mode);
       return;
    case nir_op_pack_unorm_2x16:
       evaluate_pack_unorm_2x16(dest, num_components, bit_width, src, float_controls_execution_mode);

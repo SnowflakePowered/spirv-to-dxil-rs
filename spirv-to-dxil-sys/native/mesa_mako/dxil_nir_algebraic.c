@@ -6221,12 +6221,10 @@ dxil_nir_lower_16bit_conv(nir_shader *shader)
 #include "nir_search.h"
 #include "nir_search_helpers.h"
 
-/* What follows is NIR algebraic transform code for the following 4
+/* What follows is NIR algebraic transform code for the following 2
  * transforms:
  *    ('b2b32', 'a') => ('b2i32', 'a')
  *    ('b2b1', 'a') => ('ine', ('b2i32', 'a'), 0)
- *    ('sdot_4x8_iadd_sat', 'a', 'b', 'c') => ('iadd_sat', ('sdot_4x8_iadd', 'a', 'b', 0), 'c')
- *    ('udot_4x8_uadd_sat', 'a', 'b', 'c') => ('uadd_sat', ('udot_4x8_uadd', 'a', 'b', 0), 'c')
  */
 
 
@@ -6293,107 +6291,6 @@ static const nir_search_value_union dxil_nir_algebraic_values[] = {
       -1,
    } },
 
-   /* ('sdot_4x8_iadd_sat', 'a', 'b', 'c') => ('iadd_sat', ('sdot_4x8_iadd', 'a', 'b', 0), 'c') */
-   { .variable = {
-      { nir_search_value_variable, 32 },
-      0, /* a */
-      false,
-      nir_type_invalid,
-      -1,
-      {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15},
-   } },
-   { .variable = {
-      { nir_search_value_variable, 32 },
-      1, /* b */
-      false,
-      nir_type_invalid,
-      -1,
-      {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15},
-   } },
-   { .variable = {
-      { nir_search_value_variable, 32 },
-      2, /* c */
-      false,
-      nir_type_invalid,
-      -1,
-      {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15},
-   } },
-   { .expression = {
-      { nir_search_value_expression, 32 },
-      false,
-      false,
-      false,
-      nir_op_sdot_4x8_iadd_sat,
-      0, 1,
-      { 6, 7, 8 },
-      -1,
-   } },
-
-   /* replace180_0_0 -> 6 in the cache */
-   /* replace180_0_1 -> 7 in the cache */
-   /* replace180_0_2 -> 4 in the cache */
-   { .expression = {
-      { nir_search_value_expression, 32 },
-      false,
-      false,
-      false,
-      nir_op_sdot_4x8_iadd,
-      1, 1,
-      { 6, 7, 4 },
-      -1,
-   } },
-   /* replace180_1 -> 8 in the cache */
-   { .expression = {
-      { nir_search_value_expression, 32 },
-      false,
-      false,
-      false,
-      nir_op_iadd_sat,
-      0, 2,
-      { 10, 8 },
-      -1,
-   } },
-
-   /* ('udot_4x8_uadd_sat', 'a', 'b', 'c') => ('uadd_sat', ('udot_4x8_uadd', 'a', 'b', 0), 'c') */
-   /* search181_0 -> 6 in the cache */
-   /* search181_1 -> 7 in the cache */
-   /* search181_2 -> 8 in the cache */
-   { .expression = {
-      { nir_search_value_expression, 32 },
-      false,
-      false,
-      false,
-      nir_op_udot_4x8_uadd_sat,
-      0, 1,
-      { 6, 7, 8 },
-      -1,
-   } },
-
-   /* replace181_0_0 -> 6 in the cache */
-   /* replace181_0_1 -> 7 in the cache */
-   /* replace181_0_2 -> 4 in the cache */
-   { .expression = {
-      { nir_search_value_expression, 32 },
-      false,
-      false,
-      false,
-      nir_op_udot_4x8_uadd,
-      1, 1,
-      { 6, 7, 4 },
-      -1,
-   } },
-   /* replace181_1 -> 8 in the cache */
-   { .expression = {
-      { nir_search_value_expression, 32 },
-      false,
-      false,
-      false,
-      nir_op_uadd_sat,
-      0, 2,
-      { 13, 8 },
-      -1,
-   } },
-
 };
 
 
@@ -6405,12 +6302,6 @@ static const struct transform dxil_nir_algebraic_transforms[] = {
    { ~0, ~0, ~0 }, /* Sentinel */
 
    { 3, 5, 0 },
-   { ~0, ~0, ~0 }, /* Sentinel */
-
-   { 9, 11, 0 },
-   { ~0, ~0, ~0 }, /* Sentinel */
-
-   { 12, 14, 0 },
    { ~0, ~0, ~0 }, /* Sentinel */
 
 };
@@ -6434,24 +6325,6 @@ static const struct per_op_table dxil_nir_algebraic_pass_op_table[nir_num_search
          3,
       },
    },
-   [nir_op_sdot_4x8_iadd_sat] = {
-      .filter = NULL,
-      
-      .num_filtered_states = 1,
-      .table = (const uint16_t []) {
-      
-         4,
-      },
-   },
-   [nir_op_udot_4x8_uadd_sat] = {
-      .filter = NULL,
-      
-      .num_filtered_states = 1,
-      .table = (const uint16_t []) {
-      
-         5,
-      },
-   },
 };
 
 /* Mapping from state index to offset in transforms (0 being no transforms) */
@@ -6460,8 +6333,6 @@ static const uint16_t dxil_nir_algebraic_transform_offsets[] = {
    0,
    1,
    3,
-   5,
-   7,
 };
 
 static const nir_algebraic_table dxil_nir_algebraic_table = {
@@ -6483,7 +6354,7 @@ dxil_nir_algebraic(nir_shader *shader)
    (void) options;
    (void) info;
 
-   STATIC_ASSERT(15 == ARRAY_SIZE(dxil_nir_algebraic_values));
+   STATIC_ASSERT(6 == ARRAY_SIZE(dxil_nir_algebraic_values));
    condition_flags[0] = true;
 
    nir_foreach_function_impl(impl, shader) {
