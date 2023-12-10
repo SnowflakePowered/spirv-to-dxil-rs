@@ -4,8 +4,8 @@
 
 mod bindings;
 
-use bytemuck::NoUninit;
 pub use bindings::*;
+use bytemuck::NoUninit;
 
 impl Default for dxil_spirv_yz_flip_mode {
     fn default() -> Self {
@@ -62,7 +62,7 @@ impl Default for dxil_spirv_runtime_conf {
     }
 }
 
-unsafe impl NoUninit for dxil_spirv_vertex_runtime_data { }
-unsafe impl NoUninit for dxil_spirv_vertex_runtime_data__bindgen_ty_1 { }
-unsafe impl NoUninit for dxil_spirv_vertex_runtime_data__bindgen_ty_1__bindgen_ty_1 { }
-unsafe impl NoUninit for dxil_spirv_compute_runtime_data { }
+unsafe impl NoUninit for dxil_spirv_vertex_runtime_data {}
+unsafe impl NoUninit for dxil_spirv_vertex_runtime_data__bindgen_ty_1 {}
+unsafe impl NoUninit for dxil_spirv_vertex_runtime_data__bindgen_ty_1__bindgen_ty_1 {}
+unsafe impl NoUninit for dxil_spirv_compute_runtime_data {}

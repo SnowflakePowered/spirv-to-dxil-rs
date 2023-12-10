@@ -3,7 +3,10 @@
 //! Builder structs should not be used directly. Instead, call [`build`](RuntimeDataBuilder::build) to consume
 //! the builder and yield an object referenceable as a byte buffer that can be uploaded to a mapped constant buffer.
 
-use spirv_to_dxil_sys::{dxil_spirv_vertex_runtime_data__bindgen_ty_1, dxil_spirv_vertex_runtime_data__bindgen_ty_1__bindgen_ty_1};
+use spirv_to_dxil_sys::{
+    dxil_spirv_vertex_runtime_data__bindgen_ty_1,
+    dxil_spirv_vertex_runtime_data__bindgen_ty_1__bindgen_ty_1,
+};
 
 /// A vector of three items.
 #[repr(C)]
@@ -11,9 +14,8 @@ use spirv_to_dxil_sys::{dxil_spirv_vertex_runtime_data__bindgen_ty_1, dxil_spirv
 pub struct Vec3<T> {
     pub x: T,
     pub y: T,
-    pub z: T
+    pub z: T,
 }
-
 
 /// Trait for runtime data builders.
 pub trait RuntimeDataBuilder<T> {
@@ -25,7 +27,7 @@ pub trait RuntimeDataBuilder<T> {
 #[derive(Debug, Clone)]
 pub struct ComputeRuntimeDataBuilder {
     pub group_count: Vec3<u32>,
-    pub base_group: Vec3<u32>
+    pub base_group: Vec3<u32>,
 }
 
 /// Runtime data buffer for compute shaders.
@@ -71,7 +73,7 @@ pub struct VertexRuntimeDataBuilder {
     pub viewport_width: f32,
     pub viewport_height: f32,
     pub view_index: u32,
-    pub depth_bias: f32
+    pub depth_bias: f32,
 }
 
 /// Runtime data buffer for vertex shaders.
@@ -87,7 +89,7 @@ impl RuntimeDataBuilder<VertexRuntimeData> for VertexRuntimeDataBuilder {
                 _dxil_spirv_anon1: dxil_spirv_vertex_runtime_data__bindgen_ty_1__bindgen_ty_1 {
                     y_flip_mask: self.y_flip_mask,
                     z_flip_mask: self.z_flip_mask,
-                }
+                },
             },
             draw_id: self.draw_id,
             viewport_width: self.viewport_width,
