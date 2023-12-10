@@ -14,7 +14,7 @@ impl SpirvToDxilCallbacks {
             "DXIL_SPIRV_SHADER_FRAGMENT" => Some("Fragment".into()),
             "DXIL_SPIRV_SHADER_COMPUTE" => Some("Compute".into()),
             "DXIL_SPIRV_SHADER_KERNEL" => Some("Kernel".into()),
-            _ => None
+            _ => None,
         }
     }
 
@@ -28,9 +28,8 @@ impl SpirvToDxilCallbacks {
 
     pub fn rename_validator_version(variant: &str, value: EnumVariantValue) -> Option<String> {
         match value {
-            EnumVariantValue::Unsigned(0)
-                | EnumVariantValue::Signed(0) => Some("None".into()),
-            _ => Some(variant.replace("DXIL_VALIDATOR_", "Validator"))
+            EnumVariantValue::Unsigned(0) | EnumVariantValue::Signed(0) => Some("None".into()),
+            _ => Some(variant.replace("DXIL_VALIDATOR_", "Validator")),
         }
     }
 }
@@ -57,16 +56,22 @@ impl ParseCallbacks for SpirvToDxilCallbacks {
             _ => {
                 eprintln!("skipping {:?}", enum_name);
                 None
-            },
+            }
         }
     }
 
     fn item_name(&self, original_item_name: &str) -> Option<String> {
         match original_item_name {
-            "dxil_spirv_runtime_conf__bindgen_ty_1" => Some("dxil_spirv_runtime_conf_runtime_cbv".into()),
-            "dxil_spirv_runtime_conf__bindgen_ty_2" => Some("dxil_spirv_runtime_conf_push_cbv".into()),
-            "dxil_spirv_runtime_conf__bindgen_ty_3" => Some("dxil_spirv_runtime_conf_flip_conf".into()),
-            _ => None
+            "dxil_spirv_runtime_conf__bindgen_ty_1" => {
+                Some("dxil_spirv_runtime_conf_runtime_cbv".into())
+            }
+            "dxil_spirv_runtime_conf__bindgen_ty_2" => {
+                Some("dxil_spirv_runtime_conf_push_cbv".into())
+            }
+            "dxil_spirv_runtime_conf__bindgen_ty_3" => {
+                Some("dxil_spirv_runtime_conf_flip_conf".into())
+            }
+            _ => None,
         }
     }
 }

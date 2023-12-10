@@ -9,5 +9,5 @@ pub enum SpirvToDxilError {
     /// The requested register space for a push or runtime constant block is beyond
     /// the limit of 31.
     #[error("Register space {0} is beyond the limit of 31.")]
-    RegisterSpaceOverflow(u32)
+    RegisterSpaceOverflow(u32),
 }

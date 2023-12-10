@@ -17,21 +17,21 @@
 //!
 //! See the [`runtime`](crate::runtime) module for how to construct the expected runtime data to be bound in a constant buffer.
 mod ctypes;
+mod error;
 mod logger;
 mod object;
-mod specialization;
-mod error;
 pub mod runtime;
+mod specialization;
 
+pub use crate::error::SpirvToDxilError;
 pub use ctypes::*;
 pub use object::*;
 pub use specialization::*;
-pub use crate::error::SpirvToDxilError;
 pub use spirv_to_dxil_sys::DXIL_SPIRV_MAX_VIEWPORT;
 
-use std::mem::MaybeUninit;
 use crate::logger::Logger;
 use spirv_to_dxil_sys::dxil_spirv_object;
+use std::mem::MaybeUninit;
 
 fn spirv_to_dxil_inner(
     spirv_words: &[u32],
@@ -47,7 +47,10 @@ fn spirv_to_dxil_inner(
     if runtime_conf.push_constant_cbv.register_space > 31
         || runtime_conf.runtime_data_cbv.register_space > 31
     {
-        return Err(SpirvToDxilError::RegisterSpaceOverflow(std::cmp::max(runtime_conf.push_constant_cbv.register_space, runtime_conf.runtime_data_cbv.register_space)))
+        return Err(SpirvToDxilError::RegisterSpaceOverflow(std::cmp::max(
+            runtime_conf.push_constant_cbv.register_space,
+            runtime_conf.runtime_data_cbv.register_space,
+        )));
     }
     let num_specializations = specializations.map(|o| o.len()).unwrap_or(0) as u32;
     let mut specializations: Option<Vec<spirv_to_dxil_sys::dxil_spirv_specialization>> =
@@ -158,7 +161,8 @@ mod tests {
             ShaderStage::Fragment,
             ValidatorVersion::None,
             &RuntimeConfig::default(),
-        ).expect("failed to compile");
+        )
+        .expect("failed to compile");
     }
 
     #[test]
