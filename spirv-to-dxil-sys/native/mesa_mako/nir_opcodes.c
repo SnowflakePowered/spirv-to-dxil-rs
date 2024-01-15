@@ -5060,6 +5060,21 @@ const nir_op_info nir_op_infos[nir_num_opcodes] = {
       0
 },
 {
+   .name = "msad_4x8",
+   .num_inputs = 3,
+   .output_size = 0,
+   .output_type = nir_type_uint32,
+   .input_sizes = {
+      0, 0, 0
+   },
+   .input_types = {
+      nir_type_uint32, nir_type_uint32, nir_type_uint32
+   },
+   .is_conversion = false,
+   .algebraic_properties =
+      0
+},
+{
    .name = "pack_2x16_to_snorm_2x8_v3d",
    .num_inputs = 1,
    .output_size = 0,
@@ -5459,21 +5474,6 @@ const nir_op_info nir_op_infos[nir_num_opcodes] = {
    },
    .input_types = {
       nir_type_uint32
-   },
-   .is_conversion = false,
-   .algebraic_properties =
-      0
-},
-{
-   .name = "sad_u8x4",
-   .num_inputs = 3,
-   .output_size = 1,
-   .output_type = nir_type_uint,
-   .input_sizes = {
-      1, 1, 1
-   },
-   .input_types = {
-      nir_type_uint, nir_type_uint, nir_type_uint
    },
    .is_conversion = false,
    .algebraic_properties =

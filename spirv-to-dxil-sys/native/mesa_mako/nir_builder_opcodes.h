@@ -1624,6 +1624,11 @@ nir_mov(nir_builder *build, nir_def *src0)
    return nir_build_alu1(build, nir_op_mov, src0);
 }
 static inline nir_def *
+nir_msad_4x8(nir_builder *build, nir_def *src0, nir_def *src1, nir_def *src2)
+{
+   return nir_build_alu3(build, nir_op_msad_4x8, src0, src1, src2);
+}
+static inline nir_def *
 nir_pack_2x16_to_snorm_2x8_v3d(nir_builder *build, nir_def *src0)
 {
    return nir_build_alu1(build, nir_op_pack_2x16_to_snorm_2x8_v3d, src0);
@@ -1757,11 +1762,6 @@ static inline nir_def *
 nir_pack_uvec4_to_uint(nir_builder *build, nir_def *src0)
 {
    return nir_build_alu1(build, nir_op_pack_uvec4_to_uint, src0);
-}
-static inline nir_def *
-nir_sad_u8x4(nir_builder *build, nir_def *src0, nir_def *src1, nir_def *src2)
-{
-   return nir_build_alu3(build, nir_op_sad_u8x4, src0, src1, src2);
 }
 static inline nir_def *
 nir_sdot_2x16_iadd(nir_builder *build, nir_def *src0, nir_def *src1, nir_def *src2)
@@ -2525,6 +2525,15 @@ struct _nir_deref_buffer_array_length_indices {
 struct _nir_deref_mode_is_indices {
    int _; /* exists to avoid empty initializers */
    nir_variable_mode memory_modes;
+};
+struct _nir_dpas_intel_indices {
+   int _; /* exists to avoid empty initializers */
+   nir_alu_type dest_type;
+   nir_alu_type src_type;
+   unsigned saturate;
+   nir_cmat_signed cmat_signed_mask;
+   unsigned systolic_depth;
+   unsigned repeat_count;
 };
 struct _nir_emit_vertex_indices {
    int _; /* exists to avoid empty initializers */
@@ -5068,6 +5077,27 @@ _nir_build_doorbell_agx(nir_builder *build, nir_def *src0)
    return intrin;
 }
 static inline nir_def *
+_nir_build_dpas_intel(nir_builder *build, unsigned bit_size, nir_def *src0, nir_def *src1, nir_def *src2, struct _nir_dpas_intel_indices indices)
+{
+   nir_intrinsic_instr *intrin = nir_intrinsic_instr_create(
+      build->shader, nir_intrinsic_dpas_intel);
+
+   intrin->num_components = src0->num_components;
+      nir_def_init(&intrin->instr, &intrin->def, intrin->num_components, bit_size);
+   intrin->src[0] = nir_src_for_ssa(src0);
+   intrin->src[1] = nir_src_for_ssa(src1);
+   intrin->src[2] = nir_src_for_ssa(src2);
+   nir_intrinsic_set_dest_type(intrin, indices.dest_type);
+   nir_intrinsic_set_src_type(intrin, indices.src_type);
+   nir_intrinsic_set_saturate(intrin, indices.saturate);
+   nir_intrinsic_set_cmat_signed_mask(intrin, indices.cmat_signed_mask);
+   nir_intrinsic_set_systolic_depth(intrin, indices.systolic_depth);
+   nir_intrinsic_set_repeat_count(intrin, indices.repeat_count);
+
+   nir_builder_instr_insert(build, &intrin->instr);
+   return &intrin->def;
+}
+static inline nir_def *
 _nir_build_elect(nir_builder *build, unsigned bit_size)
 {
    nir_intrinsic_instr *intrin = nir_intrinsic_instr_create(
@@ -7144,7 +7174,7 @@ _nir_build_load_flat_mask(nir_builder *build)
    nir_intrinsic_instr *intrin = nir_intrinsic_instr_create(
       build->shader, nir_intrinsic_load_flat_mask);
 
-      nir_def_init(&intrin->instr, &intrin->def, 1, 32);
+      nir_def_init(&intrin->instr, &intrin->def, 1, 64);
 
    nir_builder_instr_insert(build, &intrin->instr);
    return &intrin->def;
@@ -9752,6 +9782,17 @@ _nir_build_load_tess_rel_patch_id_amd(nir_builder *build)
    return &intrin->def;
 }
 static inline nir_def *
+_nir_build_load_tex_sprite_mask_agx(nir_builder *build)
+{
+   nir_intrinsic_instr *intrin = nir_intrinsic_instr_create(
+      build->shader, nir_intrinsic_load_tex_sprite_mask_agx);
+
+      nir_def_init(&intrin->instr, &intrin->def, 1, 16);
+
+   nir_builder_instr_insert(build, &intrin->instr);
+   return &intrin->def;
+}
+static inline nir_def *
 _nir_build_load_texture_handle_agx(nir_builder *build, nir_def *src0)
 {
    nir_intrinsic_instr *intrin = nir_intrinsic_instr_create(
@@ -12279,6 +12320,13 @@ _nir_build_deref_mode_is(build, bit_size, src0, (struct _nir_deref_mode_is_indic
 #define nir_discard_agx _nir_build_discard_agx
 #define nir_discard_if _nir_build_discard_if
 #define nir_doorbell_agx _nir_build_doorbell_agx
+#ifdef __cplusplus
+#define nir_dpas_intel(build, bit_size, src0, src1, src2, ...) \
+_nir_build_dpas_intel(build, bit_size, src0, src1, src2, _nir_dpas_intel_indices{0, __VA_ARGS__})
+#else
+#define nir_dpas_intel(build, bit_size, src0, src1, src2, ...) \
+_nir_build_dpas_intel(build, bit_size, src0, src1, src2, (struct _nir_dpas_intel_indices){0, __VA_ARGS__})
+#endif
 #define nir_elect _nir_build_elect
 #ifdef __cplusplus
 #define nir_emit_vertex(build, ...) \
@@ -13477,6 +13525,7 @@ _nir_build_load_task_payload(build, num_components, bit_size, src0, (struct _nir
 #define nir_load_tess_level_outer_default _nir_build_load_tess_level_outer_default
 #define nir_load_tess_param_base_ir3 _nir_build_load_tess_param_base_ir3
 #define nir_load_tess_rel_patch_id_amd _nir_build_load_tess_rel_patch_id_amd
+#define nir_load_tex_sprite_mask_agx _nir_build_load_tex_sprite_mask_agx
 #define nir_load_texture_handle_agx _nir_build_load_texture_handle_agx
 #define nir_load_texture_scale _nir_build_load_texture_scale
 #define nir_load_texture_size_etna _nir_build_load_texture_size_etna

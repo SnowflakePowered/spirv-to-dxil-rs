@@ -1729,6 +1729,35 @@ const nir_intrinsic_info nir_intrinsic_infos[nir_num_intrinsics] = {
    .flags = 0,
 },
 {
+   .name = "dpas_intel",
+   .num_srcs = 3,
+   .src_components = {
+      0, 0, 0
+   },
+   .has_dest = true,
+   .dest_components = 0,
+   .dest_bit_sizes = 0x0,
+   .bit_size_src = -1,
+   .num_indices = 6,
+   .indices = {
+      NIR_INTRINSIC_DEST_TYPE,
+      NIR_INTRINSIC_SRC_TYPE,
+      NIR_INTRINSIC_SATURATE,
+      NIR_INTRINSIC_CMAT_SIGNED_MASK,
+      NIR_INTRINSIC_SYSTOLIC_DEPTH,
+      NIR_INTRINSIC_REPEAT_COUNT,
+   },
+   .index_map = {
+      [NIR_INTRINSIC_DEST_TYPE] = 1,
+      [NIR_INTRINSIC_SRC_TYPE] = 2,
+      [NIR_INTRINSIC_SATURATE] = 3,
+      [NIR_INTRINSIC_CMAT_SIGNED_MASK] = 4,
+      [NIR_INTRINSIC_SYSTOLIC_DEPTH] = 5,
+      [NIR_INTRINSIC_REPEAT_COUNT] = 6,
+    },
+   .flags = NIR_INTRINSIC_CAN_ELIMINATE,
+},
+{
    .name = "elect",
    .num_srcs = 0,
    .has_dest = true,
@@ -4243,7 +4272,7 @@ const nir_intrinsic_info nir_intrinsic_infos[nir_num_intrinsics] = {
    .num_srcs = 0,
    .has_dest = true,
    .dest_components = 1,
-   .dest_bit_sizes = 0x20,
+   .dest_bit_sizes = 0x40,
    .bit_size_src = -1,
    .num_indices = 0,
    .flags = NIR_INTRINSIC_CAN_ELIMINATE | NIR_INTRINSIC_CAN_REORDER,
@@ -7014,6 +7043,16 @@ const nir_intrinsic_info nir_intrinsic_infos[nir_num_intrinsics] = {
    .flags = NIR_INTRINSIC_CAN_ELIMINATE | NIR_INTRINSIC_CAN_REORDER,
 },
 {
+   .name = "load_tex_sprite_mask_agx",
+   .num_srcs = 0,
+   .has_dest = true,
+   .dest_components = 1,
+   .dest_bit_sizes = 0x10,
+   .bit_size_src = -1,
+   .num_indices = 0,
+   .flags = NIR_INTRINSIC_CAN_ELIMINATE | NIR_INTRINSIC_CAN_REORDER,
+},
+{
    .name = "load_texture_handle_agx",
    .num_srcs = 1,
    .src_components = {
@@ -9532,4 +9571,6 @@ const char *nir_intrinsic_index_names[NIR_INTRINSIC_NUM_INDEX_FLAGS] = {
    "matrix_layout",
    "cmat_signed_mask",
    "alu_op",
+   "systolic_depth",
+   "repeat_count",
 };

@@ -121,6 +121,7 @@ typedef enum {
    nir_intrinsic_discard_agx,
    nir_intrinsic_discard_if,
    nir_intrinsic_doorbell_agx,
+   nir_intrinsic_dpas_intel,
    nir_intrinsic_elect,
    nir_intrinsic_emit_vertex,
    nir_intrinsic_emit_vertex_nv,
@@ -480,6 +481,7 @@ typedef enum {
    nir_intrinsic_load_tess_level_outer_default,
    nir_intrinsic_load_tess_param_base_ir3,
    nir_intrinsic_load_tess_rel_patch_id_amd,
+   nir_intrinsic_load_tex_sprite_mask_agx,
    nir_intrinsic_load_texture_handle_agx,
    nir_intrinsic_load_texture_scale,
    nir_intrinsic_load_texture_size_etna,
@@ -693,6 +695,8 @@ typedef enum {
    NIR_INTRINSIC_MATRIX_LAYOUT,
    NIR_INTRINSIC_CMAT_SIGNED_MASK,
    NIR_INTRINSIC_ALU_OP,
+   NIR_INTRINSIC_SYSTOLIC_DEPTH,
+   NIR_INTRINSIC_REPEAT_COUNT,
    NIR_INTRINSIC_NUM_INDEX_FLAGS,
 } nir_intrinsic_index_flag;
 

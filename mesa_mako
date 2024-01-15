@@ -3,7 +3,6 @@ mkdir -p spirv-to-dxil-sys/native/mesa_mako
 
 python spirv-to-dxil-sys/native/mesa/src/compiler/builtin_types_h.py spirv-to-dxil-sys/native/mesa_mako/builtin_types.h
 python spirv-to-dxil-sys/native/mesa/src/compiler/builtin_types_c.py spirv-to-dxil-sys/native/mesa_mako/builtin_types.c
-python spirv-to-dxil-sys/native/mesa/src/compiler/builtin_types_cpp_h.py spirv-to-dxil-sys/native/mesa_mako/builtin_types_cpp.h
 
 python spirv-to-dxil-sys/native/mesa/src/compiler/spirv/spirv_info_c.py spirv-to-dxil-sys/native/mesa/src/compiler/spirv/spirv.core.grammar.json spirv-to-dxil-sys/native/mesa_mako/spirv_info.c
 python spirv-to-dxil-sys/native/mesa/src/compiler/spirv/vtn_gather_types_c.py spirv-to-dxil-sys/native/mesa/src/compiler/spirv/spirv.core.grammar.json spirv-to-dxil-sys/native/mesa_mako/vtn_gather_types.c
