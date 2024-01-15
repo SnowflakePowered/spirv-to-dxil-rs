@@ -341,6 +341,18 @@ static uint32_t pack_2x16_to_unorm_10_2(uint32_t src0)
    return vfmul_v3d(vfsat_v3d(src0), 0x000303ff);
 }
 
+static uint32_t
+msad(uint32_t src0, uint32_t src1, uint32_t src2) {
+   uint32_t res = src2;
+   for (unsigned i = 0; i < 4; i++) {
+      const uint8_t ref = src0 >> (i * 8);
+      const uint8_t src = src1 >> (i * 8);
+      if (ref != 0)
+         res += MAX2(ref, src) - MIN2(ref, src);
+   }
+   return res;
+}
+
 /* Some typed vector structures to make things like src0.y work */
 typedef int8_t int1_t;
 typedef uint8_t uint1_t;
@@ -42644,6 +42656,36 @@ evaluate_mov(nir_const_value *_dst_val,
       }
 }
 static void
+evaluate_msad_4x8(nir_const_value *_dst_val,
+                 UNUSED unsigned num_components,
+                 UNUSED unsigned bit_size,
+                 UNUSED nir_const_value **_src,
+                 UNUSED unsigned execution_mode)
+{
+      
+   
+
+                           
+      for (unsigned _i = 0; _i < num_components; _i++) {
+               const uint32_t src0 =
+                  _src[0][_i].u32;
+               const uint32_t src1 =
+                  _src[1][_i].u32;
+               const uint32_t src2 =
+                  _src[2][_i].u32;
+
+            uint32_t dst;
+
+            
+dst = msad(src0, src1, src2);
+
+
+            _dst_val[_i].u32 = dst;
+
+      }
+
+}
+static void
 evaluate_pack_2x16_to_snorm_2x8_v3d(nir_const_value *_dst_val,
                  UNUSED unsigned num_components,
                  UNUSED unsigned bit_size,
@@ -43773,455 +43815,6 @@ dst.x = (src0.x <<  0) |
             _dst_val[0].u32 = dst.x;
 
 
-}
-static void
-evaluate_sad_u8x4(nir_const_value *_dst_val,
-                 UNUSED unsigned num_components,
-                  unsigned bit_size,
-                 UNUSED nir_const_value **_src,
-                 UNUSED unsigned execution_mode)
-{
-      switch (bit_size) {
-      case 1: {
-         
-   
-
-
-      const struct uint1_vec src0 = {
-            _src[0][0].b,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-      };
-
-      const struct uint1_vec src1 = {
-            _src[1][0].b,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-      };
-
-      const struct uint1_vec src2 = {
-            _src[2][0].b,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-      };
-
-      struct uint1_vec dst;
-
-         
-uint8_t s0_b0 = (src0.x & 0x000000ff) >> 0;
-uint8_t s0_b1 = (src0.x & 0x0000ff00) >> 8;
-uint8_t s0_b2 = (src0.x & 0x00ff0000) >> 16;
-uint8_t s0_b3 = (src0.x & 0xff000000) >> 24;
-
-uint8_t s1_b0 = (src1.x & 0x000000ff) >> 0;
-uint8_t s1_b1 = (src1.x & 0x0000ff00) >> 8;
-uint8_t s1_b2 = (src1.x & 0x00ff0000) >> 16;
-uint8_t s1_b3 = (src1.x & 0xff000000) >> 24;
-
-dst.x = src2.x +
-        (s0_b0 > s1_b0 ? (s0_b0 - s1_b0) : (s1_b0 - s0_b0)) +
-        (s0_b1 > s1_b1 ? (s0_b1 - s1_b1) : (s1_b1 - s0_b1)) +
-        (s0_b2 > s1_b2 ? (s0_b2 - s1_b2) : (s1_b2 - s0_b2)) +
-        (s0_b3 > s1_b3 ? (s0_b3 - s1_b3) : (s1_b3 - s0_b3));
-
-
-            /* 1-bit integers get truncated */
-            _dst_val[0].b = dst.x & 1;
-
-
-         break;
-      }
-      case 8: {
-         
-   
-
-
-      const struct uint8_vec src0 = {
-            _src[0][0].u8,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-      };
-
-      const struct uint8_vec src1 = {
-            _src[1][0].u8,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-      };
-
-      const struct uint8_vec src2 = {
-            _src[2][0].u8,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-      };
-
-      struct uint8_vec dst;
-
-         
-uint8_t s0_b0 = (src0.x & 0x000000ff) >> 0;
-uint8_t s0_b1 = (src0.x & 0x0000ff00) >> 8;
-uint8_t s0_b2 = (src0.x & 0x00ff0000) >> 16;
-uint8_t s0_b3 = (src0.x & 0xff000000) >> 24;
-
-uint8_t s1_b0 = (src1.x & 0x000000ff) >> 0;
-uint8_t s1_b1 = (src1.x & 0x0000ff00) >> 8;
-uint8_t s1_b2 = (src1.x & 0x00ff0000) >> 16;
-uint8_t s1_b3 = (src1.x & 0xff000000) >> 24;
-
-dst.x = src2.x +
-        (s0_b0 > s1_b0 ? (s0_b0 - s1_b0) : (s1_b0 - s0_b0)) +
-        (s0_b1 > s1_b1 ? (s0_b1 - s1_b1) : (s1_b1 - s0_b1)) +
-        (s0_b2 > s1_b2 ? (s0_b2 - s1_b2) : (s1_b2 - s0_b2)) +
-        (s0_b3 > s1_b3 ? (s0_b3 - s1_b3) : (s1_b3 - s0_b3));
-
-
-            _dst_val[0].u8 = dst.x;
-
-
-         break;
-      }
-      case 16: {
-         
-   
-
-
-      const struct uint16_vec src0 = {
-            _src[0][0].u16,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-      };
-
-      const struct uint16_vec src1 = {
-            _src[1][0].u16,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-      };
-
-      const struct uint16_vec src2 = {
-            _src[2][0].u16,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-      };
-
-      struct uint16_vec dst;
-
-         
-uint8_t s0_b0 = (src0.x & 0x000000ff) >> 0;
-uint8_t s0_b1 = (src0.x & 0x0000ff00) >> 8;
-uint8_t s0_b2 = (src0.x & 0x00ff0000) >> 16;
-uint8_t s0_b3 = (src0.x & 0xff000000) >> 24;
-
-uint8_t s1_b0 = (src1.x & 0x000000ff) >> 0;
-uint8_t s1_b1 = (src1.x & 0x0000ff00) >> 8;
-uint8_t s1_b2 = (src1.x & 0x00ff0000) >> 16;
-uint8_t s1_b3 = (src1.x & 0xff000000) >> 24;
-
-dst.x = src2.x +
-        (s0_b0 > s1_b0 ? (s0_b0 - s1_b0) : (s1_b0 - s0_b0)) +
-        (s0_b1 > s1_b1 ? (s0_b1 - s1_b1) : (s1_b1 - s0_b1)) +
-        (s0_b2 > s1_b2 ? (s0_b2 - s1_b2) : (s1_b2 - s0_b2)) +
-        (s0_b3 > s1_b3 ? (s0_b3 - s1_b3) : (s1_b3 - s0_b3));
-
-
-            _dst_val[0].u16 = dst.x;
-
-
-         break;
-      }
-      case 32: {
-         
-   
-
-
-      const struct uint32_vec src0 = {
-            _src[0][0].u32,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-      };
-
-      const struct uint32_vec src1 = {
-            _src[1][0].u32,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-      };
-
-      const struct uint32_vec src2 = {
-            _src[2][0].u32,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-      };
-
-      struct uint32_vec dst;
-
-         
-uint8_t s0_b0 = (src0.x & 0x000000ff) >> 0;
-uint8_t s0_b1 = (src0.x & 0x0000ff00) >> 8;
-uint8_t s0_b2 = (src0.x & 0x00ff0000) >> 16;
-uint8_t s0_b3 = (src0.x & 0xff000000) >> 24;
-
-uint8_t s1_b0 = (src1.x & 0x000000ff) >> 0;
-uint8_t s1_b1 = (src1.x & 0x0000ff00) >> 8;
-uint8_t s1_b2 = (src1.x & 0x00ff0000) >> 16;
-uint8_t s1_b3 = (src1.x & 0xff000000) >> 24;
-
-dst.x = src2.x +
-        (s0_b0 > s1_b0 ? (s0_b0 - s1_b0) : (s1_b0 - s0_b0)) +
-        (s0_b1 > s1_b1 ? (s0_b1 - s1_b1) : (s1_b1 - s0_b1)) +
-        (s0_b2 > s1_b2 ? (s0_b2 - s1_b2) : (s1_b2 - s0_b2)) +
-        (s0_b3 > s1_b3 ? (s0_b3 - s1_b3) : (s1_b3 - s0_b3));
-
-
-            _dst_val[0].u32 = dst.x;
-
-
-         break;
-      }
-      case 64: {
-         
-   
-
-
-      const struct uint64_vec src0 = {
-            _src[0][0].u64,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-      };
-
-      const struct uint64_vec src1 = {
-            _src[1][0].u64,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-      };
-
-      const struct uint64_vec src2 = {
-            _src[2][0].u64,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-         0,
-      };
-
-      struct uint64_vec dst;
-
-         
-uint8_t s0_b0 = (src0.x & 0x000000ff) >> 0;
-uint8_t s0_b1 = (src0.x & 0x0000ff00) >> 8;
-uint8_t s0_b2 = (src0.x & 0x00ff0000) >> 16;
-uint8_t s0_b3 = (src0.x & 0xff000000) >> 24;
-
-uint8_t s1_b0 = (src1.x & 0x000000ff) >> 0;
-uint8_t s1_b1 = (src1.x & 0x0000ff00) >> 8;
-uint8_t s1_b2 = (src1.x & 0x00ff0000) >> 16;
-uint8_t s1_b3 = (src1.x & 0xff000000) >> 24;
-
-dst.x = src2.x +
-        (s0_b0 > s1_b0 ? (s0_b0 - s1_b0) : (s1_b0 - s0_b0)) +
-        (s0_b1 > s1_b1 ? (s0_b1 - s1_b1) : (s1_b1 - s0_b1)) +
-        (s0_b2 > s1_b2 ? (s0_b2 - s1_b2) : (s1_b2 - s0_b2)) +
-        (s0_b3 > s1_b3 ? (s0_b3 - s1_b3) : (s1_b3 - s0_b3));
-
-
-            _dst_val[0].u64 = dst.x;
-
-
-         break;
-      }
-
-      default:
-         unreachable("unknown bit width");
-      }
 }
 static void
 evaluate_sdot_2x16_iadd(nir_const_value *_dst_val,
@@ -55682,6 +55275,9 @@ nir_eval_const_opcode(nir_op op, nir_const_value *dest,
    case nir_op_mov:
       evaluate_mov(dest, num_components, bit_width, src, float_controls_execution_mode);
       return;
+   case nir_op_msad_4x8:
+      evaluate_msad_4x8(dest, num_components, bit_width, src, float_controls_execution_mode);
+      return;
    case nir_op_pack_2x16_to_snorm_2x8_v3d:
       evaluate_pack_2x16_to_snorm_2x8_v3d(dest, num_components, bit_width, src, float_controls_execution_mode);
       return;
@@ -55762,9 +55358,6 @@ nir_eval_const_opcode(nir_op op, nir_const_value *dest,
       return;
    case nir_op_pack_uvec4_to_uint:
       evaluate_pack_uvec4_to_uint(dest, num_components, bit_width, src, float_controls_execution_mode);
-      return;
-   case nir_op_sad_u8x4:
-      evaluate_sad_u8x4(dest, num_components, bit_width, src, float_controls_execution_mode);
       return;
    case nir_op_sdot_2x16_iadd:
       evaluate_sdot_2x16_iadd(dest, num_components, bit_width, src, float_controls_execution_mode);

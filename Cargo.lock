@@ -297,7 +297,7 @@ dependencies = [
 
 [[package]]
 name = "spirv-to-dxil-sys"
-version = "0.4.3"
+version = "0.4.5"
 dependencies = [
  "build-target",
  "bytemuck",

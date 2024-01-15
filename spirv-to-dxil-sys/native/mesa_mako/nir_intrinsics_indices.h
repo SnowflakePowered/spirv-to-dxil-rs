@@ -1554,4 +1554,52 @@ nir_intrinsic_has_alu_op(const nir_intrinsic_instr *instr)
    return info->index_map[NIR_INTRINSIC_ALU_OP] > 0;
 }
 
+
+static inline unsigned
+nir_intrinsic_systolic_depth(const nir_intrinsic_instr *instr)
+{
+   const nir_intrinsic_info *info = &nir_intrinsic_infos[instr->intrinsic];
+   assert(info->index_map[NIR_INTRINSIC_SYSTOLIC_DEPTH] > 0);
+   return (unsigned)instr->const_index[info->index_map[NIR_INTRINSIC_SYSTOLIC_DEPTH] - 1];
+}
+
+static inline void
+nir_intrinsic_set_systolic_depth(nir_intrinsic_instr *instr, unsigned val)
+{
+   const nir_intrinsic_info *info = &nir_intrinsic_infos[instr->intrinsic];
+   assert(info->index_map[NIR_INTRINSIC_SYSTOLIC_DEPTH] > 0);
+   instr->const_index[info->index_map[NIR_INTRINSIC_SYSTOLIC_DEPTH] - 1] = val;
+}
+
+static inline bool
+nir_intrinsic_has_systolic_depth(const nir_intrinsic_instr *instr)
+{
+   const nir_intrinsic_info *info = &nir_intrinsic_infos[instr->intrinsic];
+   return info->index_map[NIR_INTRINSIC_SYSTOLIC_DEPTH] > 0;
+}
+
+
+static inline unsigned
+nir_intrinsic_repeat_count(const nir_intrinsic_instr *instr)
+{
+   const nir_intrinsic_info *info = &nir_intrinsic_infos[instr->intrinsic];
+   assert(info->index_map[NIR_INTRINSIC_REPEAT_COUNT] > 0);
+   return (unsigned)instr->const_index[info->index_map[NIR_INTRINSIC_REPEAT_COUNT] - 1];
+}
+
+static inline void
+nir_intrinsic_set_repeat_count(nir_intrinsic_instr *instr, unsigned val)
+{
+   const nir_intrinsic_info *info = &nir_intrinsic_infos[instr->intrinsic];
+   assert(info->index_map[NIR_INTRINSIC_REPEAT_COUNT] > 0);
+   instr->const_index[info->index_map[NIR_INTRINSIC_REPEAT_COUNT] - 1] = val;
+}
+
+static inline bool
+nir_intrinsic_has_repeat_count(const nir_intrinsic_instr *instr)
+{
+   const nir_intrinsic_info *info = &nir_intrinsic_infos[instr->intrinsic];
+   return info->index_map[NIR_INTRINSIC_REPEAT_COUNT] > 0;
+}
+
 #endif /* _NIR_INTRINSICS_INDICES_ */

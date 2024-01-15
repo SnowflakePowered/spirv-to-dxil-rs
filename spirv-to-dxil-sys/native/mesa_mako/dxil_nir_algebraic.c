@@ -3956,8 +3956,9 @@ static const nir_algebraic_table dxil_nir_lower_8bit_conv_table = {
 };
 
 bool
-dxil_nir_lower_8bit_conv(nir_shader *shader)
-{
+dxil_nir_lower_8bit_conv(
+   nir_shader *shader
+) {
    bool progress = false;
    bool condition_flags[1];
    const nir_shader_compiler_options *options = shader->options;
@@ -6196,8 +6197,9 @@ static const nir_algebraic_table dxil_nir_lower_16bit_conv_table = {
 };
 
 bool
-dxil_nir_lower_16bit_conv(nir_shader *shader)
-{
+dxil_nir_lower_16bit_conv(
+   nir_shader *shader
+) {
    bool progress = false;
    bool condition_flags[1];
    const nir_shader_compiler_options *options = shader->options;
@@ -6345,8 +6347,9 @@ static const nir_algebraic_table dxil_nir_algebraic_table = {
 };
 
 bool
-dxil_nir_algebraic(nir_shader *shader)
-{
+dxil_nir_algebraic(
+   nir_shader *shader
+) {
    bool progress = false;
    bool condition_flags[1];
    const nir_shader_compiler_options *options = shader->options;
