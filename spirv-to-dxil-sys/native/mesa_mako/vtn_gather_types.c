@@ -365,6 +365,8 @@ result_type_args_for_opcode(SpvOp opcode)
    case SpvOpFragmentFetchAMD: return (struct type_args){ 1, 0 };
    case SpvOpReadClockKHR: return (struct type_args){ 1, 0 };
    case SpvOpFinishWritingNodePayloadAMDX: return (struct type_args){ 1, 0 };
+   case SpvOpGroupNonUniformQuadAllKHR: return (struct type_args){ 1, 0 };
+   case SpvOpGroupNonUniformQuadAnyKHR: return (struct type_args){ 1, 0 };
    case SpvOpHitObjectGetWorldToObjectNV: return (struct type_args){ 1, 0 };
    case SpvOpHitObjectGetObjectToWorldNV: return (struct type_args){ 1, 0 };
    case SpvOpHitObjectGetObjectRayDirectionNV: return (struct type_args){ 1, 0 };
@@ -387,6 +389,8 @@ result_type_args_for_opcode(SpvOp opcode)
    case SpvOpTypeHitObjectNV: return (struct type_args){ 0, -1 };
    case SpvOpImageSampleFootprintNV: return (struct type_args){ 1, 0 };
    case SpvOpGroupNonUniformPartitionNV: return (struct type_args){ 1, 0 };
+   case SpvOpFetchMicroTriangleVertexPositionNV: return (struct type_args){ 1, 0 };
+   case SpvOpFetchMicroTriangleVertexBarycentricNV: return (struct type_args){ 1, 0 };
    case SpvOpReportIntersectionNV: return (struct type_args){ 1, 0 };
    case SpvOpRayQueryGetIntersectionTriangleVertexPositionsKHR: return (struct type_args){ 1, 0 };
    case SpvOpTypeAccelerationStructureNV: return (struct type_args){ 0, -1 };
@@ -629,6 +633,7 @@ result_type_args_for_opcode(SpvOp opcode)
    case SpvOpRayQueryGetIntersectionWorldToObjectKHR: return (struct type_args){ 1, 0 };
    case SpvOpAtomicFAddEXT: return (struct type_args){ 1, 0 };
    case SpvOpTypeBufferSurfaceINTEL: return (struct type_args){ 0, -1 };
+   case SpvOpCompositeConstructContinuedINTEL: return (struct type_args){ 1, 0 };
    case SpvOpConvertFToBF16INTEL: return (struct type_args){ 1, 0 };
    case SpvOpConvertBF16ToFINTEL: return (struct type_args){ 1, 0 };
    case SpvOpGroupIMulKHR: return (struct type_args){ 1, 0 };
@@ -639,6 +644,7 @@ result_type_args_for_opcode(SpvOp opcode)
    case SpvOpGroupLogicalAndKHR: return (struct type_args){ 1, 0 };
    case SpvOpGroupLogicalOrKHR: return (struct type_args){ 1, 0 };
    case SpvOpGroupLogicalXorKHR: return (struct type_args){ 1, 0 };
+   case SpvOpMaskedGatherINTEL: return (struct type_args){ 1, 0 };
    default: return (struct type_args){ -1, -1 };
    }
 }

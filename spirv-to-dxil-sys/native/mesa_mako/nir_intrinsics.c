@@ -101,6 +101,19 @@ const nir_intrinsic_info nir_intrinsic_infos[nir_num_intrinsics] = {
    .flags = NIR_INTRINSIC_CAN_ELIMINATE,
 },
 {
+   .name = "as_uniform",
+   .num_srcs = 1,
+   .src_components = {
+      0
+   },
+   .has_dest = true,
+   .dest_components = 0,
+   .dest_bit_sizes = 0x0,
+   .bit_size_src = 0,
+   .num_indices = 0,
+   .flags = NIR_INTRINSIC_CAN_ELIMINATE,
+},
+{
    .name = "ast_nv",
    .num_srcs = 3,
    .src_components = {
@@ -689,6 +702,19 @@ const nir_intrinsic_info nir_intrinsic_infos[nir_num_intrinsics] = {
    .flags = NIR_INTRINSIC_CAN_ELIMINATE,
 },
 {
+   .name = "ballot_relaxed",
+   .num_srcs = 1,
+   .src_components = {
+      1
+   },
+   .has_dest = true,
+   .dest_components = 0,
+   .dest_bit_sizes = 0x0,
+   .bit_size_src = -1,
+   .num_indices = 0,
+   .flags = NIR_INTRINSIC_CAN_ELIMINATE,
+},
+{
    .name = "bar_break_nv",
    .num_srcs = 1,
    .src_components = {
@@ -1182,6 +1208,25 @@ const nir_intrinsic_info nir_intrinsic_infos[nir_num_intrinsics] = {
       [NIR_INTRINSIC_IMAGE_ARRAY] = 3,
     },
    .flags = NIR_INTRINSIC_CAN_REORDER,
+},
+{
+   .name = "brcst_active_ir3",
+   .num_srcs = 2,
+   .src_components = {
+      1, 1
+   },
+   .has_dest = true,
+   .dest_components = 1,
+   .dest_bit_sizes = 0x0,
+   .bit_size_src = 0,
+   .num_indices = 1,
+   .indices = {
+      NIR_INTRINSIC_CLUSTER_SIZE,
+   },
+   .index_map = {
+      [NIR_INTRINSIC_CLUSTER_SIZE] = 1,
+    },
+   .flags = 0,
 },
 {
    .name = "btd_retire_intel",
@@ -1926,6 +1971,25 @@ const nir_intrinsic_info nir_intrinsic_infos[nir_num_intrinsics] = {
       [NIR_INTRINSIC_REDUCTION_OP] = 1,
     },
    .flags = NIR_INTRINSIC_CAN_ELIMINATE,
+},
+{
+   .name = "exclusive_scan_clusters_ir3",
+   .num_srcs = 2,
+   .src_components = {
+      1, 1
+   },
+   .has_dest = true,
+   .dest_components = 1,
+   .dest_bit_sizes = 0x0,
+   .bit_size_src = 0,
+   .num_indices = 1,
+   .indices = {
+      NIR_INTRINSIC_REDUCTION_OP,
+   },
+   .index_map = {
+      [NIR_INTRINSIC_REDUCTION_OP] = 1,
+    },
+   .flags = 0,
 },
 {
    .name = "execute_callable",
@@ -3197,6 +3261,25 @@ const nir_intrinsic_info nir_intrinsic_infos[nir_num_intrinsics] = {
       [NIR_INTRINSIC_REDUCTION_OP] = 1,
     },
    .flags = NIR_INTRINSIC_CAN_ELIMINATE,
+},
+{
+   .name = "inclusive_scan_clusters_ir3",
+   .num_srcs = 1,
+   .src_components = {
+      1
+   },
+   .has_dest = true,
+   .dest_components = 1,
+   .dest_bit_sizes = 0x0,
+   .bit_size_src = 0,
+   .num_indices = 1,
+   .indices = {
+      NIR_INTRINSIC_REDUCTION_OP,
+   },
+   .index_map = {
+      [NIR_INTRINSIC_REDUCTION_OP] = 1,
+    },
+   .flags = 0,
 },
 {
    .name = "initialize_node_payloads",
@@ -6530,6 +6613,26 @@ const nir_intrinsic_info nir_intrinsic_infos[nir_num_intrinsics] = {
    .flags = NIR_INTRINSIC_CAN_ELIMINATE | NIR_INTRINSIC_CAN_REORDER,
 },
 {
+   .name = "load_sm_count_nv",
+   .num_srcs = 0,
+   .has_dest = true,
+   .dest_components = 1,
+   .dest_bit_sizes = 0x20,
+   .bit_size_src = -1,
+   .num_indices = 0,
+   .flags = NIR_INTRINSIC_CAN_ELIMINATE | NIR_INTRINSIC_CAN_REORDER,
+},
+{
+   .name = "load_sm_id_nv",
+   .num_srcs = 0,
+   .has_dest = true,
+   .dest_components = 1,
+   .dest_bit_sizes = 0x20,
+   .bit_size_src = -1,
+   .num_indices = 0,
+   .flags = NIR_INTRINSIC_CAN_ELIMINATE | NIR_INTRINSIC_CAN_REORDER,
+},
+{
    .name = "load_smem_amd",
    .num_srcs = 2,
    .src_components = {
@@ -7486,6 +7589,26 @@ const nir_intrinsic_info nir_intrinsic_infos[nir_num_intrinsics] = {
    .flags = NIR_INTRINSIC_CAN_ELIMINATE | NIR_INTRINSIC_CAN_REORDER,
 },
 {
+   .name = "load_warp_id_nv",
+   .num_srcs = 0,
+   .has_dest = true,
+   .dest_components = 1,
+   .dest_bit_sizes = 0x20,
+   .bit_size_src = -1,
+   .num_indices = 0,
+   .flags = NIR_INTRINSIC_CAN_ELIMINATE | NIR_INTRINSIC_CAN_REORDER,
+},
+{
+   .name = "load_warps_per_sm_nv",
+   .num_srcs = 0,
+   .has_dest = true,
+   .dest_components = 1,
+   .dest_bit_sizes = 0x20,
+   .bit_size_src = -1,
+   .num_indices = 0,
+   .flags = NIR_INTRINSIC_CAN_ELIMINATE | NIR_INTRINSIC_CAN_REORDER,
+},
+{
    .name = "load_work_dim",
    .num_srcs = 0,
    .has_dest = true,
@@ -7913,6 +8036,25 @@ const nir_intrinsic_info nir_intrinsic_infos[nir_num_intrinsics] = {
    .flags = NIR_INTRINSIC_CAN_ELIMINATE,
 },
 {
+   .name = "reduce_clusters_ir3",
+   .num_srcs = 1,
+   .src_components = {
+      1
+   },
+   .has_dest = true,
+   .dest_components = 1,
+   .dest_bit_sizes = 0x0,
+   .bit_size_src = 0,
+   .num_indices = 1,
+   .indices = {
+      NIR_INTRINSIC_REDUCTION_OP,
+   },
+   .index_map = {
+      [NIR_INTRINSIC_REDUCTION_OP] = 1,
+    },
+   .flags = 0,
+},
+{
    .name = "report_ray_intersection",
    .num_srcs = 2,
    .src_components = {
@@ -8302,6 +8444,19 @@ const nir_intrinsic_info nir_intrinsic_infos[nir_num_intrinsics] = {
    .bit_size_src = -1,
    .num_indices = 0,
    .flags = NIR_INTRINSIC_CAN_ELIMINATE | NIR_INTRINSIC_CAN_REORDER,
+},
+{
+   .name = "ssa_bar_nv",
+   .num_srcs = 1,
+   .src_components = {
+      1
+   },
+   .has_dest = false,
+   .dest_components = 0,
+   .dest_bit_sizes = 0x0,
+   .bit_size_src = -1,
+   .num_indices = 0,
+   .flags = 0,
 },
 {
    .name = "ssbo_atomic",

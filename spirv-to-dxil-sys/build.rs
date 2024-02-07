@@ -128,7 +128,8 @@ fn main() {
             .file("native/mesa/src/c11/impl/threads_posix.c")
             .define("HAVE_PTHREAD", None)
             .define("_POSIX_SOURCE", None)
-            .define("_GNU_SOURCE", None);
+            .define("_GNU_SOURCE", None)
+            .define("HAVE_SECURE_GETENV", None);
     }
 
     if cfg!(target_endian = "big") {
