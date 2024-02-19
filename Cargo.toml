@@ -3,7 +3,8 @@
 members = [
     "spirv-to-dxil",
     "spirv-to-dxil-sys",
+    "mach-siegbert-vogt-dxcsa",
     "bindings_generator"
-]
+, ]
 
 resolver = "2"
