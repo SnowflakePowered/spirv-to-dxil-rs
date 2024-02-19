@@ -146,7 +146,8 @@ pub fn spirv_to_dxil(
 
         if validator_version_max == ValidatorVersion::None {
             let size = out.binary.size;
-            let blob = unsafe { ::core::slice::from_raw_parts_mut(out.binary.buffer as *mut u8, size) };
+            let blob =
+                unsafe { ::core::slice::from_raw_parts_mut(out.binary.buffer as *mut u8, size) };
             mach_siegbert_vogt_dxcsa::sign_in_place(blob);
         }
 
