@@ -1,6 +1,6 @@
 [package]
 name = "spirv-to-dxil"
-version = "0.4.6"
+version = "0.4.7"
 edition = "2021"
 description = "Rust bindings to spirv-to-dxil"
 license = "MIT"
@@ -12,5 +12,6 @@ readme = "../README.md"
 
 [dependencies]
 spirv-to-dxil-sys = { version = "0.4", path = "../spirv-to-dxil-sys" }
+mach-siegbert-vogt-dxcsa = { version = "0.1.2", path = "../mach-siegbert-vogt-dxcsa" }
 thiserror = "1.0"
 bytemuck = "1.13"

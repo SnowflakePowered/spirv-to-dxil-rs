@@ -105,6 +105,12 @@ pub fn dump_nir(
 }
 
 /// Compile SPIR-V words to a DXIL blob.
+///
+/// If `validator_version` is not `None`, then `dxil.dll` must be in the load path to output
+/// a valid blob,
+///
+/// If `validator_version` is none, validation will be skipped and the resulting blobs will
+/// be fakesigned.
 pub fn spirv_to_dxil(
     spirv_words: &[u32],
     specializations: Option<&[Specialization]>,
@@ -137,6 +143,12 @@ pub fn spirv_to_dxil(
 
     if result {
         let out = unsafe { out.assume_init() };
+
+        if validator_version_max == ValidatorVersion::None {
+            let size = out.binary.size;
+            let blob = unsafe { ::core::slice::from_raw_parts_mut(out.binary.buffer as *mut u8, size) };
+            mach_siegbert_vogt_dxcsa::sign_in_place(blob);
+        }
 
         Ok(DxilObject::new(out))
     } else {
