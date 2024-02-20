@@ -1,6 +1,6 @@
 [package]
 name = "spirv-to-dxil-sys"
-version = "0.4.6"
+version = "0.4.7"
 edition = "2021"
 description = "Raw bindings to spirv-to-dxil"
 license = "MIT"
