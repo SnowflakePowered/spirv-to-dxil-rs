@@ -76,6 +76,7 @@ fn main() {
             "native/mesa/src/util/log.c",
             "native/mesa/src/util/rgtc.c",
             "native/mesa/src/util/dag.c",
+            "native/mesa/src/util/bitscan.c",
             "native/mesa/src/util/rb_tree.c",
             "native/mesa/src/util/string_buffer.c",
             "native/mesa/src/util/half_float.c",
