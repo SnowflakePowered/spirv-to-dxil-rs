@@ -1459,6 +1459,11 @@ nir_ilt8(nir_builder *build, nir_def *src0, nir_def *src1)
    return nir_build_alu2(build, nir_op_ilt8, src0, src1);
 }
 static inline nir_def *
+nir_imad(nir_builder *build, nir_def *src0, nir_def *src1, nir_def *src2)
+{
+   return nir_build_alu3(build, nir_op_imad, src0, src1, src2);
+}
+static inline nir_def *
 nir_imad24_ir3(nir_builder *build, nir_def *src0, nir_def *src1, nir_def *src2)
 {
    return nir_build_alu3(build, nir_op_imad24_ir3, src0, src1, src2);
@@ -2495,6 +2500,12 @@ struct _nir_copy_deref_indices {
    enum gl_access_qualifier dst_access;
    enum gl_access_qualifier src_access;
 };
+struct _nir_copy_global_to_uniform_ir3_indices {
+   int _; /* exists to avoid empty initializers */
+   int base;
+   unsigned range_base;
+   unsigned range;
+};
 struct _nir_copy_push_const_to_uniform_ir3_indices {
    int _; /* exists to avoid empty initializers */
    int base;
@@ -3077,6 +3088,8 @@ struct _nir_load_global_ir3_indices {
    enum gl_access_qualifier access;
    unsigned align_mul;
    unsigned align_offset;
+   unsigned range_base;
+   unsigned range;
 };
 struct _nir_load_gs_vertex_offset_amd_indices {
    int _; /* exists to avoid empty initializers */
@@ -3309,6 +3322,10 @@ struct _nir_load_stack_indices {
    unsigned call_idx;
    unsigned value_id;
 };
+struct _nir_load_stat_query_address_agx_indices {
+   int _; /* exists to avoid empty initializers */
+   int base;
+};
 struct _nir_load_streamout_buffer_amd_indices {
    int _; /* exists to avoid empty initializers */
    int base;
@@ -3439,7 +3456,6 @@ struct _nir_resource_intel_indices {
 };
 struct _nir_rotate_indices {
    int _; /* exists to avoid empty initializers */
-   mesa_scope execution_scope;
    unsigned cluster_size;
 };
 struct _nir_rq_load_indices {
@@ -4970,6 +4986,20 @@ _nir_build_copy_deref(nir_builder *build, nir_def *src0, nir_def *src1, struct _
    return intrin;
 }
 static inline nir_intrinsic_instr *
+_nir_build_copy_global_to_uniform_ir3(nir_builder *build, nir_def *src0, struct _nir_copy_global_to_uniform_ir3_indices indices)
+{
+   nir_intrinsic_instr *intrin = nir_intrinsic_instr_create(
+      build->shader, nir_intrinsic_copy_global_to_uniform_ir3);
+
+   intrin->src[0] = nir_src_for_ssa(src0);
+   nir_intrinsic_set_base(intrin, indices.base);
+   nir_intrinsic_set_range_base(intrin, indices.range_base);
+   nir_intrinsic_set_range(intrin, indices.range);
+
+   nir_builder_instr_insert(build, &intrin->instr);
+   return intrin;
+}
+static inline nir_intrinsic_instr *
 _nir_build_copy_push_const_to_uniform_ir3(nir_builder *build, nir_def *src0, struct _nir_copy_push_const_to_uniform_ir3_indices indices)
 {
    nir_intrinsic_instr *intrin = nir_intrinsic_instr_create(
@@ -5387,6 +5417,16 @@ _nir_build_export_row_amd(nir_builder *build, nir_def *src0, nir_def *src1, stru
    nir_intrinsic_set_base(intrin, indices.base);
    nir_intrinsic_set_write_mask(intrin, indices.write_mask);
    nir_intrinsic_set_flags(intrin, indices.flags);
+
+   nir_builder_instr_insert(build, &intrin->instr);
+   return intrin;
+}
+static inline nir_intrinsic_instr *
+_nir_build_fence_helper_exit_agx(nir_builder *build)
+{
+   nir_intrinsic_instr *intrin = nir_intrinsic_instr_create(
+      build->shader, nir_intrinsic_fence_helper_exit_agx);
+
 
    nir_builder_instr_insert(build, &intrin->instr);
    return intrin;
@@ -6496,6 +6536,17 @@ _nir_build_load_accel_struct_amd(nir_builder *build)
    return &intrin->def;
 }
 static inline nir_def *
+_nir_build_load_active_subgroup_invocation_agx(nir_builder *build)
+{
+   nir_intrinsic_instr *intrin = nir_intrinsic_instr_create(
+      build->shader, nir_intrinsic_load_active_subgroup_invocation_agx);
+
+      nir_def_init(&intrin->instr, &intrin->def, 1, 32);
+
+   nir_builder_instr_insert(build, &intrin->instr);
+   return &intrin->def;
+}
+static inline nir_def *
 _nir_build_load_agx(nir_builder *build, unsigned num_components, unsigned bit_size, nir_def *src0, nir_def *src1, struct _nir_load_agx_indices indices)
 {
    nir_intrinsic_instr *intrin = nir_intrinsic_instr_create(
@@ -6531,6 +6582,18 @@ _nir_build_load_api_sample_mask_agx(nir_builder *build)
       build->shader, nir_intrinsic_load_api_sample_mask_agx);
 
       nir_def_init(&intrin->instr, &intrin->def, 1, 16);
+
+   nir_builder_instr_insert(build, &intrin->instr);
+   return &intrin->def;
+}
+static inline nir_def *
+_nir_build_load_attrib_clamp_agx(nir_builder *build, nir_def *src0)
+{
+   nir_intrinsic_instr *intrin = nir_intrinsic_instr_create(
+      build->shader, nir_intrinsic_load_attrib_clamp_agx);
+
+      nir_def_init(&intrin->instr, &intrin->def, 1, 32);
+   intrin->src[0] = nir_src_for_ssa(src0);
 
    nir_builder_instr_insert(build, &intrin->instr);
    return &intrin->def;
@@ -6946,6 +7009,17 @@ _nir_build_load_clip_half_line_width_amd(nir_builder *build)
    return &intrin->def;
 }
 static inline nir_def *
+_nir_build_load_clip_z_coeff_agx(nir_builder *build)
+{
+   nir_intrinsic_instr *intrin = nir_intrinsic_instr_create(
+      build->shader, nir_intrinsic_load_clip_z_coeff_agx);
+
+      nir_def_init(&intrin->instr, &intrin->def, 1, 32);
+
+   nir_builder_instr_insert(build, &intrin->instr);
+   return &intrin->def;
+}
+static inline nir_def *
 _nir_build_load_coalesced_input_count(nir_builder *build)
 {
    nir_intrinsic_instr *intrin = nir_intrinsic_instr_create(
@@ -7052,6 +7126,17 @@ _nir_build_load_converted_output_pan(nir_builder *build, unsigned num_components
    intrin->src[0] = nir_src_for_ssa(src0);
    nir_intrinsic_set_dest_type(intrin, indices.dest_type);
    nir_intrinsic_set_io_semantics(intrin, indices.io_semantics);
+
+   nir_builder_instr_insert(build, &intrin->instr);
+   return &intrin->def;
+}
+static inline nir_def *
+_nir_build_load_core_id_agx(nir_builder *build)
+{
+   nir_intrinsic_instr *intrin = nir_intrinsic_instr_create(
+      build->shader, nir_intrinsic_load_core_id_agx);
+
+      nir_def_init(&intrin->instr, &intrin->def, 1, 32);
 
    nir_builder_instr_insert(build, &intrin->instr);
    return &intrin->def;
@@ -7650,6 +7735,8 @@ _nir_build_load_global_ir3(nir_builder *build, unsigned num_components, unsigned
    nir_intrinsic_set_access(intrin, indices.access);
    nir_intrinsic_set_align_mul(intrin, indices.align_mul);
    nir_intrinsic_set_align_offset(intrin, indices.align_offset);
+   nir_intrinsic_set_range_base(intrin, indices.range_base);
+   nir_intrinsic_set_range(intrin, indices.range);
 
    nir_builder_instr_insert(build, &intrin->instr);
    return &intrin->def;
@@ -7689,12 +7776,48 @@ _nir_build_load_gs_wave_id_amd(nir_builder *build)
    return &intrin->def;
 }
 static inline nir_def *
+_nir_build_load_helper_arg_hi_agx(nir_builder *build, unsigned num_components, unsigned bit_size)
+{
+   nir_intrinsic_instr *intrin = nir_intrinsic_instr_create(
+      build->shader, nir_intrinsic_load_helper_arg_hi_agx);
+
+   intrin->num_components = num_components;
+      nir_def_init(&intrin->instr, &intrin->def, intrin->num_components, bit_size);
+
+   nir_builder_instr_insert(build, &intrin->instr);
+   return &intrin->def;
+}
+static inline nir_def *
+_nir_build_load_helper_arg_lo_agx(nir_builder *build, unsigned num_components, unsigned bit_size)
+{
+   nir_intrinsic_instr *intrin = nir_intrinsic_instr_create(
+      build->shader, nir_intrinsic_load_helper_arg_lo_agx);
+
+   intrin->num_components = num_components;
+      nir_def_init(&intrin->instr, &intrin->def, intrin->num_components, bit_size);
+
+   nir_builder_instr_insert(build, &intrin->instr);
+   return &intrin->def;
+}
+static inline nir_def *
 _nir_build_load_helper_invocation(nir_builder *build, unsigned bit_size)
 {
    nir_intrinsic_instr *intrin = nir_intrinsic_instr_create(
       build->shader, nir_intrinsic_load_helper_invocation);
 
       nir_def_init(&intrin->instr, &intrin->def, 1, bit_size);
+
+   nir_builder_instr_insert(build, &intrin->instr);
+   return &intrin->def;
+}
+static inline nir_def *
+_nir_build_load_helper_op_id_agx(nir_builder *build, unsigned num_components, unsigned bit_size)
+{
+   nir_intrinsic_instr *intrin = nir_intrinsic_instr_create(
+      build->shader, nir_intrinsic_load_helper_op_id_agx);
+
+   intrin->num_components = num_components;
+      nir_def_init(&intrin->instr, &intrin->def, intrin->num_components, bit_size);
 
    nir_builder_instr_insert(build, &intrin->instr);
    return &intrin->def;
@@ -7769,6 +7892,17 @@ _nir_build_load_input_assembly_buffer_agx(nir_builder *build)
       build->shader, nir_intrinsic_load_input_assembly_buffer_agx);
 
       nir_def_init(&intrin->instr, &intrin->def, 1, 64);
+
+   nir_builder_instr_insert(build, &intrin->instr);
+   return &intrin->def;
+}
+static inline nir_def *
+_nir_build_load_input_topology_agx(nir_builder *build)
+{
+   nir_intrinsic_instr *intrin = nir_intrinsic_instr_create(
+      build->shader, nir_intrinsic_load_input_topology_agx);
+
+      nir_def_init(&intrin->instr, &intrin->def, 1, 32);
 
    nir_builder_instr_insert(build, &intrin->instr);
    return &intrin->def;
@@ -8312,6 +8446,18 @@ _nir_build_load_poly_line_smooth_enabled(nir_builder *build)
    return &intrin->def;
 }
 static inline nir_def *
+_nir_build_load_polygon_stipple_agx(nir_builder *build, nir_def *src0)
+{
+   nir_intrinsic_instr *intrin = nir_intrinsic_instr_create(
+      build->shader, nir_intrinsic_load_polygon_stipple_agx);
+
+      nir_def_init(&intrin->instr, &intrin->def, 1, 32);
+   intrin->src[0] = nir_src_for_ssa(src0);
+
+   nir_builder_instr_insert(build, &intrin->instr);
+   return &intrin->def;
+}
+static inline nir_def *
 _nir_build_load_preamble(nir_builder *build, unsigned num_components, unsigned bit_size, struct _nir_load_preamble_indices indices)
 {
    nir_intrinsic_instr *intrin = nir_intrinsic_instr_create(
@@ -8588,17 +8734,6 @@ _nir_build_load_ray_launch_size(nir_builder *build)
       build->shader, nir_intrinsic_load_ray_launch_size);
 
       nir_def_init(&intrin->instr, &intrin->def, 3, 32);
-
-   nir_builder_instr_insert(build, &intrin->instr);
-   return &intrin->def;
-}
-static inline nir_def *
-_nir_build_load_ray_launch_size_addr_amd(nir_builder *build)
-{
-   nir_intrinsic_instr *intrin = nir_intrinsic_instr_create(
-      build->shader, nir_intrinsic_load_ray_launch_size_addr_amd);
-
-      nir_def_init(&intrin->instr, &intrin->def, 1, 64);
 
    nir_builder_instr_insert(build, &intrin->instr);
    return &intrin->def;
@@ -9515,6 +9650,18 @@ _nir_build_load_stack(nir_builder *build, unsigned num_components, unsigned bit_
    return &intrin->def;
 }
 static inline nir_def *
+_nir_build_load_stat_query_address_agx(nir_builder *build, struct _nir_load_stat_query_address_agx_indices indices)
+{
+   nir_intrinsic_instr *intrin = nir_intrinsic_instr_create(
+      build->shader, nir_intrinsic_load_stat_query_address_agx);
+
+      nir_def_init(&intrin->instr, &intrin->def, 1, 64);
+   nir_intrinsic_set_base(intrin, indices.base);
+
+   nir_builder_instr_insert(build, &intrin->instr);
+   return &intrin->def;
+}
+static inline nir_def *
 _nir_build_load_streamout_buffer_amd(nir_builder *build, struct _nir_load_streamout_buffer_amd_indices indices)
 {
    nir_intrinsic_instr *intrin = nir_intrinsic_instr_create(
@@ -9876,6 +10023,17 @@ _nir_build_load_tess_param_base_ir3(nir_builder *build)
    return &intrin->def;
 }
 static inline nir_def *
+_nir_build_load_tess_param_buffer_agx(nir_builder *build)
+{
+   nir_intrinsic_instr *intrin = nir_intrinsic_instr_create(
+      build->shader, nir_intrinsic_load_tess_param_buffer_agx);
+
+      nir_def_init(&intrin->instr, &intrin->def, 1, 64);
+
+   nir_builder_instr_insert(build, &intrin->instr);
+   return &intrin->def;
+}
+static inline nir_def *
 _nir_build_load_tess_rel_patch_id_amd(nir_builder *build)
 {
    nir_intrinsic_instr *intrin = nir_intrinsic_instr_create(
@@ -10114,17 +10272,6 @@ _nir_build_load_vertex_id(nir_builder *build)
 {
    nir_intrinsic_instr *intrin = nir_intrinsic_instr_create(
       build->shader, nir_intrinsic_load_vertex_id);
-
-      nir_def_init(&intrin->instr, &intrin->def, 1, 32);
-
-   nir_builder_instr_insert(build, &intrin->instr);
-   return &intrin->def;
-}
-static inline nir_def *
-_nir_build_load_vertex_id_in_primitive_agx(nir_builder *build)
-{
-   nir_intrinsic_instr *intrin = nir_intrinsic_instr_create(
-      build->shader, nir_intrinsic_load_vertex_id_in_primitive_agx);
 
       nir_def_init(&intrin->instr, &intrin->def, 1, 32);
 
@@ -10740,7 +10887,7 @@ _nir_build_report_ray_intersection(nir_builder *build, unsigned bit_size, nir_de
    return &intrin->def;
 }
 static inline nir_def *
-_nir_build_resource_intel(nir_builder *build, nir_def *src0, nir_def *src1, nir_def *src2, struct _nir_resource_intel_indices indices)
+_nir_build_resource_intel(nir_builder *build, nir_def *src0, nir_def *src1, nir_def *src2, nir_def *src3, struct _nir_resource_intel_indices indices)
 {
    nir_intrinsic_instr *intrin = nir_intrinsic_instr_create(
       build->shader, nir_intrinsic_resource_intel);
@@ -10749,6 +10896,7 @@ _nir_build_resource_intel(nir_builder *build, nir_def *src0, nir_def *src1, nir_
    intrin->src[0] = nir_src_for_ssa(src0);
    intrin->src[1] = nir_src_for_ssa(src1);
    intrin->src[2] = nir_src_for_ssa(src2);
+   intrin->src[3] = nir_src_for_ssa(src3);
    nir_intrinsic_set_desc_set(intrin, indices.desc_set);
    nir_intrinsic_set_binding(intrin, indices.binding);
    nir_intrinsic_set_resource_access_intel(intrin, indices.resource_access_intel);
@@ -10767,7 +10915,6 @@ _nir_build_rotate(nir_builder *build, nir_def *src0, nir_def *src1, struct _nir_
       nir_def_init(&intrin->instr, &intrin->def, intrin->num_components, src0->bit_size);
    intrin->src[0] = nir_src_for_ssa(src0);
    intrin->src[1] = nir_src_for_ssa(src1);
-   nir_intrinsic_set_execution_scope(intrin, indices.execution_scope);
    nir_intrinsic_set_cluster_size(intrin, indices.cluster_size);
 
    nir_builder_instr_insert(build, &intrin->instr);
@@ -12425,6 +12572,13 @@ _nir_build_copy_deref(build, src0, src1, (struct _nir_copy_deref_indices){0, __V
 #endif
 #define nir_copy_deref nir_build_copy_deref
 #ifdef __cplusplus
+#define nir_copy_global_to_uniform_ir3(build, src0, ...) \
+_nir_build_copy_global_to_uniform_ir3(build, src0, _nir_copy_global_to_uniform_ir3_indices{0, __VA_ARGS__})
+#else
+#define nir_copy_global_to_uniform_ir3(build, src0, ...) \
+_nir_build_copy_global_to_uniform_ir3(build, src0, (struct _nir_copy_global_to_uniform_ir3_indices){0, __VA_ARGS__})
+#endif
+#ifdef __cplusplus
 #define nir_copy_push_const_to_uniform_ir3(build, src0, ...) \
 _nir_build_copy_push_const_to_uniform_ir3(build, src0, _nir_copy_push_const_to_uniform_ir3_indices{0, __VA_ARGS__})
 #else
@@ -12571,6 +12725,7 @@ _nir_build_export_row_amd(build, src0, src1, _nir_export_row_amd_indices{0, __VA
 #define nir_export_row_amd(build, src0, src1, ...) \
 _nir_build_export_row_amd(build, src0, src1, (struct _nir_export_row_amd_indices){0, __VA_ARGS__})
 #endif
+#define nir_fence_helper_exit_agx _nir_build_fence_helper_exit_agx
 #define nir_fence_mem_to_tex_agx _nir_build_fence_mem_to_tex_agx
 #define nir_fence_pbe_to_tex_agx _nir_build_fence_pbe_to_tex_agx
 #define nir_fence_pbe_to_tex_pixel_agx _nir_build_fence_pbe_to_tex_pixel_agx
@@ -12936,6 +13091,7 @@ _nir_build_ldtram_nv(build, (struct _nir_ldtram_nv_indices){0, __VA_ARGS__})
 #endif
 #define nir_load_aa_line_width _nir_build_load_aa_line_width
 #define nir_load_accel_struct_amd _nir_build_load_accel_struct_amd
+#define nir_load_active_subgroup_invocation_agx _nir_build_load_active_subgroup_invocation_agx
 #ifdef __cplusplus
 #define nir_load_agx(build, num_components, bit_size, src0, src1, ...) \
 _nir_build_load_agx(build, num_components, bit_size, src0, src1, _nir_load_agx_indices{0, __VA_ARGS__})
@@ -12945,6 +13101,7 @@ _nir_build_load_agx(build, num_components, bit_size, src0, src1, (struct _nir_lo
 #endif
 #define nir_load_alpha_reference_amd _nir_build_load_alpha_reference_amd
 #define nir_load_api_sample_mask_agx _nir_build_load_api_sample_mask_agx
+#define nir_load_attrib_clamp_agx _nir_build_load_attrib_clamp_agx
 #define nir_load_back_face_agx _nir_build_load_back_face_agx
 #ifdef __cplusplus
 #define nir_load_barycentric_at_offset(build, bit_size, src0, ...) \
@@ -13058,6 +13215,7 @@ _nir_build_load_buffer_amd(build, num_components, bit_size, src0, src1, src2, sr
 #define nir_load_callable_sbt_stride_intel _nir_build_load_callable_sbt_stride_intel
 #define nir_load_clamp_vertex_color_amd _nir_build_load_clamp_vertex_color_amd
 #define nir_load_clip_half_line_width_amd _nir_build_load_clip_half_line_width_amd
+#define nir_load_clip_z_coeff_agx _nir_build_load_clip_z_coeff_agx
 #define nir_load_coalesced_input_count _nir_build_load_coalesced_input_count
 #ifdef __cplusplus
 #define nir_load_coefficients_agx(build, ...) \
@@ -13090,6 +13248,7 @@ _nir_build_load_converted_output_pan(build, num_components, bit_size, src0, _nir
 #define nir_load_converted_output_pan(build, num_components, bit_size, src0, ...) \
 _nir_build_load_converted_output_pan(build, num_components, bit_size, src0, (struct _nir_load_converted_output_pan_indices){0, __VA_ARGS__})
 #endif
+#define nir_load_core_id_agx _nir_build_load_core_id_agx
 #define nir_load_cull_any_enabled_amd _nir_build_load_cull_any_enabled_amd
 #define nir_load_cull_back_face_enabled_amd _nir_build_load_cull_back_face_enabled_amd
 #define nir_load_cull_ccw_amd _nir_build_load_cull_ccw_amd
@@ -13244,7 +13403,10 @@ _nir_build_load_gs_vertex_offset_amd(build, _nir_load_gs_vertex_offset_amd_indic
 _nir_build_load_gs_vertex_offset_amd(build, (struct _nir_load_gs_vertex_offset_amd_indices){0, __VA_ARGS__})
 #endif
 #define nir_load_gs_wave_id_amd _nir_build_load_gs_wave_id_amd
+#define nir_load_helper_arg_hi_agx _nir_build_load_helper_arg_hi_agx
+#define nir_load_helper_arg_lo_agx _nir_build_load_helper_arg_lo_agx
 #define nir_load_helper_invocation _nir_build_load_helper_invocation
+#define nir_load_helper_op_id_agx _nir_build_load_helper_op_id_agx
 #ifdef __cplusplus
 #define nir_load_hit_attrib_amd(build, ...) \
 _nir_build_load_hit_attrib_amd(build, _nir_load_hit_attrib_amd_indices{0, __VA_ARGS__})
@@ -13263,6 +13425,7 @@ _nir_build_load_input(build, num_components, bit_size, src0, _nir_load_input_ind
 _nir_build_load_input(build, num_components, bit_size, src0, (struct _nir_load_input_indices){0, __VA_ARGS__})
 #endif
 #define nir_load_input_assembly_buffer_agx _nir_build_load_input_assembly_buffer_agx
+#define nir_load_input_topology_agx _nir_build_load_input_topology_agx
 #ifdef __cplusplus
 #define nir_load_input_vertex(build, num_components, bit_size, src0, src1, ...) \
 _nir_build_load_input_vertex(build, num_components, bit_size, src0, src1, _nir_load_input_vertex_indices{0, __VA_ARGS__})
@@ -13373,6 +13536,7 @@ _nir_build_load_per_vertex_output(build, num_components, bit_size, src0, src1, (
 #define nir_load_point_coord _nir_build_load_point_coord
 #define nir_load_point_coord_maybe_flipped _nir_build_load_point_coord_maybe_flipped
 #define nir_load_poly_line_smooth_enabled _nir_build_load_poly_line_smooth_enabled
+#define nir_load_polygon_stipple_agx _nir_build_load_polygon_stipple_agx
 #ifdef __cplusplus
 #define nir_load_preamble(build, num_components, bit_size, ...) \
 _nir_build_load_preamble(build, num_components, bit_size, _nir_load_preamble_indices{0, __VA_ARGS__})
@@ -13427,7 +13591,6 @@ _nir_build_load_raw_output_pan(build, num_components, bit_size, src0, (struct _n
 #define nir_load_ray_instance_custom_index _nir_build_load_ray_instance_custom_index
 #define nir_load_ray_launch_id _nir_build_load_ray_launch_id
 #define nir_load_ray_launch_size _nir_build_load_ray_launch_size
-#define nir_load_ray_launch_size_addr_amd _nir_build_load_ray_launch_size_addr_amd
 #define nir_load_ray_miss_sbt_addr_intel _nir_build_load_ray_miss_sbt_addr_intel
 #define nir_load_ray_miss_sbt_stride_intel _nir_build_load_ray_miss_sbt_stride_intel
 #define nir_load_ray_num_dss_rt_stacks_intel _nir_build_load_ray_num_dss_rt_stacks_intel
@@ -13640,6 +13803,13 @@ _nir_build_load_stack(build, num_components, bit_size, _nir_load_stack_indices{0
 _nir_build_load_stack(build, num_components, bit_size, (struct _nir_load_stack_indices){0, __VA_ARGS__})
 #endif
 #ifdef __cplusplus
+#define nir_load_stat_query_address_agx(build, ...) \
+_nir_build_load_stat_query_address_agx(build, _nir_load_stat_query_address_agx_indices{0, __VA_ARGS__})
+#else
+#define nir_load_stat_query_address_agx(build, ...) \
+_nir_build_load_stat_query_address_agx(build, (struct _nir_load_stat_query_address_agx_indices){0, __VA_ARGS__})
+#endif
+#ifdef __cplusplus
 #define nir_load_streamout_buffer_amd(build, ...) \
 _nir_build_load_streamout_buffer_amd(build, _nir_load_streamout_buffer_amd_indices{0, __VA_ARGS__})
 #else
@@ -13700,6 +13870,7 @@ _nir_build_load_task_payload(build, num_components, bit_size, src0, (struct _nir
 #define nir_load_tess_level_outer _nir_build_load_tess_level_outer
 #define nir_load_tess_level_outer_default _nir_build_load_tess_level_outer_default
 #define nir_load_tess_param_base_ir3 _nir_build_load_tess_param_base_ir3
+#define nir_load_tess_param_buffer_agx _nir_build_load_tess_param_buffer_agx
 #define nir_load_tess_rel_patch_id_amd _nir_build_load_tess_rel_patch_id_amd
 #define nir_load_tex_sprite_mask_agx _nir_build_load_tex_sprite_mask_agx
 #define nir_load_texture_handle_agx _nir_build_load_texture_handle_agx
@@ -13771,7 +13942,6 @@ _nir_build_load_vector_arg_amd(build, num_components, _nir_load_vector_arg_amd_i
 _nir_build_load_vector_arg_amd(build, num_components, (struct _nir_load_vector_arg_amd_indices){0, __VA_ARGS__})
 #endif
 #define nir_load_vertex_id _nir_build_load_vertex_id
-#define nir_load_vertex_id_in_primitive_agx _nir_build_load_vertex_id_in_primitive_agx
 #define nir_load_vertex_id_zero_base _nir_build_load_vertex_id_zero_base
 #define nir_load_view_index _nir_build_load_view_index
 #define nir_load_viewport_offset _nir_build_load_viewport_offset
@@ -13878,11 +14048,11 @@ _nir_build_reduce_clusters_ir3(build, src0, (struct _nir_reduce_clusters_ir3_ind
 #endif
 #define nir_report_ray_intersection _nir_build_report_ray_intersection
 #ifdef __cplusplus
-#define nir_resource_intel(build, src0, src1, src2, ...) \
-_nir_build_resource_intel(build, src0, src1, src2, _nir_resource_intel_indices{0, __VA_ARGS__})
+#define nir_resource_intel(build, src0, src1, src2, src3, ...) \
+_nir_build_resource_intel(build, src0, src1, src2, src3, _nir_resource_intel_indices{0, __VA_ARGS__})
 #else
-#define nir_resource_intel(build, src0, src1, src2, ...) \
-_nir_build_resource_intel(build, src0, src1, src2, (struct _nir_resource_intel_indices){0, __VA_ARGS__})
+#define nir_resource_intel(build, src0, src1, src2, src3, ...) \
+_nir_build_resource_intel(build, src0, src1, src2, src3, (struct _nir_resource_intel_indices){0, __VA_ARGS__})
 #endif
 #ifdef __cplusplus
 #define nir_rotate(build, src0, src1, ...) \

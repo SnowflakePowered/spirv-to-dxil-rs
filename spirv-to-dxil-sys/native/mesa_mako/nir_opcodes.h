@@ -317,6 +317,7 @@ typedef enum {
    nir_op_ilt16,
    nir_op_ilt32,
    nir_op_ilt8,
+   nir_op_imad,
    nir_op_imad24_ir3,
    nir_op_imadsh_mix16,
    nir_op_imadshl_agx,
