@@ -3,3 +3,6 @@
 	url = https://gitlab.freedesktop.org/chyyran/mesa
 	branch = dxbc-rebase
 
+[submodule "spirv-to-dxil-sys/native/directx-headers"]
+	path = spirv-to-dxil-sys/native/directx-headers
+	url = https://github.com/microsoft/DirectX-Headers

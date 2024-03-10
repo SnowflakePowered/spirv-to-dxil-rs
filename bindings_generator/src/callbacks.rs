@@ -5,15 +5,16 @@ pub struct SpirvToDxilCallbacks;
 
 impl SpirvToDxilCallbacks {
     pub fn rename_shader_stage(variant: &str) -> Option<String> {
+        let variant = &variant[4..];
         match variant {
-            "DXIL_SPIRV_SHADER_NONE" => Some("None".into()),
-            "DXIL_SPIRV_SHADER_VERTEX" => Some("Vertex".into()),
-            "DXIL_SPIRV_SHADER_TESS_CTRL" => Some("TesselationControl".into()),
-            "DXIL_SPIRV_SHADER_TESS_EVAL" => Some("TesselationEvaluation".into()),
-            "DXIL_SPIRV_SHADER_GEOMETRY" => Some("Geometry".into()),
-            "DXIL_SPIRV_SHADER_FRAGMENT" => Some("Fragment".into()),
-            "DXIL_SPIRV_SHADER_COMPUTE" => Some("Compute".into()),
-            "DXIL_SPIRV_SHADER_KERNEL" => Some("Kernel".into()),
+            "_SPIRV_SHADER_NONE" => Some("None".into()),
+            "_SPIRV_SHADER_VERTEX" => Some("Vertex".into()),
+            "_SPIRV_SHADER_TESS_CTRL" => Some("TesselationControl".into()),
+            "_SPIRV_SHADER_TESS_EVAL" => Some("TesselationEvaluation".into()),
+            "_SPIRV_SHADER_GEOMETRY" => Some("Geometry".into()),
+            "_SPIRV_SHADER_FRAGMENT" => Some("Fragment".into()),
+            "_SPIRV_SHADER_COMPUTE" => Some("Compute".into()),
+            "_SPIRV_SHADER_KERNEL" => Some("Kernel".into()),
             _ => None,
         }
     }
@@ -44,6 +45,9 @@ impl ParseCallbacks for SpirvToDxilCallbacks {
             Some("dxil_spirv_shader_stage") => {
                 SpirvToDxilCallbacks::rename_shader_stage(original_variant_name)
             }
+            Some("dxbc_spirv_shader_stage") => {
+                SpirvToDxilCallbacks::rename_shader_stage(original_variant_name)
+            }
             Some("enum dxil_shader_model") => {
                 SpirvToDxilCallbacks::rename_shader_model(original_variant_name)
             }
@@ -63,13 +67,31 @@ impl ParseCallbacks for SpirvToDxilCallbacks {
     fn item_name(&self, original_item_name: &str) -> Option<String> {
         match original_item_name {
             "dxil_spirv_runtime_conf__bindgen_ty_1" => {
-                Some("dxil_spirv_runtime_conf_runtime_cbv".into())
+                Some("BufferBinding".into())
             }
             "dxil_spirv_runtime_conf__bindgen_ty_2" => {
-                Some("dxil_spirv_runtime_conf_push_cbv".into())
+                Some("BufferBinding".into())
             }
             "dxil_spirv_runtime_conf__bindgen_ty_3" => {
                 Some("dxil_spirv_runtime_conf_flip_conf".into())
+            }
+            "dxbc_spirv_runtime_conf__bindgen_ty_1" => {
+                Some("BufferBinding".into())
+            }
+            "dxbc_spirv_runtime_conf__bindgen_ty_2" => {
+                Some("BufferBinding".into())
+            }
+            "dxil_shader_model" => {
+                Some("ShaderModel".into())
+            }
+            "dxil_validator_version" => {
+                Some("ValidatorVersion".into())
+            }
+            "dxbc_spirv_shader_stage" => {
+                Some("ShaderStage".into())
+            }
+            "dxil_spirv_shader_stage" => {
+                Some("ShaderStage".into())
             }
             _ => None,
         }

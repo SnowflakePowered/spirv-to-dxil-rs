@@ -36,3 +36,45 @@ impl Deref for DxilObject {
         }
     }
 }
+
+
+#[cfg(feature = "dxbc")]
+/// A compiled Dxbc artifact.
+pub struct DxbcObject {
+    inner: spirv_to_dxil_sys::dxbc_spirv_object,
+}
+
+#[cfg(feature = "dxbc")]
+impl Drop for crate::object::DxbcObject {
+    fn drop(&mut self) {
+        unsafe {
+            // SAFETY:
+            // spirv_to_dxil_free frees only the interior buffer.
+            // https://gitlab.freedesktop.org/mesa/mesa/-/blob/7b0d00034201f8284a41370c0c3326736ae1134c/src/microsoft/spirv_to_dxil/spirv_to_dxil.c#L118
+            spirv_to_dxil_sys::spirv_to_dxbc_free(&mut self.inner)
+        }
+    }
+}
+
+#[cfg(feature = "dxbc")]
+impl crate::object::DxbcObject {
+    pub(crate) fn new(raw: spirv_to_dxil_sys::dxbc_spirv_object) -> Self {
+        Self { inner: raw }
+    }
+
+    /// Returns if the compiled shader requires runtime data to be bound.
+    pub fn requires_runtime_data(&self) -> bool {
+        self.inner.metadata.requires_runtime_data
+    }
+}
+
+#[cfg(feature = "dxbc")]
+impl Deref for crate::object::DxbcObject {
+    type Target = [u8];
+
+    fn deref(&self) -> &Self::Target {
+        unsafe {
+            std::slice::from_raw_parts(self.inner.binary.buffer.cast(), self.inner.binary.size)
+        }
+    }
+}
