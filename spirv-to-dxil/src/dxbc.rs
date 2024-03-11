@@ -1,4 +1,3 @@
-pub use crate::ctypes::DxbcRuntimeConfig;
 pub use crate::object::DxbcObject;
 
 use crate::logger::Logger;
@@ -7,12 +6,15 @@ use crate::SpirvToDxilError;
 use spirv_to_dxil_sys::{dxbc_spirv_object, ShaderModel, ShaderStage};
 use std::mem::MaybeUninit;
 
+/// Runtime configuration options for the SPIR-V compilation.
+pub use spirv_to_dxil_sys::dxbc_spirv_runtime_conf as RuntimeConfig;
+
 fn spirv_to_dxbc_inner(
     spirv_words: &[u32],
     specializations: Option<&[Specialization]>,
     entry_point: &[u8],
     stage: ShaderStage,
-    runtime_conf: &DxbcRuntimeConfig,
+    runtime_conf: &RuntimeConfig,
     out: &mut MaybeUninit<dxbc_spirv_object>,
 ) -> Result<bool, SpirvToDxilError> {
     if runtime_conf.push_constant_cbv.register_space > 31
@@ -62,7 +64,7 @@ pub fn spirv_to_dxbc(
     specializations: Option<&[Specialization]>,
     entry_point: impl AsRef<str>,
     stage: ShaderStage,
-    runtime_conf: &DxbcRuntimeConfig,
+    runtime_conf: &RuntimeConfig,
 ) -> Result<DxbcObject, SpirvToDxilError> {
     let entry_point = entry_point.as_ref();
     let mut entry_point = String::from(entry_point).into_bytes();
@@ -99,10 +101,7 @@ pub fn spirv_to_dxbc(
 /// High-level helpers for DXIL runtime data.
 pub mod runtime {
     use crate::{RuntimeDataBuilder, Vec3};
-    use spirv_to_dxil_sys::{
-        dxil_spirv_vertex_runtime_data__bindgen_ty_1,
-        dxil_spirv_vertex_runtime_data__bindgen_ty_1__bindgen_ty_1,
-    };
+
     /// Runtime data builder for compute shaders.
     #[derive(Debug, Clone)]
     pub struct ComputeRuntimeDataBuilder {
@@ -188,7 +187,7 @@ mod tests {
             None,
             "main",
             ShaderStage::Fragment,
-            &DxbcRuntimeConfig {
+            &RuntimeConfig {
                 runtime_data_cbv: BufferBinding {
                     register_space: 31,
                     base_shader_register: 0,
@@ -200,7 +199,7 @@ mod tests {
                 }
                 .into(),
                 shader_model_max: ShaderModel::ShaderModel5_1,
-                ..DxbcRuntimeConfig::default()
+                ..RuntimeConfig::default()
             },
         )
         .expect("failed to compile");
@@ -217,7 +216,7 @@ mod tests {
             None,
             "main",
             ShaderStage::Vertex,
-            &DxbcRuntimeConfig::default(),
+            &RuntimeConfig::default(),
         )
         .expect("failed to compile");
     }

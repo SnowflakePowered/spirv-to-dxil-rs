@@ -1,7 +1,7 @@
 pub use crate::object::DxilObject;
 pub use spirv_to_dxil_sys::DXIL_SPIRV_MAX_VIEWPORT;
 
-use crate::ctypes::{DxilRuntimeConfig, ValidatorVersion};
+use crate::ctypes::{ValidatorVersion};
 use crate::error::SpirvToDxilError;
 use crate::logger;
 use crate::logger::Logger;
@@ -9,13 +9,22 @@ use crate::specialization::Specialization;
 use spirv_to_dxil_sys::{dxil_spirv_object, ShaderStage};
 use std::mem::MaybeUninit;
 
+/// Runtime configuration options for the SPIR-V compilation.
+pub use spirv_to_dxil_sys::dxil_spirv_runtime_conf as RuntimeConfig;
+
+/// Configuration options for SPIR-V YZ flip mode.
+pub use spirv_to_dxil_sys::dxil_spirv_runtime_conf_flip_conf as FlipConfig;
+
+/// The flip mode to use when compiling the shader.
+pub use spirv_to_dxil_sys::dxil_spirv_yz_flip_mode as FlipMode;
+
 fn spirv_to_dxil_inner(
     spirv_words: &[u32],
     specializations: Option<&[Specialization]>,
     entry_point: &[u8],
     stage: ShaderStage,
     validator_version_max: ValidatorVersion,
-    runtime_conf: &DxilRuntimeConfig,
+    runtime_conf: &RuntimeConfig,
     dump_nir: bool,
     logger: &spirv_to_dxil_sys::dxil_spirv_logger,
     out: &mut MaybeUninit<dxil_spirv_object>,
@@ -60,7 +69,7 @@ pub fn dump_nir(
     entry_point: impl AsRef<str>,
     stage: ShaderStage,
     validator_version_max: ValidatorVersion,
-    runtime_conf: &DxilRuntimeConfig,
+    runtime_conf: &RuntimeConfig,
 ) -> Result<bool, SpirvToDxilError> {
     let entry_point = entry_point.as_ref();
     let mut entry_point = String::from(entry_point).into_bytes();
@@ -93,7 +102,7 @@ pub fn spirv_to_dxil(
     entry_point: impl AsRef<str>,
     stage: ShaderStage,
     validator_version_max: ValidatorVersion,
-    runtime_conf: &DxilRuntimeConfig,
+    runtime_conf: &RuntimeConfig,
 ) -> Result<DxilObject, SpirvToDxilError> {
     let entry_point = entry_point.as_ref();
     let mut entry_point = String::from(entry_point).into_bytes();
@@ -150,7 +159,7 @@ mod tests {
             "main",
             ShaderStage::Fragment,
             ValidatorVersion::None,
-            &DxilRuntimeConfig::default(),
+            &RuntimeConfig::default(),
         )
         .expect("failed to compile");
     }
@@ -167,7 +176,7 @@ mod tests {
             "main",
             ShaderStage::Fragment,
             ValidatorVersion::None,
-            &DxilRuntimeConfig {
+            &RuntimeConfig {
                 runtime_data_cbv: BufferBinding {
                     register_space: 0,
                     base_shader_register: 0,
@@ -179,7 +188,7 @@ mod tests {
                 }
                 .into(),
                 shader_model_max: ShaderModel::ShaderModel6_1,
-                ..DxilRuntimeConfig::default()
+                ..RuntimeConfig::default()
             },
         )
         .expect("failed to compile");
@@ -197,7 +206,7 @@ mod tests {
             "main",
             ShaderStage::Vertex,
             ValidatorVersion::None,
-            &DxilRuntimeConfig::default(),
+            &RuntimeConfig::default(),
         )
         .expect("failed to compile");
     }
