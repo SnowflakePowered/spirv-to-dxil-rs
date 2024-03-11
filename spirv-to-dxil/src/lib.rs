@@ -20,8 +20,25 @@ mod ctypes;
 mod error;
 mod logger;
 mod object;
-pub mod runtime;
 mod specialization;
+
+/// A vector of three items.
+#[repr(C)]
+#[derive(Debug, Default, Copy, Clone)]
+pub struct Vec3<T> {
+    pub x: T,
+    pub y: T,
+    pub z: T,
+}
+
+/// Trait for runtime data builders.
+pub trait RuntimeDataBuilder<T> {
+    /// Consumes the builder and finalizes the bytes.
+    fn build(self) -> T;
+}
+
+pub use crate::error::SpirvToDxilError;
+pub use specialization::{ConstValue, Specialization};
 
 #[cfg(feature = "dxil")]
 mod dxil;

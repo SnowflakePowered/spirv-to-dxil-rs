@@ -76,5 +76,4 @@ fn main() {
     //             .join("spirv-to-dxil-sys/src/dxbc.rs"),
     //     )
     //     .expect("Couldn't write bindings!");
-
 }

@@ -37,7 +37,6 @@ impl Deref for DxilObject {
     }
 }
 
-
 #[cfg(feature = "dxbc")]
 /// A compiled Dxbc artifact.
 pub struct DxbcObject {

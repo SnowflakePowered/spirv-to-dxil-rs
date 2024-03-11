@@ -32,7 +32,6 @@ impl From<ConstValue> for spirv_to_dxil_sys::dxil_spirv_const_value {
     }
 }
 
-
 impl From<ConstValue> for spirv_to_dxil_sys::dxbc_spirv_const_value {
     fn from(value: ConstValue) -> Self {
         match value {

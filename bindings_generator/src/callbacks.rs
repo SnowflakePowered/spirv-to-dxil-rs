@@ -66,33 +66,17 @@ impl ParseCallbacks for SpirvToDxilCallbacks {
 
     fn item_name(&self, original_item_name: &str) -> Option<String> {
         match original_item_name {
-            "dxil_spirv_runtime_conf__bindgen_ty_1" => {
-                Some("BufferBinding".into())
-            }
-            "dxil_spirv_runtime_conf__bindgen_ty_2" => {
-                Some("BufferBinding".into())
-            }
+            "dxil_spirv_runtime_conf__bindgen_ty_1" => Some("BufferBinding".into()),
+            "dxil_spirv_runtime_conf__bindgen_ty_2" => Some("BufferBinding".into()),
             "dxil_spirv_runtime_conf__bindgen_ty_3" => {
                 Some("dxil_spirv_runtime_conf_flip_conf".into())
             }
-            "dxbc_spirv_runtime_conf__bindgen_ty_1" => {
-                Some("BufferBinding".into())
-            }
-            "dxbc_spirv_runtime_conf__bindgen_ty_2" => {
-                Some("BufferBinding".into())
-            }
-            "dxil_shader_model" => {
-                Some("ShaderModel".into())
-            }
-            "dxil_validator_version" => {
-                Some("ValidatorVersion".into())
-            }
-            "dxbc_spirv_shader_stage" => {
-                Some("ShaderStage".into())
-            }
-            "dxil_spirv_shader_stage" => {
-                Some("ShaderStage".into())
-            }
+            "dxbc_spirv_runtime_conf__bindgen_ty_1" => Some("BufferBinding".into()),
+            "dxbc_spirv_runtime_conf__bindgen_ty_2" => Some("BufferBinding".into()),
+            "dxil_shader_model" => Some("ShaderModel".into()),
+            "dxil_validator_version" => Some("ValidatorVersion".into()),
+            "dxbc_spirv_shader_stage" => Some("ShaderStage".into()),
+            "dxil_spirv_shader_stage" => Some("ShaderStage".into()),
             _ => None,
         }
     }

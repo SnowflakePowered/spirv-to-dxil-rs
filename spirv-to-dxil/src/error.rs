@@ -1,5 +1,5 @@
-use thiserror::Error;
 use spirv_to_dxil_sys::ShaderModel;
+use thiserror::Error;
 
 #[derive(Debug, Error)]
 /// Error type for spirv-to-dxil.

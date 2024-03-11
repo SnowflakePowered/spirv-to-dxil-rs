@@ -1,5 +1,5 @@
-use std::fmt::{Display, Formatter};
 use crate::ShaderModel;
+use std::fmt::{Display, Formatter};
 
 #[repr(C)]
 #[derive(Default, Debug, Copy, Clone)]
