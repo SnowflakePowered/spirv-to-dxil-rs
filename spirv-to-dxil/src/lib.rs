@@ -40,14 +40,10 @@ pub trait RuntimeDataBuilder<T> {
 pub use crate::error::SpirvToDxilError;
 pub use specialization::{ConstValue, Specialization};
 
+/// Compiler for SPIR-V to DXIL
 #[cfg(feature = "dxil")]
-mod dxil;
+pub mod dxil;
 
+/// Compiler for SPIR-V to DXBC
 #[cfg(feature = "dxbc")]
-mod dxbc;
-
-#[cfg(feature = "dxil")]
-pub use dxil::*;
-
-#[cfg(feature = "dxbc")]
-pub use dxbc::*;
+pub mod dxbc;
