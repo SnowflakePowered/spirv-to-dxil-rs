@@ -1,12 +1,11 @@
-pub use crate::error::SpirvToDxilError;
-pub use spirv_to_dxil_sys::DXIL_SPIRV_MAX_VIEWPORT;
+pub use crate::ctypes::DxbcRuntimeConfig;
+pub use crate::object::DxbcObject;
 
 use crate::logger::Logger;
+use crate::specialization::Specialization;
+use crate::SpirvToDxilError;
 use spirv_to_dxil_sys::{dxbc_spirv_object, ShaderModel, ShaderStage};
 use std::mem::MaybeUninit;
-use crate::ctypes::{DxbcRuntimeConfig,};
-use crate::object::{DxbcObject, };
-use crate::specialization::Specialization;
 
 fn spirv_to_dxbc_inner(
     spirv_words: &[u32],
@@ -26,13 +25,14 @@ fn spirv_to_dxbc_inner(
     }
 
     if runtime_conf.shader_model_max as i32 > ShaderModel::ShaderModel5_1 as i32 {
-        return Err(SpirvToDxilError::InvalidShaderModel(runtime_conf.shader_model_max))
+        return Err(SpirvToDxilError::InvalidShaderModel(
+            runtime_conf.shader_model_max,
+        ));
     }
 
     let num_specializations = specializations.map(|o| o.len()).unwrap_or(0) as u32;
     let mut specializations: Option<Vec<spirv_to_dxil_sys::dxbc_spirv_specialization>> =
         specializations.map(|o| o.into_iter().map(|o| (*o).into()).collect());
-
 
     unsafe {
         Ok(spirv_to_dxil_sys::spirv_to_dxbc(
@@ -87,8 +87,7 @@ pub fn spirv_to_dxbc(
         let out = unsafe { out.assume_init() };
 
         let size = out.binary.size;
-        let blob =
-            unsafe { ::core::slice::from_raw_parts_mut(out.binary.buffer as *mut u8, size) };
+        let blob = unsafe { ::core::slice::from_raw_parts_mut(out.binary.buffer as *mut u8, size) };
         mach_siegbert_vogt_dxcsa::sign_in_place(blob);
 
         Ok(DxbcObject::new(out))
@@ -97,11 +96,86 @@ pub fn spirv_to_dxbc(
     }
 }
 
+/// High-level helpers for DXIL runtime data.
+pub mod runtime {
+    use crate::{RuntimeDataBuilder, Vec3};
+    use spirv_to_dxil_sys::{
+        dxil_spirv_vertex_runtime_data__bindgen_ty_1,
+        dxil_spirv_vertex_runtime_data__bindgen_ty_1__bindgen_ty_1,
+    };
+    /// Runtime data builder for compute shaders.
+    #[derive(Debug, Clone)]
+    pub struct ComputeRuntimeDataBuilder {
+        pub group_count: Vec3<u32>,
+    }
+
+    /// Runtime data buffer for compute shaders.
+    pub struct ComputeRuntimeData(spirv_to_dxil_sys::dxbc_spirv_compute_runtime_data);
+
+    impl RuntimeDataBuilder<ComputeRuntimeData> for ComputeRuntimeDataBuilder {
+        fn build(self) -> ComputeRuntimeData {
+            let data = spirv_to_dxil_sys::dxbc_spirv_compute_runtime_data {
+                group_count_x: self.group_count.x,
+                group_count_y: self.group_count.y,
+                group_count_z: self.group_count.z,
+            };
+
+            ComputeRuntimeData(data)
+        }
+    }
+
+    impl From<ComputeRuntimeDataBuilder> for ComputeRuntimeData {
+        fn from(value: ComputeRuntimeDataBuilder) -> Self {
+            value.build()
+        }
+    }
+
+    impl AsRef<[u8]> for ComputeRuntimeData {
+        fn as_ref(&self) -> &[u8] {
+            bytemuck::bytes_of(&self.0)
+        }
+    }
+
+    /// Runtime data builder for vertex shaders.
+    #[derive(Debug, Clone)]
+    pub struct VertexRuntimeDataBuilder {
+        pub first_vertex: u32,
+        pub base_instance: u32,
+        pub is_indexed_draw: bool,
+    }
+
+    /// Runtime data buffer for vertex shaders.
+    pub struct VertexRuntimeData(spirv_to_dxil_sys::dxbc_spirv_vertex_runtime_data);
+
+    impl RuntimeDataBuilder<VertexRuntimeData> for VertexRuntimeDataBuilder {
+        fn build(self) -> VertexRuntimeData {
+            let data = spirv_to_dxil_sys::dxbc_spirv_vertex_runtime_data {
+                first_vertex: self.first_vertex,
+                base_instance: self.base_instance,
+                is_indexed_draw: self.is_indexed_draw,
+            };
+
+            VertexRuntimeData(data)
+        }
+    }
+
+    impl From<VertexRuntimeDataBuilder> for VertexRuntimeData {
+        fn from(value: VertexRuntimeDataBuilder) -> Self {
+            value.build()
+        }
+    }
+
+    impl AsRef<[u8]> for VertexRuntimeData {
+        fn as_ref(&self) -> &[u8] {
+            bytemuck::bytes_of(&self.0)
+        }
+    }
+}
+
 #[cfg(all(test, feature = "dxbc"))]
 mod tests {
-    use spirv_to_dxil_sys::{BufferBinding, ShaderModel, ShaderStage};
     use super::*;
-
+    use spirv_to_dxil_sys::{BufferBinding, ShaderModel, ShaderStage};
 
     #[test]
     fn test_compile() {
@@ -118,16 +192,18 @@ mod tests {
                 runtime_data_cbv: BufferBinding {
                     register_space: 31,
                     base_shader_register: 0,
-                }.into(),
+                }
+                .into(),
                 push_constant_cbv: BufferBinding {
                     register_space: 30,
                     base_shader_register: 0,
-                }.into(),
+                }
+                .into(),
                 shader_model_max: ShaderModel::ShaderModel5_1,
                 ..DxbcRuntimeConfig::default()
             },
         )
-            .expect("failed to compile");
+        .expect("failed to compile");
     }
 
     #[test]
@@ -143,6 +219,6 @@ mod tests {
             ShaderStage::Vertex,
             &DxbcRuntimeConfig::default(),
         )
-            .expect("failed to compile");
+        .expect("failed to compile");
     }
 }

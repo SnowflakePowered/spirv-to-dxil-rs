@@ -1,13 +1,13 @@
-pub use crate::error::SpirvToDxilError;
+pub use crate::object::DxilObject;
 pub use spirv_to_dxil_sys::DXIL_SPIRV_MAX_VIEWPORT;
 
+use crate::ctypes::{DxilRuntimeConfig, ValidatorVersion};
+use crate::error::SpirvToDxilError;
+use crate::logger;
 use crate::logger::Logger;
+use crate::specialization::Specialization;
 use spirv_to_dxil_sys::{dxil_spirv_object, ShaderStage};
 use std::mem::MaybeUninit;
-use crate::ctypes::{DxilRuntimeConfig, ValidatorVersion};
-use crate::logger;
-use crate::object::DxilObject;
-use crate::specialization::Specialization;
 
 fn spirv_to_dxil_inner(
     spirv_words: &[u32],
@@ -52,7 +52,6 @@ fn spirv_to_dxil_inner(
         ))
     }
 }
-
 
 /// Dump the parsed NIR output of the SPIR-V to stdout.
 pub fn dump_nir(
@@ -136,8 +135,8 @@ pub fn spirv_to_dxil(
 
 #[cfg(test)]
 mod tests {
-    use spirv_to_dxil_sys::{BufferBinding, ShaderModel};
     use super::*;
+    use spirv_to_dxil_sys::{BufferBinding, ShaderModel};
 
     #[test]
     fn dump_nir() {
@@ -153,7 +152,7 @@ mod tests {
             ValidatorVersion::None,
             &DxilRuntimeConfig::default(),
         )
-            .expect("failed to compile");
+        .expect("failed to compile");
     }
 
     #[test]
@@ -172,16 +171,18 @@ mod tests {
                 runtime_data_cbv: BufferBinding {
                     register_space: 0,
                     base_shader_register: 0,
-                }.into(),
+                }
+                .into(),
                 push_constant_cbv: BufferBinding {
                     register_space: 31,
                     base_shader_register: 1,
-                }.into(),
+                }
+                .into(),
                 shader_model_max: ShaderModel::ShaderModel6_1,
                 ..DxilRuntimeConfig::default()
             },
         )
-            .expect("failed to compile");
+        .expect("failed to compile");
     }
 
     #[test]
@@ -198,6 +199,105 @@ mod tests {
             ValidatorVersion::None,
             &DxilRuntimeConfig::default(),
         )
-            .expect("failed to compile");
+        .expect("failed to compile");
+    }
+}
+
+/// High-level helpers for DXIL runtime data.
+pub mod runtime {
+    use crate::{RuntimeDataBuilder, Vec3};
+    use spirv_to_dxil_sys::{
+        dxil_spirv_vertex_runtime_data__bindgen_ty_1,
+        dxil_spirv_vertex_runtime_data__bindgen_ty_1__bindgen_ty_1,
+    };
+    /// Runtime data builder for compute shaders.
+    #[derive(Debug, Clone)]
+    pub struct ComputeRuntimeDataBuilder {
+        pub group_count: Vec3<u32>,
+        pub base_group: Vec3<u32>,
+    }
+
+    /// Runtime data buffer for compute shaders.
+    pub struct ComputeRuntimeData(spirv_to_dxil_sys::dxil_spirv_compute_runtime_data);
+
+    impl RuntimeDataBuilder<ComputeRuntimeData> for ComputeRuntimeDataBuilder {
+        fn build(self) -> ComputeRuntimeData {
+            let data = spirv_to_dxil_sys::dxil_spirv_compute_runtime_data {
+                group_count_x: self.group_count.x,
+                group_count_y: self.group_count.y,
+                group_count_z: self.group_count.z,
+                padding0: 0,
+                base_group_x: self.base_group.x,
+                base_group_y: self.base_group.y,
+                base_group_z: self.base_group.z,
+            };
+
+            ComputeRuntimeData(data)
+        }
+    }
+
+    impl From<ComputeRuntimeDataBuilder> for ComputeRuntimeData {
+        fn from(value: ComputeRuntimeDataBuilder) -> Self {
+            value.build()
+        }
+    }
+
+    impl AsRef<[u8]> for ComputeRuntimeData {
+        fn as_ref(&self) -> &[u8] {
+            bytemuck::bytes_of(&self.0)
+        }
+    }
+
+    /// Runtime data builder for vertex shaders.
+    #[derive(Debug, Clone)]
+    pub struct VertexRuntimeDataBuilder {
+        pub first_vertex: u32,
+        pub base_instance: u32,
+        pub is_indexed_draw: bool,
+        pub y_flip_mask: u16,
+        pub z_flip_mask: u16,
+        pub draw_id: u32,
+        pub viewport_width: f32,
+        pub viewport_height: f32,
+        pub view_index: u32,
+        pub depth_bias: f32,
+    }
+
+    /// Runtime data buffer for vertex shaders.
+    pub struct VertexRuntimeData(spirv_to_dxil_sys::dxil_spirv_vertex_runtime_data);
+
+    impl RuntimeDataBuilder<VertexRuntimeData> for VertexRuntimeDataBuilder {
+        fn build(self) -> VertexRuntimeData {
+            let data = spirv_to_dxil_sys::dxil_spirv_vertex_runtime_data {
+                first_vertex: self.first_vertex,
+                base_instance: self.base_instance,
+                is_indexed_draw: self.is_indexed_draw,
+                _dxil_spirv_anon1: dxil_spirv_vertex_runtime_data__bindgen_ty_1 {
+                    _dxil_spirv_anon1: dxil_spirv_vertex_runtime_data__bindgen_ty_1__bindgen_ty_1 {
+                        y_flip_mask: self.y_flip_mask,
+                        z_flip_mask: self.z_flip_mask,
+                    },
+                },
+                draw_id: self.draw_id,
+                viewport_width: self.viewport_width,
+                viewport_height: self.viewport_height,
+                view_index: self.view_index,
+                depth_bias: self.depth_bias,
+            };
+
+            VertexRuntimeData(data)
+        }
+    }
+
+    impl From<VertexRuntimeDataBuilder> for VertexRuntimeData {
+        fn from(value: VertexRuntimeDataBuilder) -> Self {
+            value.build()
+        }
+    }
+
+    impl AsRef<[u8]> for VertexRuntimeData {
+        fn as_ref(&self) -> &[u8] {
+            bytemuck::bytes_of(&self.0)
+        }
     }
 }
