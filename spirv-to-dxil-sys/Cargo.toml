@@ -10,6 +10,11 @@ readme = "../README.md"
 
 [lib]
 
+[features]
+default = ["dxil", "dxbc"]
+dxbc = []
+dxil = []
+
 [dependencies]
 bytemuck = "1.13.0"
 

@@ -39463,6 +39463,125 @@ evaluate_ilt8(nir_const_value *_dst_val,
       }
 }
 static void
+evaluate_imad(nir_const_value *_dst_val,
+                 UNUSED unsigned num_components,
+                  unsigned bit_size,
+                 UNUSED nir_const_value **_src,
+                 UNUSED unsigned execution_mode)
+{
+      switch (bit_size) {
+      case 1: {
+         
+   
+
+                           
+      for (unsigned _i = 0; _i < num_components; _i++) {
+               /* 1-bit integers use a 0/-1 convention */
+               const int1_t src0 = -(int1_t)_src[0][_i].b;
+               /* 1-bit integers use a 0/-1 convention */
+               const int1_t src1 = -(int1_t)_src[1][_i].b;
+               /* 1-bit integers use a 0/-1 convention */
+               const int1_t src2 = -(int1_t)_src[2][_i].b;
+
+            int1_t dst = src0 * src1 + src2;
+
+            /* 1-bit integers get truncated */
+            _dst_val[_i].b = dst & 1;
+
+      }
+
+         break;
+      }
+      case 8: {
+         
+   
+
+                           
+      for (unsigned _i = 0; _i < num_components; _i++) {
+               const int8_t src0 =
+                  _src[0][_i].i8;
+               const int8_t src1 =
+                  _src[1][_i].i8;
+               const int8_t src2 =
+                  _src[2][_i].i8;
+
+            int8_t dst = src0 * src1 + src2;
+
+            _dst_val[_i].i8 = dst;
+
+      }
+
+         break;
+      }
+      case 16: {
+         
+   
+
+                           
+      for (unsigned _i = 0; _i < num_components; _i++) {
+               const int16_t src0 =
+                  _src[0][_i].i16;
+               const int16_t src1 =
+                  _src[1][_i].i16;
+               const int16_t src2 =
+                  _src[2][_i].i16;
+
+            int16_t dst = src0 * src1 + src2;
+
+            _dst_val[_i].i16 = dst;
+
+      }
+
+         break;
+      }
+      case 32: {
+         
+   
+
+                           
+      for (unsigned _i = 0; _i < num_components; _i++) {
+               const int32_t src0 =
+                  _src[0][_i].i32;
+               const int32_t src1 =
+                  _src[1][_i].i32;
+               const int32_t src2 =
+                  _src[2][_i].i32;
+
+            int32_t dst = src0 * src1 + src2;
+
+            _dst_val[_i].i32 = dst;
+
+      }
+
+         break;
+      }
+      case 64: {
+         
+   
+
+                           
+      for (unsigned _i = 0; _i < num_components; _i++) {
+               const int64_t src0 =
+                  _src[0][_i].i64;
+               const int64_t src1 =
+                  _src[1][_i].i64;
+               const int64_t src2 =
+                  _src[2][_i].i64;
+
+            int64_t dst = src0 * src1 + src2;
+
+            _dst_val[_i].i64 = dst;
+
+      }
+
+         break;
+      }
+
+      default:
+         unreachable("unknown bit width");
+      }
+}
+static void
 evaluate_imad24_ir3(nir_const_value *_dst_val,
                  UNUSED unsigned num_components,
                  UNUSED unsigned bit_size,
@@ -55175,6 +55294,9 @@ nir_eval_const_opcode(nir_op op, nir_const_value *dest,
       return;
    case nir_op_ilt8:
       evaluate_ilt8(dest, num_components, bit_width, src, float_controls_execution_mode);
+      return;
+   case nir_op_imad:
+      evaluate_imad(dest, num_components, bit_width, src, float_controls_execution_mode);
       return;
    case nir_op_imad24_ir3:
       evaluate_imad24_ir3(dest, num_components, bit_width, src, float_controls_execution_mode);

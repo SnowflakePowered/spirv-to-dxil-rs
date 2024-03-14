@@ -5,6 +5,6 @@ members = [
     "spirv-to-dxil-sys",
     "mach-siegbert-vogt-dxcsa",
     "bindings_generator"
-, ]
+, "dxbc_sign", ]
 
 resolver = "2"

@@ -42,6 +42,7 @@ fn main() {
         .define("M_2_SQRTPI", "1.12837916709551257390")
         .define("M_SQRT2", "1.41421356237309504880")
         .define("M_SQRT1_2", "0.707106781186547524401")
+        .define("NOMINMAX", None)
         .flag_if_supported("-fpermissive")
         .includes(&[
             "native/mesa/include",
@@ -55,6 +56,7 @@ fn main() {
             "native/mesa/src/compiler/nir",
             "native/mesa/src/compiler/spirv",
             "native/mesa/src/microsoft/compiler",
+            "native/mesa/src/microsoft/compiler/ShaderBinary/include",
         ])
         .files(&[
             "native/mesa/src/c11/impl/time.c",
@@ -113,6 +115,42 @@ fn main() {
             "native/mesa/src/microsoft/spirv_to_dxil/spirv_to_dxil.c",
         ]);
 
+    if cfg!(feature = "dxbc") {
+        // spirv_to_dxbc
+        build.files(&["native/mesa/src/microsoft/spirv_to_dxil/spirv_to_dxbc.c"]);
+
+        // build nir_to_dxbc separately beccause its C_++
+        let mut nir_to_dxbc = cc::Build::new();
+        nir_to_dxbc
+            .std("c++17")
+            .define("HAVE_STRUCT_TIMESPEC", None)
+            .define("PACKAGE_VERSION", "\"100\"")
+            .define("__STDC_CONSTANT_MACROS", None)
+            .define("__STDC_FORMAT_MACROS", None)
+            .define("__STDC_LIMIT_MACROS", None)
+            .define("NOMINMAX", None)
+            .includes(&[
+                "native/mesa/include",
+                "native/mesa_mako",
+                "native/mesa/src/util",
+                "native/mesa/src/util/format",
+                "native/mesa/src/util/sha1",
+                "native/mesa/src",
+                "native/mesa/src/compiler",
+                "native/mesa/src/compiler/glsl",
+                "native/mesa/src/compiler/nir",
+                "native/mesa/src/compiler/spirv",
+                "native/mesa/src/microsoft/compiler",
+                "native/mesa/src/microsoft/compiler/ShaderBinary/include",
+                "native/directx-headers/include",
+            ])
+            .files(&[
+                "native/mesa/src/microsoft/compiler/nir_to_dxbc.cpp",
+                "native/mesa/src/microsoft/compiler/ShaderBinary/src/ShaderBinary.cpp",
+            ])
+            .compile("nir_to_dxbc");
+    }
+
     let compile_paths = &[
         "native/mesa_mako",
         "native/mesa/src/compiler/nir",
@@ -157,4 +195,7 @@ fn main() {
 
     println!("cargo:rustc-link-lib=static=u_qsort");
     println!("cargo:rustc-link-lib=static=spirv_to_dxil");
+
+    #[cfg(feature = "dxbc")]
+    println!("cargo:rustc-link-lib=static=nir_to_dxbc");
 }

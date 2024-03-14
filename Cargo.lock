@@ -110,6 +110,13 @@ dependencies = [
 ]
 
 [[package]]
+name = "dxbc_sign"
+version = "0.1.0"
+dependencies = [
+ "mach-siegbert-vogt-dxcsa 0.1.3 (registry+https://github.com/rust-lang/crates.io-index)",
+]
+
+[[package]]
 name = "either"
 version = "1.9.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -183,6 +190,15 @@ checksum = "b5e6163cb8c49088c2c36f57875e58ccd8c87c7427f7fbd50ea6710b2f3f2e8f"
 [[package]]
 name = "mach-siegbert-vogt-dxcsa"
 version = "0.1.3"
+dependencies = [
+ "bytemuck",
+]
+
+[[package]]
+name = "mach-siegbert-vogt-dxcsa"
+version = "0.1.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "7d3e62358869047ad84e507d5bcd47e7f3917629947ba34ac0b3e5969db00a7b"
 dependencies = [
  "bytemuck",
 ]
@@ -298,7 +314,7 @@ name = "spirv-to-dxil"
 version = "0.4.7"
 dependencies = [
  "bytemuck",
- "mach-siegbert-vogt-dxcsa",
+ "mach-siegbert-vogt-dxcsa 0.1.3",
  "spirv-to-dxil-sys",
  "thiserror",
 ]
