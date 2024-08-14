@@ -8,9 +8,7 @@ fn main() -> ! {
         exit(1)
     };
 
-    let Ok(mut file) = OpenOptions::new()
-        .write(true)
-        .open(file) else {
+    let Ok(mut file) = OpenOptions::new().write(true).open(file) else {
         exit(1);
     };
 
@@ -22,7 +20,6 @@ fn main() -> ! {
     let Ok(_) = file.seek(SeekFrom::Start(0)) else {
         exit(1);
     };
-
 
     mach_siegbert_vogt_dxcsa::sign_in_place(&mut buf);
 

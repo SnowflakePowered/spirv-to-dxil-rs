@@ -1,7 +1,7 @@
 pub use crate::object::DxilObject;
 pub use spirv_to_dxil_sys::DXIL_SPIRV_MAX_VIEWPORT;
 
-use crate::ctypes::{ValidatorVersion};
+use crate::ctypes::ValidatorVersion;
 use crate::error::SpirvToDxilError;
 use crate::logger;
 use crate::logger::Logger;

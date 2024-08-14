@@ -954,7 +954,6 @@ nir_intrinsic_set_io_semantics(nir_intrinsic_instr *instr, struct nir_io_semanti
 {
    const nir_intrinsic_info *info = &nir_intrinsic_infos[instr->intrinsic];
    assert(info->index_map[NIR_INTRINSIC_IO_SEMANTICS] > 0);
-   val._pad = 0; /* clear padding bits */
    STATIC_ASSERT(sizeof(instr->const_index[0]) == sizeof(val));
    memcpy(&instr->const_index[info->index_map[NIR_INTRINSIC_IO_SEMANTICS] - 1], &val, sizeof(val));
 }
