@@ -234,6 +234,7 @@ fn bindgen_test_layout_dxil_spirv_specialization() {
 #[derive(Debug, Copy, Clone)]
 pub struct dxil_spirv_metadata {
     pub requires_runtime_data: bool,
+    pub needs_draw_sysvals: bool,
 }
 #[test]
 fn bindgen_test_layout_dxil_spirv_metadata() {
@@ -241,7 +242,7 @@ fn bindgen_test_layout_dxil_spirv_metadata() {
     let ptr = UNINIT.as_ptr();
     assert_eq!(
         ::std::mem::size_of::<dxil_spirv_metadata>(),
-        1usize,
+        2usize,
         concat!("Size of: ", stringify!(dxil_spirv_metadata))
     );
     assert_eq!(
@@ -257,6 +258,16 @@ fn bindgen_test_layout_dxil_spirv_metadata() {
             stringify!(dxil_spirv_metadata),
             "::",
             stringify!(requires_runtime_data)
+        )
+    );
+    assert_eq!(
+        unsafe { ::std::ptr::addr_of!((*ptr).needs_draw_sysvals) as usize - ptr as usize },
+        1usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(dxil_spirv_metadata),
+            "::",
+            stringify!(needs_draw_sysvals)
         )
     );
 }
@@ -686,12 +697,16 @@ impl ::std::ops::BitAndAssign for dxil_spirv_yz_flip_mode {
 #[repr(transparent)]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub struct dxil_spirv_yz_flip_mode(pub ::std::os::raw::c_int);
+pub const dxil_spirv_sysval_type_DXIL_SPIRV_SYSVAL_TYPE_ZERO: dxil_spirv_sysval_type = 0;
+pub const dxil_spirv_sysval_type_DXIL_SPIRV_SYSVAL_TYPE_NATIVE: dxil_spirv_sysval_type = 1;
+pub const dxil_spirv_sysval_type_DXIL_SPIRV_SYSVAL_TYPE_RUNTIME_DATA: dxil_spirv_sysval_type = 2;
+pub type dxil_spirv_sysval_type = ::std::os::raw::c_int;
 #[repr(C)]
 pub struct dxil_spirv_runtime_conf {
     pub runtime_data_cbv: BufferBinding,
     pub push_constant_cbv: BufferBinding,
-    pub zero_based_vertex_instance_id: bool,
-    pub zero_based_compute_workgroup_id: bool,
+    pub first_vertex_and_base_instance_mode: dxil_spirv_sysval_type,
+    pub workgroup_id_mode: dxil_spirv_sysval_type,
     pub yz_flip: dxil_spirv_runtime_conf_flip_conf,
     pub declared_read_only_images_as_srvs: bool,
     pub inferred_read_only_images_as_srvs: bool,
@@ -763,7 +778,7 @@ fn bindgen_test_layout_dxil_spirv_runtime_conf() {
     let ptr = UNINIT.as_ptr();
     assert_eq!(
         ::std::mem::size_of::<dxil_spirv_runtime_conf>(),
-        40usize,
+        44usize,
         concat!("Size of: ", stringify!(dxil_spirv_runtime_conf))
     );
     assert_eq!(
@@ -793,31 +808,29 @@ fn bindgen_test_layout_dxil_spirv_runtime_conf() {
     );
     assert_eq!(
         unsafe {
-            ::std::ptr::addr_of!((*ptr).zero_based_vertex_instance_id) as usize - ptr as usize
+            ::std::ptr::addr_of!((*ptr).first_vertex_and_base_instance_mode) as usize - ptr as usize
         },
         16usize,
         concat!(
             "Offset of field: ",
             stringify!(dxil_spirv_runtime_conf),
             "::",
-            stringify!(zero_based_vertex_instance_id)
+            stringify!(first_vertex_and_base_instance_mode)
         )
     );
     assert_eq!(
-        unsafe {
-            ::std::ptr::addr_of!((*ptr).zero_based_compute_workgroup_id) as usize - ptr as usize
-        },
-        17usize,
+        unsafe { ::std::ptr::addr_of!((*ptr).workgroup_id_mode) as usize - ptr as usize },
+        20usize,
         concat!(
             "Offset of field: ",
             stringify!(dxil_spirv_runtime_conf),
             "::",
-            stringify!(zero_based_compute_workgroup_id)
+            stringify!(workgroup_id_mode)
         )
     );
     assert_eq!(
         unsafe { ::std::ptr::addr_of!((*ptr).yz_flip) as usize - ptr as usize },
-        20usize,
+        24usize,
         concat!(
             "Offset of field: ",
             stringify!(dxil_spirv_runtime_conf),
@@ -829,7 +842,7 @@ fn bindgen_test_layout_dxil_spirv_runtime_conf() {
         unsafe {
             ::std::ptr::addr_of!((*ptr).declared_read_only_images_as_srvs) as usize - ptr as usize
         },
-        28usize,
+        32usize,
         concat!(
             "Offset of field: ",
             stringify!(dxil_spirv_runtime_conf),
@@ -841,7 +854,7 @@ fn bindgen_test_layout_dxil_spirv_runtime_conf() {
         unsafe {
             ::std::ptr::addr_of!((*ptr).inferred_read_only_images_as_srvs) as usize - ptr as usize
         },
-        29usize,
+        33usize,
         concat!(
             "Offset of field: ",
             stringify!(dxil_spirv_runtime_conf),
@@ -851,7 +864,7 @@ fn bindgen_test_layout_dxil_spirv_runtime_conf() {
     );
     assert_eq!(
         unsafe { ::std::ptr::addr_of!((*ptr).force_sample_rate_shading) as usize - ptr as usize },
-        30usize,
+        34usize,
         concat!(
             "Offset of field: ",
             stringify!(dxil_spirv_runtime_conf),
@@ -861,7 +874,7 @@ fn bindgen_test_layout_dxil_spirv_runtime_conf() {
     );
     assert_eq!(
         unsafe { ::std::ptr::addr_of!((*ptr).lower_view_index) as usize - ptr as usize },
-        31usize,
+        35usize,
         concat!(
             "Offset of field: ",
             stringify!(dxil_spirv_runtime_conf),
@@ -873,7 +886,7 @@ fn bindgen_test_layout_dxil_spirv_runtime_conf() {
         unsafe {
             ::std::ptr::addr_of!((*ptr).lower_view_index_to_rt_layer) as usize - ptr as usize
         },
-        32usize,
+        36usize,
         concat!(
             "Offset of field: ",
             stringify!(dxil_spirv_runtime_conf),
@@ -883,7 +896,7 @@ fn bindgen_test_layout_dxil_spirv_runtime_conf() {
     );
     assert_eq!(
         unsafe { ::std::ptr::addr_of!((*ptr).shader_model_max) as usize - ptr as usize },
-        36usize,
+        40usize,
         concat!(
             "Offset of field: ",
             stringify!(dxil_spirv_runtime_conf),

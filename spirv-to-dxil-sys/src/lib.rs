@@ -33,8 +33,7 @@ impl Default for dxil_spirv_runtime_conf {
         Self {
             runtime_data_cbv: Default::default(),
             push_constant_cbv: Default::default(),
-            zero_based_vertex_instance_id: true,
-            zero_based_compute_workgroup_id: false,
+            first_vertex_and_base_instance_mode: dxil_spirv_sysval_type_DXIL_SPIRV_SYSVAL_TYPE_ZERO,
             yz_flip: Default::default(),
             declared_read_only_images_as_srvs: false,
             inferred_read_only_images_as_srvs: false,
@@ -42,6 +41,7 @@ impl Default for dxil_spirv_runtime_conf {
             lower_view_index: false,
             lower_view_index_to_rt_layer: false,
             shader_model_max: ShaderModel::ShaderModel6_0,
+            workgroup_id_mode: 0,
         }
     }
 }
