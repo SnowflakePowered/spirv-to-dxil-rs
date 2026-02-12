@@ -1,7 +1,7 @@
 [submodule "spirv-to-dxil-sys/native/mesa"]
 	path = spirv-to-dxil-sys/native/mesa
-	url = https://gitlab.freedesktop.org/chyyran/mesa
-	branch = dxbc-rebase
+	url = https://github.com/chyyran/mesa
+	branch = dxbc-rebase-2026
 
 [submodule "spirv-to-dxil-sys/native/directx-headers"]
 	path = spirv-to-dxil-sys/native/directx-headers
