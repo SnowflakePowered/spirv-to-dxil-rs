@@ -15,12 +15,13 @@ python spirv-to-dxil-sys/native/mesa/src/compiler/nir/nir_constant_expressions.p
 python spirv-to-dxil-sys/native/mesa/src/compiler/nir/nir_opcodes_h.py > spirv-to-dxil-sys/native/mesa_mako/nir_opcodes.h
 python spirv-to-dxil-sys/native/mesa/src/compiler/nir/nir_opcodes_c.py > spirv-to-dxil-sys/native/mesa_mako/nir_opcodes.c
 python spirv-to-dxil-sys/native/mesa/src/compiler/nir/nir_opt_algebraic.py --out spirv-to-dxil-sys/native/mesa_mako/nir_opt_algebraic.c
-python spirv-to-dxil-sys/native/mesa/src/compiler/nir/nir_intrinsics_h.py --outdir spirv-to-dxil-sys/native/mesa_mako
-python spirv-to-dxil-sys/native/mesa/src/compiler/nir/nir_intrinsics_c.py --outdir spirv-to-dxil-sys/native/mesa_mako
-python spirv-to-dxil-sys/native/mesa/src/compiler/nir/nir_intrinsics_indices_h.py --outdir spirv-to-dxil-sys/native/mesa_mako
+python spirv-to-dxil-sys/native/mesa/src/compiler/nir/nir_intrinsics_h.py --out spirv-to-dxil-sys/native/mesa_mako/nir_intrinsics.h
+python spirv-to-dxil-sys/native/mesa/src/compiler/nir/nir_intrinsics_c.py --out spirv-to-dxil-sys/native/mesa_mako/nir_intrinsics.c
+python spirv-to-dxil-sys/native/mesa/src/compiler/nir/nir_intrinsics_indices_h.py --out spirv-to-dxil-sys/native/mesa_mako/nir_intrinsics_indices.h
 
 python spirv-to-dxil-sys/native/mesa/src/util/format_srgb.py > spirv-to-dxil-sys/native/mesa_mako/format_srgb.c
 python spirv-to-dxil-sys/native/mesa/src/util/format/u_format_table.py spirv-to-dxil-sys/native/mesa/src/util/format/u_format.yaml > spirv-to-dxil-sys/native/mesa_mako/u_format_table.c
 python spirv-to-dxil-sys/native/mesa/src/util/format/u_format_table.py spirv-to-dxil-sys/native/mesa/src/util/format/u_format.yaml --header > spirv-to-dxil-sys/native/mesa_mako/u_format_pack.h
+python spirv-to-dxil-sys/native/mesa/src/util/format/u_format_table.py spirv-to-dxil-sys/native/mesa/src/util/format/u_format.yaml --enums > spirv-to-dxil-sys/native/mesa_mako/u_format_gen.h
 
 python spirv-to-dxil-sys/native/mesa/src/microsoft/compiler/dxil_nir_algebraic.py -p spirv-to-dxil-sys/native/mesa/src/compiler/nir/ > spirv-to-dxil-sys/native/mesa_mako/dxil_nir_algebraic.c
