@@ -25,13 +25,6 @@ type blake3_hash = [u8; blake3::OUT_LEN];
 type blake3_hash_32 = [u32; BLAKE3_OUT_LEN32];
 
 const BLAKE3_OUT_LEN32: usize = blake3::OUT_LEN / 4;
-#[no_mangle]
-unsafe extern "C" fn _mesa_blake3_print(
-    _file: *const core::ffi::c_void,
-    _hash: *const blake3_hash,
-) {
-    println!("unimplemented: _mesa_blake3_print")
-}
 
 #[no_mangle]
 unsafe extern "C" fn _mesa_printed_blake3_equal(
