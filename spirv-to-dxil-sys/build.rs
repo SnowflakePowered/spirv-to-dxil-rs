@@ -42,10 +42,12 @@ fn main() {
         .define("M_2_SQRTPI", "1.12837916709551257390")
         .define("M_SQRT2", "1.41421356237309504880")
         .define("M_SQRT1_2", "0.707106781186547524401")
+        .define("NOMINMAX", None)
         .flag_if_supported("-fpermissive")
         .includes(&[
             "native/mesa/include",
             "native/mesa_mako",
+            "native/mesa_mako/spirv",
             "native/mesa/src/util",
             "native/mesa/src/util/format",
             "native/mesa/src/util/sha1",
@@ -55,6 +57,7 @@ fn main() {
             "native/mesa/src/compiler/nir",
             "native/mesa/src/compiler/spirv",
             "native/mesa/src/microsoft/compiler",
+            "native/mesa/src/microsoft/compiler/ShaderBinary/include",
         ])
         .files(&[
             "native/mesa/src/c11/impl/time.c",
@@ -68,12 +71,12 @@ fn main() {
             "native/mesa/src/util/u_dynarray.c",
             "native/mesa/src/util/u_printf.c",
             "native/mesa/src/util/u_call_once.c",
-            "native/mesa/src/util/sha1/sha1.c",
             "native/mesa/src/util/mesa-sha1.c",
             "native/mesa/src/util/memstream.c",
             "native/mesa/src/util/futex.c",
             "native/mesa/src/util/simple_mtx.c",
             "native/mesa/src/util/log.c",
+            "native/mesa/src/util/register_allocate.c",
             "native/mesa/src/util/rgtc.c",
             "native/mesa/src/util/dag.c",
             "native/mesa/src/util/bitscan.c",
@@ -83,12 +86,17 @@ fn main() {
             "native/mesa/src/util/softfloat.c",
             "native/mesa/src/util/double.c",
             "native/mesa/src/util/fast_idiv_by_const.c",
+            "native/mesa/src/util/range_minimum_query.c",
+            "native/mesa/src/util/float8.c",
+            "native/mesa/src/util/strndup.c",
+            "native/mesa_mako/spirv/spirv_info.c",
             "native/mesa/src/compiler/glsl_types.c",
             "native/mesa/src/compiler/shader_enums.c",
             "native/mesa/src/compiler/spirv/spirv_to_nir.c",
             "native/mesa/src/compiler/spirv/vtn_alu.c",
             "native/mesa/src/compiler/spirv/vtn_amd.c",
             "native/mesa/src/compiler/spirv/vtn_cfg.c",
+            "native/mesa/src/compiler/spirv/vtn_debug.c",
             "native/mesa/src/compiler/spirv/vtn_cmat.c",
             "native/mesa/src/compiler/spirv/vtn_glsl450.c",
             "native/mesa/src/compiler/spirv/vtn_opencl.c",
@@ -111,7 +119,46 @@ fn main() {
             "native/mesa/src/microsoft/spirv_to_dxil/dxil_spirv_nir_lower_bindless.c",
             "native/mesa/src/microsoft/spirv_to_dxil/dxil_spirv_nir.c",
             "native/mesa/src/microsoft/spirv_to_dxil/spirv_to_dxil.c",
+            
         ]);
+
+    if cfg!(feature = "dxbc") {
+        // spirv_to_dxbc
+        build.files(&["native/mesa/src/microsoft/spirv_to_dxil/spirv_to_dxbc.c"]);
+
+        // build nir_to_dxbc separately beccause its C_++
+        let mut nir_to_dxbc = cc::Build::new();
+        nir_to_dxbc
+            .std("c++17")
+            .define("HAVE_STRUCT_TIMESPEC", None)
+            .define("PACKAGE_VERSION", "\"100\"")
+            .define("__STDC_CONSTANT_MACROS", None)
+            .define("__STDC_FORMAT_MACROS", None)
+            .define("__STDC_LIMIT_MACROS", None)
+            .define("NOMINMAX", None)
+            .includes(&[
+                "native/mesa/include",
+                "native/mesa_mako",
+                "native/mesa_mako/spirv",
+                "native/mesa/src/util",
+                "native/mesa/src/util/format",
+                "native/mesa/src/util/sha1",
+                "native/mesa/src",
+                "native/mesa/src/main",
+                "native/mesa/src/compiler",
+                "native/mesa/src/compiler/glsl",
+                "native/mesa/src/compiler/nir",
+                "native/mesa/src/compiler/spirv",
+                "native/mesa/src/microsoft/compiler",
+                "native/mesa/src/microsoft/compiler/ShaderBinary/include",
+                "native/directx-headers/include",
+            ])
+            .files(&[
+                "native/mesa/src/microsoft/compiler/nir_to_dxbc.cpp",
+                "native/mesa/src/microsoft/compiler/ShaderBinary/src/ShaderBinary.cpp",
+            ])
+            .compile("nir_to_dxbc");
+    }
 
     let compile_paths = &[
         "native/mesa_mako",
@@ -157,4 +204,7 @@ fn main() {
 
     println!("cargo:rustc-link-lib=static=u_qsort");
     println!("cargo:rustc-link-lib=static=spirv_to_dxil");
+
+    #[cfg(feature = "dxbc")]
+    println!("cargo:rustc-link-lib=static=nir_to_dxbc");
 }

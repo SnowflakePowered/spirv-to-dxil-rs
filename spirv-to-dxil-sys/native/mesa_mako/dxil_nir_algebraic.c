@@ -142,9 +142,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    } },
    { .expression = {
       { nir_search_value_expression, 8 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2u8,
       -1, 0,
       { 0 },
@@ -152,9 +154,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    } },
    { .expression = {
       { nir_search_value_expression, 16 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2u16,
       -1, 0,
       { 1 },
@@ -164,13 +168,15 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* replace0_0 -> 0 in the cache */
    { .constant = {
       { nir_search_value_constant, 16 },
-      nir_type_int, { 0xff /* 255 */ },
+      nir_type_int, { 0xffull /* 255 */ },
    } },
    { .expression = {
       { nir_search_value_expression, 16 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
-      false,
-      false,
+      true,
+      -1,
       nir_op_iand,
       0, 1,
       { 0, 3 },
@@ -188,9 +194,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    } },
    { .expression = {
       { nir_search_value_expression, 8 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2u8,
       -1, 0,
       { 5 },
@@ -198,9 +206,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    } },
    { .expression = {
       { nir_search_value_expression, 16 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2u16,
       -1, 0,
       { 6 },
@@ -210,13 +220,15 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* replace1_0_0 -> 5 in the cache */
    { .constant = {
       { nir_search_value_constant, 32 },
-      nir_type_int, { 0xff /* 255 */ },
+      nir_type_int, { 0xffull /* 255 */ },
    } },
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
-      false,
-      false,
+      true,
+      -1,
       nir_op_iand,
       0, 1,
       { 5, 8 },
@@ -224,9 +236,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    } },
    { .expression = {
       { nir_search_value_expression, 16 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2u16,
       -1, 1,
       { 9 },
@@ -244,9 +258,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    } },
    { .expression = {
       { nir_search_value_expression, 8 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2u8,
       -1, 0,
       { 11 },
@@ -254,9 +270,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    } },
    { .expression = {
       { nir_search_value_expression, 16 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2u16,
       -1, 0,
       { 12 },
@@ -266,13 +284,15 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* replace2_0_0 -> 11 in the cache */
    { .constant = {
       { nir_search_value_constant, 64 },
-      nir_type_int, { 0xff /* 255 */ },
+      nir_type_int, { 0xffull /* 255 */ },
    } },
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
-      false,
-      false,
+      true,
+      -1,
       nir_op_iand,
       0, 1,
       { 11, 14 },
@@ -280,9 +300,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    } },
    { .expression = {
       { nir_search_value_expression, 16 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2u16,
       -1, 1,
       { 15 },
@@ -293,9 +315,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search3_0_0 -> 0 in the cache */
    { .expression = {
       { nir_search_value_expression, 8 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2i8,
       -1, 0,
       { 0 },
@@ -303,9 +327,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    } },
    { .expression = {
       { nir_search_value_expression, 16 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2u16,
       -1, 0,
       { 17 },
@@ -317,9 +343,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* replace3_0 -> 4 in the cache */
    { .expression = {
       { nir_search_value_expression, 16 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2u16,
       -1, 1,
       { 4 },
@@ -330,9 +358,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search4_0_0 -> 5 in the cache */
    { .expression = {
       { nir_search_value_expression, 8 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2i8,
       -1, 0,
       { 5 },
@@ -340,9 +370,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    } },
    { .expression = {
       { nir_search_value_expression, 16 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2u16,
       -1, 0,
       { 20 },
@@ -358,9 +390,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search5_0_0 -> 11 in the cache */
    { .expression = {
       { nir_search_value_expression, 8 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2i8,
       -1, 0,
       { 11 },
@@ -368,9 +402,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    } },
    { .expression = {
       { nir_search_value_expression, 16 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2u16,
       -1, 0,
       { 22 },
@@ -393,9 +429,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    } },
    { .expression = {
       { nir_search_value_expression, 8 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_f2u8,
       -1, 0,
       { 24 },
@@ -403,9 +441,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    } },
    { .expression = {
       { nir_search_value_expression, 16 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2u16,
       -1, 0,
       { 25 },
@@ -415,9 +455,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* replace6_0_0 -> 24 in the cache */
    { .expression = {
       { nir_search_value_expression, 16 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_f2u16,
       -1, 0,
       { 24 },
@@ -426,9 +468,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* replace6_1 -> 3 in the cache */
    { .expression = {
       { nir_search_value_expression, 16 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
-      false,
-      false,
+      true,
+      -1,
       nir_op_iand,
       0, 1,
       { 27, 3 },
@@ -439,9 +483,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search7_0_0 -> 24 in the cache */
    { .expression = {
       { nir_search_value_expression, 8 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_f2i8,
       -1, 0,
       { 24 },
@@ -449,9 +495,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    } },
    { .expression = {
       { nir_search_value_expression, 16 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2u16,
       -1, 0,
       { 29 },
@@ -461,9 +509,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* replace7_0_0 -> 24 in the cache */
    { .expression = {
       { nir_search_value_expression, 16 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_f2i16,
       -1, 0,
       { 24 },
@@ -472,9 +522,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* replace7_1 -> 3 in the cache */
    { .expression = {
       { nir_search_value_expression, 16 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
-      false,
-      false,
+      true,
+      -1,
       nir_op_iand,
       0, 1,
       { 31, 3 },
@@ -486,9 +538,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search8_0 -> 1 in the cache */
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2u32,
       -1, 0,
       { 1 },
@@ -500,9 +554,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* replace8_0 -> 4 in the cache */
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2u32,
       -1, 1,
       { 4 },
@@ -514,9 +570,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search9_0 -> 6 in the cache */
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2u32,
       -1, 0,
       { 6 },
@@ -532,9 +590,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search10_0 -> 12 in the cache */
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2u32,
       -1, 0,
       { 12 },
@@ -546,9 +606,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* replace10_0 -> 15 in the cache */
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2u32,
       -1, 1,
       { 15 },
@@ -560,9 +622,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search11_0 -> 17 in the cache */
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2u32,
       -1, 0,
       { 17 },
@@ -579,9 +643,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search12_0 -> 20 in the cache */
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2u32,
       -1, 0,
       { 20 },
@@ -593,9 +659,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* replace12_0 -> 9 in the cache */
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2u32,
       -1, 1,
       { 9 },
@@ -607,9 +675,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search13_0 -> 22 in the cache */
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2u32,
       -1, 0,
       { 22 },
@@ -626,9 +696,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search14_0 -> 25 in the cache */
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2u32,
       -1, 0,
       { 25 },
@@ -638,9 +710,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* replace14_0_0 -> 24 in the cache */
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_f2u32,
       -1, 0,
       { 24 },
@@ -649,9 +723,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* replace14_1 -> 8 in the cache */
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
-      false,
-      false,
+      true,
+      -1,
       nir_op_iand,
       0, 1,
       { 43, 8 },
@@ -663,9 +739,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search15_0 -> 29 in the cache */
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2u32,
       -1, 0,
       { 29 },
@@ -675,9 +753,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* replace15_0_0 -> 24 in the cache */
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_f2i32,
       -1, 0,
       { 24 },
@@ -686,9 +766,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* replace15_1 -> 8 in the cache */
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
-      false,
-      false,
+      true,
+      -1,
       nir_op_iand,
       0, 1,
       { 46, 8 },
@@ -700,9 +782,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search16_0 -> 1 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2u64,
       -1, 0,
       { 1 },
@@ -714,9 +798,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* replace16_0 -> 4 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2u64,
       -1, 1,
       { 4 },
@@ -728,9 +814,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search17_0 -> 6 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2u64,
       -1, 0,
       { 6 },
@@ -742,9 +830,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* replace17_0 -> 9 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2u64,
       -1, 1,
       { 9 },
@@ -756,9 +846,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search18_0 -> 12 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2u64,
       -1, 0,
       { 12 },
@@ -774,9 +866,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search19_0 -> 17 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2u64,
       -1, 0,
       { 17 },
@@ -793,9 +887,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search20_0 -> 20 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2u64,
       -1, 0,
       { 20 },
@@ -812,9 +908,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search21_0 -> 22 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2u64,
       -1, 0,
       { 22 },
@@ -826,9 +924,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* replace21_0 -> 15 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2u64,
       -1, 1,
       { 15 },
@@ -840,9 +940,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search22_0 -> 25 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2u64,
       -1, 0,
       { 25 },
@@ -852,9 +954,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* replace22_0_0 -> 24 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_f2u64,
       -1, 0,
       { 24 },
@@ -863,9 +967,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* replace22_1 -> 14 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
-      false,
-      false,
+      true,
+      -1,
       nir_op_iand,
       0, 1,
       { 58, 14 },
@@ -877,9 +983,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search23_0 -> 29 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2u64,
       -1, 0,
       { 29 },
@@ -889,9 +997,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* replace23_0_0 -> 24 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_f2i64,
       -1, 0,
       { 24 },
@@ -900,9 +1010,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* replace23_1 -> 14 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
-      false,
-      false,
+      true,
+      -1,
       nir_op_iand,
       0, 1,
       { 61, 14 },
@@ -914,9 +1026,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search24_0 -> 1 in the cache */
    { .expression = {
       { nir_search_value_expression, 16 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2i16,
       -1, 0,
       { 1 },
@@ -926,13 +1040,15 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* replace24_0_0_0 -> 0 in the cache */
    { .constant = {
       { nir_search_value_constant, 32 },
-      nir_type_int, { 0x8 /* 8 */ },
+      nir_type_int, { 0x8ull /* 8 */ },
    } },
    { .expression = {
       { nir_search_value_expression, 16 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
-      false,
-      false,
+      true,
+      -1,
       nir_op_ishl,
       -1, 0,
       { 0, 64 },
@@ -941,9 +1057,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* replace24_0_1 -> 64 in the cache */
    { .expression = {
       { nir_search_value_expression, 16 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
-      false,
-      false,
+      true,
+      -1,
       nir_op_ishr,
       -1, 0,
       { 65, 64 },
@@ -951,9 +1069,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    } },
    { .expression = {
       { nir_search_value_expression, 16 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2i16,
       -1, 0,
       { 66 },
@@ -965,9 +1085,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search25_0 -> 6 in the cache */
    { .expression = {
       { nir_search_value_expression, 16 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2i16,
       -1, 0,
       { 6 },
@@ -977,13 +1099,15 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* replace25_0_0_0 -> 5 in the cache */
    { .constant = {
       { nir_search_value_constant, 32 },
-      nir_type_int, { 0x18 /* 24 */ },
+      nir_type_int, { 0x18ull /* 24 */ },
    } },
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
-      false,
-      false,
+      true,
+      -1,
       nir_op_ishl,
       -1, 0,
       { 5, 69 },
@@ -992,9 +1116,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* replace25_0_1 -> 69 in the cache */
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
-      false,
-      false,
+      true,
+      -1,
       nir_op_ishr,
       -1, 0,
       { 70, 69 },
@@ -1002,9 +1128,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    } },
    { .expression = {
       { nir_search_value_expression, 16 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2i16,
       -1, 0,
       { 71 },
@@ -1016,9 +1144,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search26_0 -> 12 in the cache */
    { .expression = {
       { nir_search_value_expression, 16 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2i16,
       -1, 0,
       { 12 },
@@ -1028,13 +1158,15 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* replace26_0_0_0 -> 11 in the cache */
    { .constant = {
       { nir_search_value_constant, 32 },
-      nir_type_int, { 0x38 /* 56 */ },
+      nir_type_int, { 0x38ull /* 56 */ },
    } },
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
-      false,
-      false,
+      true,
+      -1,
       nir_op_ishl,
       -1, 0,
       { 11, 74 },
@@ -1043,9 +1175,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* replace26_0_1 -> 74 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
-      false,
-      false,
+      true,
+      -1,
       nir_op_ishr,
       -1, 0,
       { 75, 74 },
@@ -1053,9 +1187,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    } },
    { .expression = {
       { nir_search_value_expression, 16 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2i16,
       -1, 0,
       { 76 },
@@ -1067,9 +1203,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search27_0 -> 17 in the cache */
    { .expression = {
       { nir_search_value_expression, 16 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2i16,
       -1, 0,
       { 17 },
@@ -1087,9 +1225,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search28_0 -> 20 in the cache */
    { .expression = {
       { nir_search_value_expression, 16 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2i16,
       -1, 0,
       { 20 },
@@ -1108,9 +1248,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search29_0 -> 22 in the cache */
    { .expression = {
       { nir_search_value_expression, 16 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2i16,
       -1, 0,
       { 22 },
@@ -1129,9 +1271,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search30_0 -> 25 in the cache */
    { .expression = {
       { nir_search_value_expression, 16 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2i16,
       -1, 0,
       { 25 },
@@ -1143,9 +1287,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* replace30_0_1 -> 64 in the cache */
    { .expression = {
       { nir_search_value_expression, 16 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
-      false,
-      false,
+      true,
+      -1,
       nir_op_ishl,
       -1, 0,
       { 27, 64 },
@@ -1154,9 +1300,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* replace30_1 -> 64 in the cache */
    { .expression = {
       { nir_search_value_expression, 16 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
-      false,
-      false,
+      true,
+      -1,
       nir_op_ishr,
       -1, 0,
       { 82, 64 },
@@ -1168,9 +1316,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search31_0 -> 29 in the cache */
    { .expression = {
       { nir_search_value_expression, 16 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2i16,
       -1, 0,
       { 29 },
@@ -1182,9 +1332,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* replace31_0_1 -> 64 in the cache */
    { .expression = {
       { nir_search_value_expression, 16 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
-      false,
-      false,
+      true,
+      -1,
       nir_op_ishl,
       -1, 0,
       { 31, 64 },
@@ -1193,9 +1345,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* replace31_1 -> 64 in the cache */
    { .expression = {
       { nir_search_value_expression, 16 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
-      false,
-      false,
+      true,
+      -1,
       nir_op_ishr,
       -1, 0,
       { 85, 64 },
@@ -1207,9 +1361,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search32_0 -> 1 in the cache */
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2i32,
       -1, 0,
       { 1 },
@@ -1223,9 +1379,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* replace32_0 -> 66 in the cache */
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2i32,
       -1, 0,
       { 66 },
@@ -1237,9 +1395,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search33_0 -> 6 in the cache */
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2i32,
       -1, 0,
       { 6 },
@@ -1253,9 +1413,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* replace33_0 -> 71 in the cache */
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2i32,
       -1, 0,
       { 71 },
@@ -1267,9 +1429,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search34_0 -> 12 in the cache */
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2i32,
       -1, 0,
       { 12 },
@@ -1283,9 +1447,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* replace34_0 -> 76 in the cache */
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2i32,
       -1, 0,
       { 76 },
@@ -1297,9 +1463,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search35_0 -> 17 in the cache */
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2i32,
       -1, 0,
       { 17 },
@@ -1318,9 +1486,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search36_0 -> 20 in the cache */
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2i32,
       -1, 0,
       { 20 },
@@ -1338,9 +1508,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search37_0 -> 22 in the cache */
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2i32,
       -1, 0,
       { 22 },
@@ -1359,9 +1531,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search38_0 -> 25 in the cache */
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2i32,
       -1, 0,
       { 25 },
@@ -1373,9 +1547,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* replace38_0_1 -> 69 in the cache */
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
-      false,
-      false,
+      true,
+      -1,
       nir_op_ishl,
       -1, 0,
       { 43, 69 },
@@ -1384,9 +1560,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* replace38_1 -> 69 in the cache */
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
-      false,
-      false,
+      true,
+      -1,
       nir_op_ishr,
       -1, 0,
       { 97, 69 },
@@ -1398,9 +1576,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search39_0 -> 29 in the cache */
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2i32,
       -1, 0,
       { 29 },
@@ -1412,9 +1592,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* replace39_0_1 -> 69 in the cache */
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
-      false,
-      false,
+      true,
+      -1,
       nir_op_ishl,
       -1, 0,
       { 46, 69 },
@@ -1423,9 +1605,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* replace39_1 -> 69 in the cache */
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
-      false,
-      false,
+      true,
+      -1,
       nir_op_ishr,
       -1, 0,
       { 100, 69 },
@@ -1437,9 +1621,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search40_0 -> 1 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2i64,
       -1, 0,
       { 1 },
@@ -1453,9 +1639,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* replace40_0 -> 66 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2i64,
       -1, 0,
       { 66 },
@@ -1467,9 +1655,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search41_0 -> 6 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2i64,
       -1, 0,
       { 6 },
@@ -1483,9 +1673,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* replace41_0 -> 71 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2i64,
       -1, 0,
       { 71 },
@@ -1497,9 +1689,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search42_0 -> 12 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2i64,
       -1, 0,
       { 12 },
@@ -1513,9 +1707,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* replace42_0 -> 76 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2i64,
       -1, 0,
       { 76 },
@@ -1527,9 +1723,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search43_0 -> 17 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2i64,
       -1, 0,
       { 17 },
@@ -1548,9 +1746,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search44_0 -> 20 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2i64,
       -1, 0,
       { 20 },
@@ -1569,9 +1769,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search45_0 -> 22 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2i64,
       -1, 0,
       { 22 },
@@ -1589,9 +1791,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search46_0 -> 25 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2i64,
       -1, 0,
       { 25 },
@@ -1603,9 +1807,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* replace46_0_1 -> 74 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
-      false,
-      false,
+      true,
+      -1,
       nir_op_ishl,
       -1, 0,
       { 58, 74 },
@@ -1614,9 +1820,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* replace46_1 -> 74 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
-      false,
-      false,
+      true,
+      -1,
       nir_op_ishr,
       -1, 0,
       { 112, 74 },
@@ -1628,9 +1836,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search47_0 -> 29 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2i64,
       -1, 0,
       { 29 },
@@ -1642,9 +1852,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* replace47_0_1 -> 74 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
-      false,
-      false,
+      true,
+      -1,
       nir_op_ishl,
       -1, 0,
       { 61, 74 },
@@ -1653,9 +1865,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* replace47_1 -> 74 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
-      false,
-      false,
+      true,
+      -1,
       nir_op_ishr,
       -1, 0,
       { 115, 74 },
@@ -1667,9 +1881,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search48_0 -> 1 in the cache */
    { .expression = {
       { nir_search_value_expression, 16 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2f16,
       -1, 0,
       { 1 },
@@ -1681,9 +1897,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* replace48_0 -> 4 in the cache */
    { .expression = {
       { nir_search_value_expression, 16 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2f16,
       -1, 1,
       { 4 },
@@ -1695,9 +1913,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search49_0 -> 6 in the cache */
    { .expression = {
       { nir_search_value_expression, 16 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2f16,
       -1, 0,
       { 6 },
@@ -1709,9 +1929,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* replace49_0 -> 9 in the cache */
    { .expression = {
       { nir_search_value_expression, 16 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2f16,
       -1, 1,
       { 9 },
@@ -1723,9 +1945,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search50_0 -> 12 in the cache */
    { .expression = {
       { nir_search_value_expression, 16 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2f16,
       -1, 0,
       { 12 },
@@ -1737,9 +1961,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* replace50_0 -> 15 in the cache */
    { .expression = {
       { nir_search_value_expression, 16 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2f16,
       -1, 1,
       { 15 },
@@ -1751,9 +1977,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search51_0 -> 17 in the cache */
    { .expression = {
       { nir_search_value_expression, 16 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2f16,
       -1, 0,
       { 17 },
@@ -1770,9 +1998,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search52_0 -> 20 in the cache */
    { .expression = {
       { nir_search_value_expression, 16 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2f16,
       -1, 0,
       { 20 },
@@ -1789,9 +2019,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search53_0 -> 22 in the cache */
    { .expression = {
       { nir_search_value_expression, 16 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2f16,
       -1, 0,
       { 22 },
@@ -1807,9 +2039,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search54_0_0 -> 0 in the cache */
    { .expression = {
       { nir_search_value_expression, 8 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_f2u8,
       -1, 0,
       { 0 },
@@ -1817,9 +2051,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    } },
    { .expression = {
       { nir_search_value_expression, 16 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2f16,
       -1, 0,
       { 126 },
@@ -1829,13 +2065,15 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* replace54_0_0 -> 0 in the cache */
    { .constant = {
       { nir_search_value_constant, 16 },
-      nir_type_float, { 0x0 /* 0.0 */ },
+      nir_type_float, { 0x0ull /* 0.0 */ },
    } },
    { .expression = {
       { nir_search_value_expression, 16 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
-      false,
-      false,
+      true,
+      -1,
       nir_op_fmax,
       1, 1,
       { 0, 128 },
@@ -1843,13 +2081,15 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    } },
    { .constant = {
       { nir_search_value_constant, 16 },
-      nir_type_float, { 0x406fe00000000000 /* 255.0 */ },
+      nir_type_float, { 0x406fe00000000000ull /* 255.0 */ },
    } },
    { .expression = {
       { nir_search_value_expression, 16 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
-      false,
-      false,
+      true,
+      -1,
       nir_op_fmin,
       0, 2,
       { 129, 130 },
@@ -1860,9 +2100,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search55_0_0 -> 5 in the cache */
    { .expression = {
       { nir_search_value_expression, 8 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_f2u8,
       -1, 0,
       { 5 },
@@ -1870,9 +2112,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    } },
    { .expression = {
       { nir_search_value_expression, 16 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2f16,
       -1, 0,
       { 132 },
@@ -1882,13 +2126,15 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* replace55_0_0_0 -> 5 in the cache */
    { .constant = {
       { nir_search_value_constant, 32 },
-      nir_type_float, { 0x0 /* 0.0 */ },
+      nir_type_float, { 0x0ull /* 0.0 */ },
    } },
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
-      false,
-      false,
+      true,
+      -1,
       nir_op_fmax,
       1, 1,
       { 5, 134 },
@@ -1896,13 +2142,15 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    } },
    { .constant = {
       { nir_search_value_constant, 32 },
-      nir_type_float, { 0x406fe00000000000 /* 255.0 */ },
+      nir_type_float, { 0x406fe00000000000ull /* 255.0 */ },
    } },
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
-      false,
-      false,
+      true,
+      -1,
       nir_op_fmin,
       0, 2,
       { 135, 136 },
@@ -1910,9 +2158,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    } },
    { .expression = {
       { nir_search_value_expression, 16 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_f2f16,
       -1, 2,
       { 137 },
@@ -1923,9 +2173,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search56_0_0 -> 11 in the cache */
    { .expression = {
       { nir_search_value_expression, 8 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_f2u8,
       -1, 0,
       { 11 },
@@ -1933,9 +2185,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    } },
    { .expression = {
       { nir_search_value_expression, 16 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2f16,
       -1, 0,
       { 139 },
@@ -1945,13 +2199,15 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* replace56_0_0_0 -> 11 in the cache */
    { .constant = {
       { nir_search_value_constant, 64 },
-      nir_type_float, { 0x0 /* 0.0 */ },
+      nir_type_float, { 0x0ull /* 0.0 */ },
    } },
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
-      false,
-      false,
+      true,
+      -1,
       nir_op_fmax,
       1, 1,
       { 11, 141 },
@@ -1959,13 +2215,15 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    } },
    { .constant = {
       { nir_search_value_constant, 64 },
-      nir_type_float, { 0x406fe00000000000 /* 255.0 */ },
+      nir_type_float, { 0x406fe00000000000ull /* 255.0 */ },
    } },
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
-      false,
-      false,
+      true,
+      -1,
       nir_op_fmin,
       0, 2,
       { 142, 143 },
@@ -1973,9 +2231,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    } },
    { .expression = {
       { nir_search_value_expression, 16 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_f2f16,
       -1, 2,
       { 144 },
@@ -1986,9 +2246,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search57_0_0 -> 0 in the cache */
    { .expression = {
       { nir_search_value_expression, 8 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_f2i8,
       -1, 0,
       { 0 },
@@ -1996,9 +2258,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    } },
    { .expression = {
       { nir_search_value_expression, 16 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2f16,
       -1, 0,
       { 146 },
@@ -2015,9 +2279,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search58_0_0 -> 5 in the cache */
    { .expression = {
       { nir_search_value_expression, 8 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_f2i8,
       -1, 0,
       { 5 },
@@ -2025,9 +2291,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    } },
    { .expression = {
       { nir_search_value_expression, 16 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2f16,
       -1, 0,
       { 148 },
@@ -2045,9 +2313,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search59_0_0 -> 11 in the cache */
    { .expression = {
       { nir_search_value_expression, 8 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_f2i8,
       -1, 0,
       { 11 },
@@ -2055,9 +2325,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    } },
    { .expression = {
       { nir_search_value_expression, 16 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2f16,
       -1, 0,
       { 150 },
@@ -2076,9 +2348,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search60_0 -> 1 in the cache */
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2f32,
       -1, 0,
       { 1 },
@@ -2090,9 +2364,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* replace60_0 -> 4 in the cache */
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2f32,
       -1, 1,
       { 4 },
@@ -2104,9 +2380,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search61_0 -> 6 in the cache */
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2f32,
       -1, 0,
       { 6 },
@@ -2118,9 +2396,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* replace61_0 -> 9 in the cache */
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2f32,
       -1, 1,
       { 9 },
@@ -2132,9 +2412,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search62_0 -> 12 in the cache */
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2f32,
       -1, 0,
       { 12 },
@@ -2146,9 +2428,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* replace62_0 -> 15 in the cache */
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2f32,
       -1, 1,
       { 15 },
@@ -2160,9 +2444,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search63_0 -> 17 in the cache */
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2f32,
       -1, 0,
       { 17 },
@@ -2179,9 +2465,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search64_0 -> 20 in the cache */
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2f32,
       -1, 0,
       { 20 },
@@ -2198,9 +2486,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search65_0 -> 22 in the cache */
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2f32,
       -1, 0,
       { 22 },
@@ -2217,9 +2507,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search66_0 -> 126 in the cache */
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2f32,
       -1, 0,
       { 126 },
@@ -2233,9 +2525,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* replace66_0 -> 131 in the cache */
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_f2f32,
       -1, 2,
       { 131 },
@@ -2247,9 +2541,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search67_0 -> 132 in the cache */
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2f32,
       -1, 0,
       { 132 },
@@ -2267,9 +2563,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search68_0 -> 139 in the cache */
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2f32,
       -1, 0,
       { 139 },
@@ -2283,9 +2581,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* replace68_0 -> 144 in the cache */
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_f2f32,
       -1, 2,
       { 144 },
@@ -2297,9 +2597,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search69_0 -> 146 in the cache */
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2f32,
       -1, 0,
       { 146 },
@@ -2318,9 +2620,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search70_0 -> 148 in the cache */
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2f32,
       -1, 0,
       { 148 },
@@ -2338,9 +2642,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search71_0 -> 150 in the cache */
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2f32,
       -1, 0,
       { 150 },
@@ -2359,9 +2665,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search72_0 -> 1 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2f64,
       -1, 0,
       { 1 },
@@ -2373,9 +2681,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* replace72_0 -> 4 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2f64,
       -1, 1,
       { 4 },
@@ -2387,9 +2697,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search73_0 -> 6 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2f64,
       -1, 0,
       { 6 },
@@ -2401,9 +2713,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* replace73_0 -> 9 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2f64,
       -1, 1,
       { 9 },
@@ -2415,9 +2729,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search74_0 -> 12 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2f64,
       -1, 0,
       { 12 },
@@ -2429,9 +2745,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* replace74_0 -> 15 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2f64,
       -1, 1,
       { 15 },
@@ -2443,9 +2761,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search75_0 -> 17 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2f64,
       -1, 0,
       { 17 },
@@ -2462,9 +2782,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search76_0 -> 20 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2f64,
       -1, 0,
       { 20 },
@@ -2481,9 +2803,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search77_0 -> 22 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2f64,
       -1, 0,
       { 22 },
@@ -2500,9 +2824,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search78_0 -> 126 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2f64,
       -1, 0,
       { 126 },
@@ -2516,9 +2842,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* replace78_0 -> 131 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_f2f64,
       -1, 2,
       { 131 },
@@ -2530,9 +2858,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search79_0 -> 132 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2f64,
       -1, 0,
       { 132 },
@@ -2546,9 +2876,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* replace79_0 -> 137 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_f2f64,
       -1, 2,
       { 137 },
@@ -2560,9 +2892,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search80_0 -> 139 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2f64,
       -1, 0,
       { 139 },
@@ -2580,9 +2914,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search81_0 -> 146 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2f64,
       -1, 0,
       { 146 },
@@ -2601,9 +2937,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search82_0 -> 148 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2f64,
       -1, 0,
       { 148 },
@@ -2622,9 +2960,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search83_0 -> 150 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2f64,
       -1, 0,
       { 150 },
@@ -2642,9 +2982,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search84_0 -> 1 in the cache */
    { .expression = {
       { nir_search_value_expression, 16 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2f16,
       -1, 0,
       { 1 },
@@ -2658,9 +3000,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* replace84_0 -> 66 in the cache */
    { .expression = {
       { nir_search_value_expression, 16 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2f16,
       -1, 0,
       { 66 },
@@ -2672,9 +3016,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search85_0 -> 6 in the cache */
    { .expression = {
       { nir_search_value_expression, 16 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2f16,
       -1, 0,
       { 6 },
@@ -2688,9 +3034,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* replace85_0 -> 71 in the cache */
    { .expression = {
       { nir_search_value_expression, 16 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2f16,
       -1, 0,
       { 71 },
@@ -2702,9 +3050,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search86_0 -> 12 in the cache */
    { .expression = {
       { nir_search_value_expression, 16 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2f16,
       -1, 0,
       { 12 },
@@ -2718,9 +3068,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* replace86_0 -> 76 in the cache */
    { .expression = {
       { nir_search_value_expression, 16 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2f16,
       -1, 0,
       { 76 },
@@ -2732,9 +3084,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search87_0 -> 17 in the cache */
    { .expression = {
       { nir_search_value_expression, 16 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2f16,
       -1, 0,
       { 17 },
@@ -2753,9 +3107,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search88_0 -> 20 in the cache */
    { .expression = {
       { nir_search_value_expression, 16 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2f16,
       -1, 0,
       { 20 },
@@ -2774,9 +3130,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search89_0 -> 22 in the cache */
    { .expression = {
       { nir_search_value_expression, 16 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2f16,
       -1, 0,
       { 22 },
@@ -2795,9 +3153,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search90_0 -> 126 in the cache */
    { .expression = {
       { nir_search_value_expression, 16 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2f16,
       -1, 0,
       { 126 },
@@ -2807,13 +3167,15 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* replace90_0_0 -> 0 in the cache */
    { .constant = {
       { nir_search_value_constant, 16 },
-      nir_type_float, { 0xc060000000000000 /* -128.0 */ },
+      nir_type_float, { 0xc060000000000000ull /* -128.0 */ },
    } },
    { .expression = {
       { nir_search_value_expression, 16 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
-      false,
-      false,
+      true,
+      -1,
       nir_op_fmax,
       1, 1,
       { 0, 196 },
@@ -2821,13 +3183,15 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    } },
    { .constant = {
       { nir_search_value_constant, 16 },
-      nir_type_float, { 0x405fc00000000000 /* 127.0 */ },
+      nir_type_float, { 0x405fc00000000000ull /* 127.0 */ },
    } },
    { .expression = {
       { nir_search_value_expression, 16 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
-      false,
-      false,
+      true,
+      -1,
       nir_op_fmin,
       0, 2,
       { 197, 198 },
@@ -2839,9 +3203,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search91_0 -> 132 in the cache */
    { .expression = {
       { nir_search_value_expression, 16 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2f16,
       -1, 0,
       { 132 },
@@ -2851,13 +3217,15 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* replace91_0_0_0 -> 5 in the cache */
    { .constant = {
       { nir_search_value_constant, 32 },
-      nir_type_float, { 0xc060000000000000 /* -128.0 */ },
+      nir_type_float, { 0xc060000000000000ull /* -128.0 */ },
    } },
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
-      false,
-      false,
+      true,
+      -1,
       nir_op_fmax,
       1, 1,
       { 5, 201 },
@@ -2865,13 +3233,15 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    } },
    { .constant = {
       { nir_search_value_constant, 32 },
-      nir_type_float, { 0x405fc00000000000 /* 127.0 */ },
+      nir_type_float, { 0x405fc00000000000ull /* 127.0 */ },
    } },
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
-      false,
-      false,
+      true,
+      -1,
       nir_op_fmin,
       0, 2,
       { 202, 203 },
@@ -2879,9 +3249,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    } },
    { .expression = {
       { nir_search_value_expression, 16 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_f2f16,
       -1, 2,
       { 204 },
@@ -2893,9 +3265,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search92_0 -> 139 in the cache */
    { .expression = {
       { nir_search_value_expression, 16 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2f16,
       -1, 0,
       { 139 },
@@ -2905,13 +3279,15 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* replace92_0_0_0 -> 11 in the cache */
    { .constant = {
       { nir_search_value_constant, 64 },
-      nir_type_float, { 0xc060000000000000 /* -128.0 */ },
+      nir_type_float, { 0xc060000000000000ull /* -128.0 */ },
    } },
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
-      false,
-      false,
+      true,
+      -1,
       nir_op_fmax,
       1, 1,
       { 11, 207 },
@@ -2919,13 +3295,15 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    } },
    { .constant = {
       { nir_search_value_constant, 64 },
-      nir_type_float, { 0x405fc00000000000 /* 127.0 */ },
+      nir_type_float, { 0x405fc00000000000ull /* 127.0 */ },
    } },
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
-      false,
-      false,
+      true,
+      -1,
       nir_op_fmin,
       0, 2,
       { 208, 209 },
@@ -2933,9 +3311,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    } },
    { .expression = {
       { nir_search_value_expression, 16 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_f2f16,
       -1, 2,
       { 210 },
@@ -2947,9 +3327,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search93_0 -> 146 in the cache */
    { .expression = {
       { nir_search_value_expression, 16 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2f16,
       -1, 0,
       { 146 },
@@ -2967,9 +3349,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search94_0 -> 148 in the cache */
    { .expression = {
       { nir_search_value_expression, 16 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2f16,
       -1, 0,
       { 148 },
@@ -2988,9 +3372,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search95_0 -> 150 in the cache */
    { .expression = {
       { nir_search_value_expression, 16 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2f16,
       -1, 0,
       { 150 },
@@ -3009,9 +3395,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search96_0 -> 1 in the cache */
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2f32,
       -1, 0,
       { 1 },
@@ -3025,9 +3413,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* replace96_0 -> 66 in the cache */
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2f32,
       -1, 0,
       { 66 },
@@ -3039,9 +3429,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search97_0 -> 6 in the cache */
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2f32,
       -1, 0,
       { 6 },
@@ -3055,9 +3447,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* replace97_0 -> 71 in the cache */
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2f32,
       -1, 0,
       { 71 },
@@ -3069,9 +3463,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search98_0 -> 12 in the cache */
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2f32,
       -1, 0,
       { 12 },
@@ -3085,9 +3481,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* replace98_0 -> 76 in the cache */
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2f32,
       -1, 0,
       { 76 },
@@ -3099,9 +3497,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search99_0 -> 17 in the cache */
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2f32,
       -1, 0,
       { 17 },
@@ -3120,9 +3520,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search100_0 -> 20 in the cache */
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2f32,
       -1, 0,
       { 20 },
@@ -3141,9 +3543,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search101_0 -> 22 in the cache */
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2f32,
       -1, 0,
       { 22 },
@@ -3162,9 +3566,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search102_0 -> 126 in the cache */
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2f32,
       -1, 0,
       { 126 },
@@ -3178,9 +3584,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* replace102_0 -> 199 in the cache */
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_f2f32,
       -1, 2,
       { 199 },
@@ -3192,9 +3600,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search103_0 -> 132 in the cache */
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2f32,
       -1, 0,
       { 132 },
@@ -3212,9 +3622,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search104_0 -> 139 in the cache */
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2f32,
       -1, 0,
       { 139 },
@@ -3228,9 +3640,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* replace104_0 -> 210 in the cache */
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_f2f32,
       -1, 2,
       { 210 },
@@ -3242,9 +3656,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search105_0 -> 146 in the cache */
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2f32,
       -1, 0,
       { 146 },
@@ -3263,9 +3679,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search106_0 -> 148 in the cache */
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2f32,
       -1, 0,
       { 148 },
@@ -3283,9 +3701,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search107_0 -> 150 in the cache */
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2f32,
       -1, 0,
       { 150 },
@@ -3304,9 +3724,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search108_0 -> 1 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2f64,
       -1, 0,
       { 1 },
@@ -3320,9 +3742,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* replace108_0 -> 66 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2f64,
       -1, 0,
       { 66 },
@@ -3334,9 +3758,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search109_0 -> 6 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2f64,
       -1, 0,
       { 6 },
@@ -3350,9 +3776,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* replace109_0 -> 71 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2f64,
       -1, 0,
       { 71 },
@@ -3364,9 +3792,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search110_0 -> 12 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2f64,
       -1, 0,
       { 12 },
@@ -3380,9 +3810,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* replace110_0 -> 76 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2f64,
       -1, 0,
       { 76 },
@@ -3394,9 +3826,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search111_0 -> 17 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2f64,
       -1, 0,
       { 17 },
@@ -3415,9 +3849,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search112_0 -> 20 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2f64,
       -1, 0,
       { 20 },
@@ -3436,9 +3872,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search113_0 -> 22 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2f64,
       -1, 0,
       { 22 },
@@ -3457,9 +3895,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search114_0 -> 126 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2f64,
       -1, 0,
       { 126 },
@@ -3473,9 +3913,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* replace114_0 -> 199 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_f2f64,
       -1, 2,
       { 199 },
@@ -3487,9 +3929,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search115_0 -> 132 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2f64,
       -1, 0,
       { 132 },
@@ -3503,9 +3947,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* replace115_0 -> 204 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_f2f64,
       -1, 2,
       { 204 },
@@ -3517,9 +3963,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search116_0 -> 139 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2f64,
       -1, 0,
       { 139 },
@@ -3537,9 +3985,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search117_0 -> 146 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2f64,
       -1, 0,
       { 146 },
@@ -3558,9 +4008,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search118_0 -> 148 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2f64,
       -1, 0,
       { 148 },
@@ -3579,9 +4031,11 @@ static const nir_search_value_union dxil_nir_lower_8bit_conv_values[] = {
    /* search119_0 -> 150 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2f64,
       -1, 0,
       { 150 },
@@ -4040,7 +4494,7 @@ dxil_nir_lower_8bit_conv(
  *    ('i2f64', ('f2u16', 'a@64')) => ('fmin', ('fmax', 'a', -32768.0), 32767.0)
  *    ('i2f64', ('f2i16', 'a@32')) => ('f2f64', ('fmin', ('fmax', 'a', -32768.0), 32767.0))
  *    ('i2f64', ('f2i16', 'a@64')) => ('fmin', ('fmax', 'a', -32768.0), 32767.0)
- *    ('f2f32', ('u2u16', 'a@32')) => ('unpack_half_2x16_split_x', 'a')
+ *    ('f2f32', ('u2u16', 'a@32')) => ('unpack_half_x_dxil', 'a')
  *    ('u2u32', ('f2f16_rtz', 'a@32')) => ('pack_half_2x16_split', 'a', 0)
  */
 
@@ -4057,9 +4511,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    } },
    { .expression = {
       { nir_search_value_expression, 16 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2u16,
       -1, 0,
       { 0 },
@@ -4067,9 +4523,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    } },
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2u32,
       -1, 0,
       { 1 },
@@ -4079,13 +4537,15 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    /* replace120_0 -> 0 in the cache */
    { .constant = {
       { nir_search_value_constant, 32 },
-      nir_type_int, { 0xffff /* 65535 */ },
+      nir_type_int, { 0xffffull /* 65535 */ },
    } },
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
-      false,
-      false,
+      true,
+      -1,
       nir_op_iand,
       0, 1,
       { 0, 3 },
@@ -4103,9 +4563,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    } },
    { .expression = {
       { nir_search_value_expression, 16 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2u16,
       -1, 0,
       { 5 },
@@ -4113,9 +4575,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    } },
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2u32,
       -1, 0,
       { 6 },
@@ -4125,13 +4589,15 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    /* replace121_0_0 -> 5 in the cache */
    { .constant = {
       { nir_search_value_constant, 64 },
-      nir_type_int, { 0xffff /* 65535 */ },
+      nir_type_int, { 0xffffull /* 65535 */ },
    } },
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
-      false,
-      false,
+      true,
+      -1,
       nir_op_iand,
       0, 1,
       { 5, 8 },
@@ -4139,9 +4605,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    } },
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2u32,
       -1, 1,
       { 9 },
@@ -4152,9 +4620,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    /* search122_0_0 -> 0 in the cache */
    { .expression = {
       { nir_search_value_expression, 16 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2i16,
       -1, 0,
       { 0 },
@@ -4162,9 +4632,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    } },
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2u32,
       -1, 0,
       { 11 },
@@ -4176,9 +4648,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    /* replace122_0 -> 4 in the cache */
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2u32,
       -1, 1,
       { 4 },
@@ -4189,9 +4663,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    /* search123_0_0 -> 5 in the cache */
    { .expression = {
       { nir_search_value_expression, 16 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2i16,
       -1, 0,
       { 5 },
@@ -4199,9 +4675,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    } },
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2u32,
       -1, 0,
       { 14 },
@@ -4224,9 +4702,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    } },
    { .expression = {
       { nir_search_value_expression, 16 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_f2u16,
       -1, 0,
       { 16 },
@@ -4234,9 +4714,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    } },
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2u32,
       -1, 0,
       { 17 },
@@ -4246,9 +4728,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    /* replace124_0_0 -> 16 in the cache */
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_f2u32,
       -1, 0,
       { 16 },
@@ -4257,9 +4741,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    /* replace124_1 -> 3 in the cache */
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
-      false,
-      false,
+      true,
+      -1,
       nir_op_iand,
       0, 1,
       { 19, 3 },
@@ -4270,9 +4756,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    /* search125_0_0 -> 16 in the cache */
    { .expression = {
       { nir_search_value_expression, 16 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_f2i16,
       -1, 0,
       { 16 },
@@ -4280,9 +4768,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    } },
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2u32,
       -1, 0,
       { 21 },
@@ -4292,9 +4782,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    /* replace125_0_0 -> 16 in the cache */
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_f2i32,
       -1, 0,
       { 16 },
@@ -4303,9 +4795,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    /* replace125_1 -> 3 in the cache */
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
-      false,
-      false,
+      true,
+      -1,
       nir_op_iand,
       0, 1,
       { 23, 3 },
@@ -4317,9 +4811,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    /* search126_0 -> 1 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2u64,
       -1, 0,
       { 1 },
@@ -4331,9 +4827,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    /* replace126_0 -> 4 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2u64,
       -1, 1,
       { 4 },
@@ -4345,9 +4843,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    /* search127_0 -> 6 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2u64,
       -1, 0,
       { 6 },
@@ -4363,9 +4863,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    /* search128_0 -> 11 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2u64,
       -1, 0,
       { 11 },
@@ -4382,9 +4884,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    /* search129_0 -> 14 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2u64,
       -1, 0,
       { 14 },
@@ -4396,9 +4900,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    /* replace129_0 -> 9 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2u64,
       -1, 1,
       { 9 },
@@ -4410,9 +4916,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    /* search130_0 -> 17 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2u64,
       -1, 0,
       { 17 },
@@ -4422,9 +4930,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    /* replace130_0_0 -> 16 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_f2u64,
       -1, 0,
       { 16 },
@@ -4433,9 +4943,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    /* replace130_1 -> 8 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
-      false,
-      false,
+      true,
+      -1,
       nir_op_iand,
       0, 1,
       { 32, 8 },
@@ -4447,9 +4959,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    /* search131_0 -> 21 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2u64,
       -1, 0,
       { 21 },
@@ -4459,9 +4973,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    /* replace131_0_0 -> 16 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_f2i64,
       -1, 0,
       { 16 },
@@ -4470,9 +4986,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    /* replace131_1 -> 8 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
-      false,
-      false,
+      true,
+      -1,
       nir_op_iand,
       0, 1,
       { 35, 8 },
@@ -4484,9 +5002,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    /* search132_0 -> 1 in the cache */
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2i32,
       -1, 0,
       { 1 },
@@ -4496,13 +5016,15 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    /* replace132_0_0_0 -> 0 in the cache */
    { .constant = {
       { nir_search_value_constant, 32 },
-      nir_type_int, { 0x10 /* 16 */ },
+      nir_type_int, { 0x10ull /* 16 */ },
    } },
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
-      false,
-      false,
+      true,
+      -1,
       nir_op_ishl,
       -1, 0,
       { 0, 38 },
@@ -4511,9 +5033,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    /* replace132_0_1 -> 38 in the cache */
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
-      false,
-      false,
+      true,
+      -1,
       nir_op_ishr,
       -1, 0,
       { 39, 38 },
@@ -4521,9 +5045,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    } },
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2i32,
       -1, 0,
       { 40 },
@@ -4535,9 +5061,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    /* search133_0 -> 6 in the cache */
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2i32,
       -1, 0,
       { 6 },
@@ -4547,13 +5075,15 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    /* replace133_0_0_0 -> 5 in the cache */
    { .constant = {
       { nir_search_value_constant, 32 },
-      nir_type_int, { 0x30 /* 48 */ },
+      nir_type_int, { 0x30ull /* 48 */ },
    } },
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
-      false,
-      false,
+      true,
+      -1,
       nir_op_ishl,
       -1, 0,
       { 5, 43 },
@@ -4562,9 +5092,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    /* replace133_0_1 -> 43 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
-      false,
-      false,
+      true,
+      -1,
       nir_op_ishr,
       -1, 0,
       { 44, 43 },
@@ -4572,9 +5104,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    } },
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2i32,
       -1, 0,
       { 45 },
@@ -4586,9 +5120,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    /* search134_0 -> 11 in the cache */
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2i32,
       -1, 0,
       { 11 },
@@ -4606,9 +5142,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    /* search135_0 -> 14 in the cache */
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2i32,
       -1, 0,
       { 14 },
@@ -4627,9 +5165,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    /* search136_0 -> 17 in the cache */
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2i32,
       -1, 0,
       { 17 },
@@ -4641,9 +5181,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    /* replace136_0_1 -> 38 in the cache */
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
-      false,
-      false,
+      true,
+      -1,
       nir_op_ishl,
       -1, 0,
       { 19, 38 },
@@ -4652,9 +5194,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    /* replace136_1 -> 38 in the cache */
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
-      false,
-      false,
+      true,
+      -1,
       nir_op_ishr,
       -1, 0,
       { 50, 38 },
@@ -4666,9 +5210,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    /* search137_0 -> 21 in the cache */
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2i32,
       -1, 0,
       { 21 },
@@ -4680,9 +5226,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    /* replace137_0_1 -> 38 in the cache */
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
-      false,
-      false,
+      true,
+      -1,
       nir_op_ishl,
       -1, 0,
       { 23, 38 },
@@ -4691,9 +5239,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    /* replace137_1 -> 38 in the cache */
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
-      false,
-      false,
+      true,
+      -1,
       nir_op_ishr,
       -1, 0,
       { 53, 38 },
@@ -4705,9 +5255,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    /* search138_0 -> 1 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2i64,
       -1, 0,
       { 1 },
@@ -4721,9 +5273,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    /* replace138_0 -> 40 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2i64,
       -1, 0,
       { 40 },
@@ -4735,9 +5289,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    /* search139_0 -> 6 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2i64,
       -1, 0,
       { 6 },
@@ -4751,9 +5307,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    /* replace139_0 -> 45 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2i64,
       -1, 0,
       { 45 },
@@ -4765,9 +5323,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    /* search140_0 -> 11 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2i64,
       -1, 0,
       { 11 },
@@ -4786,9 +5346,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    /* search141_0 -> 14 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2i64,
       -1, 0,
       { 14 },
@@ -4806,9 +5368,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    /* search142_0 -> 17 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2i64,
       -1, 0,
       { 17 },
@@ -4820,9 +5384,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    /* replace142_0_1 -> 43 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
-      false,
-      false,
+      true,
+      -1,
       nir_op_ishl,
       -1, 0,
       { 32, 43 },
@@ -4831,9 +5397,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    /* replace142_1 -> 43 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
-      false,
-      false,
+      true,
+      -1,
       nir_op_ishr,
       -1, 0,
       { 62, 43 },
@@ -4845,9 +5413,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    /* search143_0 -> 21 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2i64,
       -1, 0,
       { 21 },
@@ -4859,9 +5429,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    /* replace143_0_1 -> 43 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
-      false,
-      false,
+      true,
+      -1,
       nir_op_ishl,
       -1, 0,
       { 35, 43 },
@@ -4870,9 +5442,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    /* replace143_1 -> 43 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
-      false,
-      false,
+      true,
+      -1,
       nir_op_ishr,
       -1, 0,
       { 65, 43 },
@@ -4884,9 +5458,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    /* search144_0 -> 1 in the cache */
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2f32,
       -1, 0,
       { 1 },
@@ -4898,9 +5474,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    /* replace144_0 -> 4 in the cache */
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2f32,
       -1, 1,
       { 4 },
@@ -4912,9 +5490,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    /* search145_0 -> 6 in the cache */
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2f32,
       -1, 0,
       { 6 },
@@ -4926,9 +5506,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    /* replace145_0 -> 9 in the cache */
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2f32,
       -1, 1,
       { 9 },
@@ -4940,9 +5522,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    /* search146_0 -> 11 in the cache */
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2f32,
       -1, 0,
       { 11 },
@@ -4959,9 +5543,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    /* search147_0 -> 14 in the cache */
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2f32,
       -1, 0,
       { 14 },
@@ -4977,9 +5563,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    /* search148_0_0 -> 0 in the cache */
    { .expression = {
       { nir_search_value_expression, 16 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_f2u16,
       -1, 0,
       { 0 },
@@ -4987,9 +5575,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    } },
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2f32,
       -1, 0,
       { 73 },
@@ -4999,13 +5589,15 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    /* replace148_0_0 -> 0 in the cache */
    { .constant = {
       { nir_search_value_constant, 32 },
-      nir_type_float, { 0x0 /* 0.0 */ },
+      nir_type_float, { 0x0ull /* 0.0 */ },
    } },
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
-      false,
-      false,
+      true,
+      -1,
       nir_op_fmax,
       1, 1,
       { 0, 75 },
@@ -5013,13 +5605,15 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    } },
    { .constant = {
       { nir_search_value_constant, 32 },
-      nir_type_float, { 0x40efffe000000000 /* 65535.0 */ },
+      nir_type_float, { 0x40efffe000000000ull /* 65535.0 */ },
    } },
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
-      false,
-      false,
+      true,
+      -1,
       nir_op_fmin,
       0, 2,
       { 76, 77 },
@@ -5030,9 +5624,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    /* search149_0_0 -> 5 in the cache */
    { .expression = {
       { nir_search_value_expression, 16 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_f2u16,
       -1, 0,
       { 5 },
@@ -5040,9 +5636,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    } },
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2f32,
       -1, 0,
       { 79 },
@@ -5052,13 +5650,15 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    /* replace149_0_0_0 -> 5 in the cache */
    { .constant = {
       { nir_search_value_constant, 64 },
-      nir_type_float, { 0x0 /* 0.0 */ },
+      nir_type_float, { 0x0ull /* 0.0 */ },
    } },
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
-      false,
-      false,
+      true,
+      -1,
       nir_op_fmax,
       1, 1,
       { 5, 81 },
@@ -5066,13 +5666,15 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    } },
    { .constant = {
       { nir_search_value_constant, 64 },
-      nir_type_float, { 0x40efffe000000000 /* 65535.0 */ },
+      nir_type_float, { 0x40efffe000000000ull /* 65535.0 */ },
    } },
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
-      false,
-      false,
+      true,
+      -1,
       nir_op_fmin,
       0, 2,
       { 82, 83 },
@@ -5080,9 +5682,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    } },
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_f2f32,
       -1, 2,
       { 84 },
@@ -5093,9 +5697,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    /* search150_0_0 -> 0 in the cache */
    { .expression = {
       { nir_search_value_expression, 16 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_f2i16,
       -1, 0,
       { 0 },
@@ -5103,9 +5709,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    } },
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2f32,
       -1, 0,
       { 86 },
@@ -5122,9 +5730,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    /* search151_0_0 -> 5 in the cache */
    { .expression = {
       { nir_search_value_expression, 16 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_f2i16,
       -1, 0,
       { 5 },
@@ -5132,9 +5742,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    } },
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2f32,
       -1, 0,
       { 88 },
@@ -5153,9 +5765,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    /* search152_0 -> 1 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2f64,
       -1, 0,
       { 1 },
@@ -5167,9 +5781,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    /* replace152_0 -> 4 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2f64,
       -1, 1,
       { 4 },
@@ -5181,9 +5797,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    /* search153_0 -> 6 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2f64,
       -1, 0,
       { 6 },
@@ -5195,9 +5813,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    /* replace153_0 -> 9 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2f64,
       -1, 1,
       { 9 },
@@ -5209,9 +5829,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    /* search154_0 -> 11 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2f64,
       -1, 0,
       { 11 },
@@ -5228,9 +5850,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    /* search155_0 -> 14 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2f64,
       -1, 0,
       { 14 },
@@ -5247,9 +5871,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    /* search156_0 -> 73 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2f64,
       -1, 0,
       { 73 },
@@ -5263,9 +5889,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    /* replace156_0 -> 78 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_f2f64,
       -1, 2,
       { 78 },
@@ -5277,9 +5905,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    /* search157_0 -> 79 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2f64,
       -1, 0,
       { 79 },
@@ -5297,9 +5927,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    /* search158_0 -> 86 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2f64,
       -1, 0,
       { 86 },
@@ -5318,9 +5950,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    /* search159_0 -> 88 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2f64,
       -1, 0,
       { 88 },
@@ -5338,9 +5972,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    /* search160_0 -> 1 in the cache */
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2f32,
       -1, 0,
       { 1 },
@@ -5354,9 +5990,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    /* replace160_0 -> 40 in the cache */
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2f32,
       -1, 0,
       { 40 },
@@ -5368,9 +6006,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    /* search161_0 -> 6 in the cache */
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2f32,
       -1, 0,
       { 6 },
@@ -5384,9 +6024,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    /* replace161_0 -> 45 in the cache */
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2f32,
       -1, 0,
       { 45 },
@@ -5398,9 +6040,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    /* search162_0 -> 11 in the cache */
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2f32,
       -1, 0,
       { 11 },
@@ -5419,9 +6063,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    /* search163_0 -> 14 in the cache */
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2f32,
       -1, 0,
       { 14 },
@@ -5440,9 +6086,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    /* search164_0 -> 73 in the cache */
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2f32,
       -1, 0,
       { 73 },
@@ -5452,13 +6100,15 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    /* replace164_0_0 -> 0 in the cache */
    { .constant = {
       { nir_search_value_constant, 32 },
-      nir_type_float, { 0xc0e0000000000000 /* -32768.0 */ },
+      nir_type_float, { 0xc0e0000000000000ull /* -32768.0 */ },
    } },
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
-      false,
-      false,
+      true,
+      -1,
       nir_op_fmax,
       1, 1,
       { 0, 108 },
@@ -5466,13 +6116,15 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    } },
    { .constant = {
       { nir_search_value_constant, 32 },
-      nir_type_float, { 0x40dfffc000000000 /* 32767.0 */ },
+      nir_type_float, { 0x40dfffc000000000ull /* 32767.0 */ },
    } },
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
-      false,
-      false,
+      true,
+      -1,
       nir_op_fmin,
       0, 2,
       { 109, 110 },
@@ -5484,9 +6136,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    /* search165_0 -> 79 in the cache */
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2f32,
       -1, 0,
       { 79 },
@@ -5496,13 +6150,15 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    /* replace165_0_0_0 -> 5 in the cache */
    { .constant = {
       { nir_search_value_constant, 64 },
-      nir_type_float, { 0xc0e0000000000000 /* -32768.0 */ },
+      nir_type_float, { 0xc0e0000000000000ull /* -32768.0 */ },
    } },
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
-      false,
-      false,
+      true,
+      -1,
       nir_op_fmax,
       1, 1,
       { 5, 113 },
@@ -5510,13 +6166,15 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    } },
    { .constant = {
       { nir_search_value_constant, 64 },
-      nir_type_float, { 0x40dfffc000000000 /* 32767.0 */ },
+      nir_type_float, { 0x40dfffc000000000ull /* 32767.0 */ },
    } },
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
-      false,
-      false,
+      true,
+      -1,
       nir_op_fmin,
       0, 2,
       { 114, 115 },
@@ -5524,9 +6182,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    } },
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_f2f32,
       -1, 2,
       { 116 },
@@ -5538,9 +6198,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    /* search166_0 -> 86 in the cache */
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2f32,
       -1, 0,
       { 86 },
@@ -5558,9 +6220,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    /* search167_0 -> 88 in the cache */
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2f32,
       -1, 0,
       { 88 },
@@ -5579,9 +6243,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    /* search168_0 -> 1 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2f64,
       -1, 0,
       { 1 },
@@ -5595,9 +6261,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    /* replace168_0 -> 40 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2f64,
       -1, 0,
       { 40 },
@@ -5609,9 +6277,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    /* search169_0 -> 6 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2f64,
       -1, 0,
       { 6 },
@@ -5625,9 +6295,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    /* replace169_0 -> 45 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2f64,
       -1, 0,
       { 45 },
@@ -5639,9 +6311,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    /* search170_0 -> 11 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2f64,
       -1, 0,
       { 11 },
@@ -5660,9 +6334,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    /* search171_0 -> 14 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2f64,
       -1, 0,
       { 14 },
@@ -5681,9 +6357,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    /* search172_0 -> 73 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2f64,
       -1, 0,
       { 73 },
@@ -5697,9 +6375,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    /* replace172_0 -> 111 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_f2f64,
       -1, 2,
       { 111 },
@@ -5711,9 +6391,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    /* search173_0 -> 79 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2f64,
       -1, 0,
       { 79 },
@@ -5731,9 +6413,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    /* search174_0 -> 86 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2f64,
       -1, 0,
       { 86 },
@@ -5752,9 +6436,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    /* search175_0 -> 88 in the cache */
    { .expression = {
       { nir_search_value_expression, 64 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_i2f64,
       -1, 0,
       { 88 },
@@ -5767,14 +6453,16 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    /* replace175_1 -> 115 in the cache */
    /* replace175 -> 116 in the cache */
 
-   /* ('f2f32', ('u2u16', 'a@32')) => ('unpack_half_2x16_split_x', 'a') */
+   /* ('f2f32', ('u2u16', 'a@32')) => ('unpack_half_x_dxil', 'a') */
    /* search176_0_0 -> 0 in the cache */
    /* search176_0 -> 1 in the cache */
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_f2f32,
       -1, 0,
       { 1 },
@@ -5784,10 +6472,12 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    /* replace176_0 -> 0 in the cache */
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
-      nir_op_unpack_half_2x16_split_x,
+      -1,
+      nir_op_unpack_half_x_dxil,
       -1, 0,
       { 0 },
       -1,
@@ -5797,9 +6487,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    /* search177_0_0 -> 0 in the cache */
    { .expression = {
       { nir_search_value_expression, 16 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_f2f16_rtz,
       -1, 0,
       { 0 },
@@ -5807,9 +6499,11 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    } },
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_u2u32,
       -1, 0,
       { 133 },
@@ -5819,13 +6513,15 @@ static const nir_search_value_union dxil_nir_lower_16bit_conv_values[] = {
    /* replace177_0 -> 0 in the cache */
    { .constant = {
       { nir_search_value_constant, 32 },
-      nir_type_int, { 0x0 /* 0 */ },
+      nir_type_int, { 0x0ull /* 0 */ },
    } },
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
-      false,
-      false,
+      true,
+      -1,
       nir_op_pack_half_2x16_split,
       -1, 0,
       { 0, 135 },
@@ -6242,9 +6938,11 @@ static const nir_search_value_union dxil_nir_algebraic_values[] = {
    } },
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_b2b32,
       -1, 0,
       { 0 },
@@ -6254,9 +6952,11 @@ static const nir_search_value_union dxil_nir_algebraic_values[] = {
    /* replace178_0 -> 0 in the cache */
    { .expression = {
       { nir_search_value_expression, 32 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_b2i32,
       -1, 0,
       { 0 },
@@ -6267,9 +6967,11 @@ static const nir_search_value_union dxil_nir_algebraic_values[] = {
    /* search179_0 -> 0 in the cache */
    { .expression = {
       { nir_search_value_expression, 1 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
       false,
-      false,
+      -1,
       nir_op_b2b1,
       -1, 0,
       { 0 },
@@ -6280,13 +6982,15 @@ static const nir_search_value_union dxil_nir_algebraic_values[] = {
    /* replace179_0 -> 2 in the cache */
    { .constant = {
       { nir_search_value_constant, 32 },
-      nir_type_int, { 0x0 /* 0 */ },
+      nir_type_int, { 0x0ull /* 0 */ },
    } },
    { .expression = {
       { nir_search_value_expression, 1 },
+      nir_fp_fast_math,
+      nir_fp_fast_math,
       false,
-      false,
-      false,
+      true,
+      -1,
       nir_op_ine,
       0, 1,
       { 2, 4 },
